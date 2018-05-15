@@ -1,10 +1,12 @@
 package com.tictactoe;
 
 import java.util.List;
+import java.util.Scanner;
 
-public abstract class Player {
+public abstract class Player {//Abstract class. Cannot be instantiated.
   private String name;
   private String symbol;
+  public static Scanner input = new Scanner(System.in); // the input Scanner
 
   public Player(String name, String symbol) {
     this.name = name;
@@ -31,5 +33,14 @@ public abstract class Player {
     int spot = 0;
     return spot;
   }
+
+  public boolean changeName(Player player2) {
+    return false;
+  }
+
+  public boolean changeSymbol(Player player2) {
+    return false;
+  }
+
 
 }
