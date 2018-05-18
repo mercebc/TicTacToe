@@ -30,9 +30,16 @@ public class Main {
     while(choiceEntry > -1 && choiceEntry < 5) {
       boolean validEntry = false;
       boolean validInput = false;
+      int maxvalue;
 
       do {
-        System.out.println("Enter \"1\" to Play, \"2\" to Choose opponent, \"3\" to Change names or \"4\" to Change symbols");
+        if (player1 instanceof Computer) {
+          System.out.println("Enter \"1\" to watch a computer battle, \"2\" to Choose game mode");
+          maxvalue = 2;
+        }else{
+          System.out.println("Enter \"1\" to Play, \"2\" to Choose game mode, \"3\" to Change names or \"4\" to Change symbols");
+          maxvalue = 4;
+        }
         //Validate the input
         try {
           if (input.hasNextInt()) {//check that the input is an integer
@@ -42,7 +49,7 @@ public class Main {
             throw new InputMismatchException("You can only input integers");
           }
 
-          if (choiceEntry < 1 || choiceEntry > 4) {//check that the input is an integer between 1 and 4
+          if (choiceEntry < 1 || choiceEntry > maxvalue) {//check that the input is an integer between 1 and (2 or 4)
             throw new IllegalArgumentException("You can only input an integer between 1 and 4");
           }
         } catch (IllegalArgumentException ex) {//catch the exceptions
@@ -78,7 +85,7 @@ public class Main {
 
 
           case 2:
-            System.out.println("Enter \"1\" to play against another Player or \"2\" to play against the Computer");
+            System.out.println("Enter \"1\" to play against another Player or \"2\" to play against the Computer or \"3\" to watch Computer playing against Computer");
             try {
               int type;
               if (input.hasNextInt()) {
@@ -88,15 +95,25 @@ public class Main {
               }
 
               if (type == 1) {
+                player1 = new Human("Player 1", "X");//creates a new Human player
                 player2 = new Human("Player 2", "O");//creates a new Human player
                 validInput = true;
               } else if (type == 2) {
+                player1 = new Human("Player 1", "X");//creates a new Human player
                 player2 = new Computer("Computer", "O");//creates a new Computer player
                 validInput = true;
-              } else {
-                throw new IllegalArgumentException("You can only input an integer between 1 and 2");
+              } else if (type == 3) {
+                player1 = new Computer("Computer1", "X");//creates a new Computer player
+                player2 = new Computer("Computer2", "O");//creates a new Computer player
+                validInput = true;
+              }else {
+                throw new IllegalArgumentException("You can only input an integer between 1 and 3");
               }
-              System.out.println("You are playing against " + player2.getName());//notifies the player
+
+              if (type == 1 || type == 2) {
+                System.out.println("You are playing against " + player2.getName());//notifies the player
+              }
+
             } catch (IllegalArgumentException ex) {
               System.out.println(ex.getMessage());
               validInput = false;
@@ -109,10 +126,15 @@ public class Main {
             break;
 
           case 3:
-            if (player2 instanceof Computer) {//when playing against the Computer, won't show to change name for Computer.
+            if (player2 instanceof Computer && !(player1 instanceof Computer)) {//when playing against the Computer, won't show to change name for Computer.
+              //when playing computer against computer, wont show to change name for Computers.
               validInput = player1.changeName(player2);
 
-            } else {//when playing against player, you can change both names
+            } else if(player1 instanceof Computer && player2 instanceof Computer){
+              System.out.println("You can't change the name of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
+              validInput = true;
+
+            }else {//when playing against player, you can change both names
               System.out.println("Enter \"1\" to change " + player1.getName() + "'s name or \"2\" to change " + player2.getName() + "'s name");
               int num;
               try {
@@ -146,7 +168,11 @@ public class Main {
             if (player2 instanceof Computer) {
               validInput = player1.changeSymbol(player2);
 
-            } else {
+            } else if(player1 instanceof Computer && player2 instanceof Computer){
+              System.out.println("You can't change the symbol of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
+              validInput = true;
+
+            }else {
               System.out.println("Enter \"1\" to change " + player1.getName() + "'s symbol or \"2\" to change " + player2.getName() + "'s symbol");
               int num;
               try {
@@ -236,7 +262,7 @@ public class Main {
 
   public static void evalBoard() {
     int spot = currentPlayer.getSpot(board, player1, player2, currentPlayer);//get the spot of the player, Human and Computer have different methods for this
-    if (board.get(spot) != player1.getSymbol() && board.get(spot) != player2.getSymbol()) {//check the spot is already taken
+    if (!board.get(spot).equals(player1.getSymbol()) && !board.get(spot).equals(player2.getSymbol())) {//check the spot is already taken
       board.set(spot,currentPlayer.getSymbol()); //set the symbol to the spot chosen (Human) or calculated (Computer)
       currentPlayer = nextPlayer(); //change players
       printBoard();
