@@ -90,7 +90,7 @@ public class Computer extends Player{
 
         case 1:
           if(oppEdges==1){//put it in corner next to the edge
-            return getSpotNextToList(opponent, edge, corner, corner, edge);
+            return getSpotNextToList(opponent, edge, corner, corner, edge, availableSpaces);
           }else if(oppCorners==1){
             return 4;
           }else if (OppCenter){
@@ -130,8 +130,8 @@ public class Computer extends Player{
                 return getSpotMapping(i, edge, corner, edge);
               }
             }
-          }else if(oppCorners==1 && oppEdges==1){//put it in corner next to the edge
-            return getSpotNextToList(opponent, edge, corner, corner, edge);
+          }else if(oppCorners==1 && oppEdges==1){//put it in corner next to the edge of the opponent
+            return getSpotNextToList(opponent, edge, corner, corner, edge, availableSpaces);
           }else{
             return getRandomNum(availableSpaces);
           }
@@ -140,9 +140,9 @@ public class Computer extends Player{
           if(myCorners == 1 && myCenter){//opposite corner with no opponent symbol between
             for (int i = 0; i < corner.size(); i++) {
               if (corner.get(i).equals(this.getSymbol())) {
-                int num =  getSpotNextToList(opponent, corner, edge, corner, edge);
+                int num =  getSpotNextToList(opponent, corner, edge, corner, edge, availableSpaces);
 
-                return getNextSpot(num, opponent,edge, corner, corner, edge);
+                return getNextSpot(num, opponent,edge, corner, corner, edge, availableSpaces);
 
               }
             }
@@ -171,45 +171,45 @@ public class Computer extends Player{
     return availableSpaces.get(n);
   }
 
-  private int getSpotNextToList(Player opponent, List<String> listBelong, List<String> listNear, List<String> corner, List<String> edge) {
+  private int getSpotNextToList(Player opponent, List<String> listBelong, List<String> listNear, List<String> corner, List<String> edge, List<Integer> availableSpaces) {
     for (int i = 0; i < listBelong.size(); i++) {
       if (listBelong.get(i).equals(opponent.getSymbol())) {
-        return getNextSpot(i, opponent,listBelong, listNear, corner, edge);
+        return getNextSpot(i, opponent,listNear, listBelong, corner, edge, availableSpaces);
       }
     }
-    return -1;
+    return getRandomNum(availableSpaces);
   }
 
 
 
-  private int getNextSpot(int i, Player opponent, List<String> listBelong, List<String> listNear, List<String> corner, List<String> edge){
+  private int getNextSpot(int i, Player opponent, List<String> listBelong, List<String> listNear, List<String> corner, List<String> edge, List<Integer> availableSpaces){
     switch (i) {
       case 0:
         for (int j = 0; j < 2; j++) {
           if (!listNear.get(j).equals(this.getSymbol()) && !listNear.get(j).equals(opponent.getSymbol())) {
-            return getSpotMapping(i, listBelong, corner, edge);
+            return getSpotMapping(j, listBelong, corner, edge);
           }
         }
       case 1:
         for (int j = 0; j < 3; j = j + 2) {
           if (!listNear.get(j).equals(this.getSymbol()) && !listNear.get(j).equals(opponent.getSymbol())) {
-            return getSpotMapping(i, listBelong, corner, edge);
+            return getSpotMapping(j, listBelong, corner, edge);
           }
         }
       case 2:
         for (int j = 1; j < 4; j = j + 2) {
           if (!listNear.get(j).equals(this.getSymbol()) && !listNear.get(j).equals(opponent.getSymbol())) {
-            return getSpotMapping(i, listBelong, corner, edge);
+            return getSpotMapping(j, listBelong, corner, edge);
           }
         }
       case 3:
         for (int j = 2; j < 4; j++) {
           if (!listNear.get(j).equals(this.getSymbol()) && !listNear.get(j).equals(opponent.getSymbol())) {
-            return getSpotMapping(i, listBelong, corner, edge);
+            return getSpotMapping(j, listBelong, corner, edge);
           }
         }
         default:
-          return -1;
+          return getRandomNum(availableSpaces);
     }
 
   }
