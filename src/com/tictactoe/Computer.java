@@ -32,7 +32,6 @@ public class Computer extends Player{
       }
     }
 
-
     for (Integer spot: availableSpaces) {//loop through the array created
 
       board.set(spot,opponent.getSymbol());
@@ -58,6 +57,7 @@ public class Computer extends Player{
       return foundBestMove;//return spot if it's between 0-8 (Found)
 
     } else {
+      //get the turn of the game
       long turn = board.stream().filter(x -> x.equals(player1.getSymbol()) || x.equals(player2.getSymbol())).count();
 
       String center = board.get(4);
@@ -68,32 +68,35 @@ public class Computer extends Player{
       corner.add(board.get(6));
       corner.add(board.get(8));
 
+      //create an arraylist with values in the edges of the board
       List<String> edge = new ArrayList<String>();
       edge.add(board.get(1));
       edge.add(board.get(3));
       edge.add(board.get(5));
       edge.add(board.get(7));
 
-      //boolean corners = corner.stream().anyMatch(x -> x.equals(player1.getSymbol()) || x.equals(player2.getSymbol()));//check 4 corners if there are any symbols
       long myCorners = corner.stream().filter(x -> x.equals(this.getSymbol())).count();//count how many symbols you have placed in the corners
       long oppCorners = corner.stream().filter(x -> x.equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the corners
-      //boolean edges = edge.stream().anyMatch(x -> x.equals(player1.getSymbol()) || x.equals(player2.getSymbol()));//check 4 edges if there are any symbols
-      //long myEdges = edge.stream().filter(x -> x.equals(this.getSymbol())).count();//count how many symbols you have placed in the corners
       long oppEdges = edge.stream().filter(x -> x.equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the corners
 
-      boolean OppCenter = center.equals(opponent.getSymbol());
+      boolean oppCenter = center.equals(opponent.getSymbol());
       boolean myCenter = center.equals(this.getSymbol());
 
       switch (toIntExact(turn)){
         case 0:
-          return 6;
+          List<Integer> corners = new ArrayList<Integer>();
+          corners.add(0);
+          corners.add(2);
+          corners.add(6);
+          corners.add(8);
+          return getRandomNum(corners);
 
         case 1:
           if(oppEdges==1){//put it in corner next to the edge
             return getSpotNextToList(opponent, edge, corner, corner, edge, availableSpaces);
           }else if(oppCorners==1){
             return 4;
-          }else if (OppCenter){
+          }else if (oppCenter){
             return 6;
           }
 
@@ -106,7 +109,7 @@ public class Computer extends Player{
                 return getSpotMapping(i, corner, corner, edge);
               }
             }
-          }else if (OppCenter){//put in diagonal corner
+          }else if (oppCenter){//put in diagonal corner
             for (int i = 0; i < corner.size(); i++) {
               if (corner.get(i).equals(this.getSymbol())) {
                 switch (i){
@@ -130,9 +133,12 @@ public class Computer extends Player{
                 return getSpotMapping(i, edge, corner, edge);
               }
             }
-          }else if(oppCorners==1 && oppEdges==1){//put it in corner next to the edge of the opponent
+          }else if(oppCorners==1 && oppEdges==1 && myCenter){//put it in corner next to the edge of the opponent
             return getSpotNextToList(opponent, edge, corner, corner, edge, availableSpaces);
-          }else{
+          }else if(!myCenter && !oppCenter){//put it in center if it's free
+            return 4;
+          }
+          else{
             return getRandomNum(availableSpaces);
           }
 
@@ -146,7 +152,7 @@ public class Computer extends Player{
 
               }
             }
-            return -1;
+            return getRandomNum(availableSpaces);
 
           }else if(myCorners==2){ //put in any other free corner
             for (int i = 0; i < corner.size(); i++) {
@@ -187,25 +193,25 @@ public class Computer extends Player{
       case 0:
         for (int j = 0; j < 2; j++) {
           if (!listNear.get(j).equals(this.getSymbol()) && !listNear.get(j).equals(opponent.getSymbol())) {
-            return getSpotMapping(j, listBelong, corner, edge);
+            return getSpotMapping(i, listBelong, corner, edge);
           }
         }
       case 1:
         for (int j = 0; j < 3; j = j + 2) {
           if (!listNear.get(j).equals(this.getSymbol()) && !listNear.get(j).equals(opponent.getSymbol())) {
-            return getSpotMapping(j, listBelong, corner, edge);
+            return getSpotMapping(i, listBelong, corner, edge);
           }
         }
       case 2:
         for (int j = 1; j < 4; j = j + 2) {
           if (!listNear.get(j).equals(this.getSymbol()) && !listNear.get(j).equals(opponent.getSymbol())) {
-            return getSpotMapping(j, listBelong, corner, edge);
+            return getSpotMapping(i, listBelong, corner, edge);
           }
         }
       case 3:
         for (int j = 2; j < 4; j++) {
           if (!listNear.get(j).equals(this.getSymbol()) && !listNear.get(j).equals(opponent.getSymbol())) {
-            return getSpotMapping(j, listBelong, corner, edge);
+            return getSpotMapping(i, listBelong, corner, edge);
           }
         }
         default:
