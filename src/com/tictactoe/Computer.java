@@ -75,21 +75,21 @@ public class Computer extends Player{
       edge.add(board.get(5));
       edge.add(board.get(7));
 
-      long myCorners = corner.stream().filter(x -> x.equals(this.getSymbol())).count();//count how many symbols you have placed in the corners
+      long myCorners = corner.stream().filter(x -> x.equals(this.getSymbol())).count();//count how many symbols computer has placed in the corners
       long oppCorners = corner.stream().filter(x -> x.equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the corners
-      long oppEdges = edge.stream().filter(x -> x.equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the corners
+      long oppEdges = edge.stream().filter(x -> x.equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the edges
 
-      boolean oppCenter = center.equals(opponent.getSymbol());
-      boolean myCenter = center.equals(this.getSymbol());
+      boolean oppCenter = center.equals(opponent.getSymbol());//true if opponent is in the center
+      boolean myCenter = center.equals(this.getSymbol());//true if computer is in the center
 
       switch (toIntExact(turn)){
-        case 0:
+        case 0://computer moves first
           List<Integer> corners = new ArrayList<Integer>();
           corners.add(0);
           corners.add(2);
           corners.add(6);
           corners.add(8);
-          return getRandomNum(corners);
+          return getRandomNum(corners);//get random corner
 
         case 1:
           if(oppEdges==1){//put it in corner next to the edge
@@ -177,6 +177,7 @@ public class Computer extends Player{
     return availableSpaces.get(n);
   }
 
+//gets the spot near the spot i of the list
   private int getSpotNextToList(Player opponent, List<String> listBelong, List<String> listNear, List<String> corner, List<String> edge, List<Integer> availableSpaces) {
     for (int i = 0; i < listBelong.size(); i++) {
       if (listBelong.get(i).equals(opponent.getSymbol())) {
@@ -187,7 +188,7 @@ public class Computer extends Player{
   }
 
 
-
+//gets the spot near the spot i
   private int getNextSpot(int i, Player opponent, List<String> listBelong, List<String> listNear, List<String> corner, List<String> edge, List<Integer> availableSpaces){
     switch (i) {
       case 0:
@@ -220,6 +221,7 @@ public class Computer extends Player{
 
   }
 
+  //get the mapping with the lists of corner and edge and the spots of the board
   private int getSpotMapping(int i,List<String> listBelong, List<String> corner, List<String> edge) {
     if (Arrays.deepEquals(listBelong.toArray(), corner.toArray())) {
       switch (i) {
