@@ -1,4 +1,6 @@
-package com.tictactoe;
+package Players;
+
+import Game.Board;
 
 import java.util.List;
 import java.util.Scanner;
@@ -29,7 +31,7 @@ public abstract class Player {//Abstract class. Cannot be instantiated.
     this.symbol = symbol;
   }
 
-  public int getSpot(List<String> board, Player player1, Player player2, Player currentPlayer) {
+  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer) {
     int spot = 0;
     return spot;
   }
