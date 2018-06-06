@@ -6,12 +6,10 @@ public class Start {
 
     public static void main(String[] args) {
 
+      Cli cli = new Cli();
+      Game game = new Game(cli);
+      Menu menu = new Menu(game, cli);
 
-      Game game = new Game();
-      game.createPlayers(1);
-
-      Cli cli = new Cli(game);
-
-      cli.showMenu();
+      menu.showMenu();
     }
 }

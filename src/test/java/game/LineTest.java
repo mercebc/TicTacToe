@@ -2,6 +2,7 @@ package game;
 
 import org.junit.Test;
 import players.Human;
+import players.HumanTest;
 import players.Player;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

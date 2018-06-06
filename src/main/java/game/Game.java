@@ -1,5 +1,6 @@
 package game;
 
+import com.Cli;
 import players.PlayerFactory;
 import players.Player;
 
@@ -11,6 +12,7 @@ import java.util.Scanner;
 public class Game {
 
   private Board board;
+  private Cli cli;
   private PlayerFactory playerFactory;
   private HashMap<Integer, String> gameOptions;
 
@@ -20,16 +22,17 @@ public class Game {
 
   public static Scanner input = new Scanner(System.in);
 
-  public Game(){
+  public Game(Cli cli){
+
+    this.cli = cli;
     this.board = new Board();
 
     this.playerFactory = new PlayerFactory();
-
     this.gameOptions = new HashMap<Integer, String>();
-
-    gameOptions.put(1, "HUMAN-COMPUTER");
-    gameOptions.put(2, "HUMAN-HUMAN");
+    gameOptions.put(1, "HUMAN-HUMAN");
+    gameOptions.put(2, "HUMAN-COMPUTER");
     gameOptions.put(3, "COMPUTER-COMPUTER");
+    createPlayers(2);
   }
 
   public Player getPlayer1() {
@@ -43,6 +46,8 @@ public class Game {
   public Player getCurrentPlayer() {
     return currentPlayer;
   }
+
+
 
   public void initGame(){
 
@@ -78,21 +83,21 @@ public class Game {
 
     System.out.println("Enter \"1\" for " + player1.getName() + " to start or \"2\" for " + player2.getName() + " to start");//Player choose who starts the game
 
-//    try{
-//      if (askForIntegerBetweenMinAndMax(1,2) == 1) {
-//        currentPlayer = player1;
-//      } else if (askForIntegerBetweenMinAndMax(1,2) == 2) {
-//        currentPlayer = player2;
-//      }
-//    } catch (IllegalArgumentException ex) {
-//      System.out.println(ex.getMessage());
-//      whoStartsFirst();//recursive call when there is an exception
-//
-//    } catch (InputMismatchException ex) {
-//      System.out.println(ex.getMessage());
-//      input.next();
-//      whoStartsFirst();
-//    }
+    try{
+      if (cli.askForIntegerBetweenMinAndMax(1,2) == 1) {
+        currentPlayer = player1;
+      } else if (cli.askForIntegerBetweenMinAndMax(1,2) == 2) {
+        currentPlayer = player2;
+      }
+    } catch (IllegalArgumentException ex) {
+      System.out.println(ex.getMessage());
+      whoStartsFirst();//recursive call when there is an exception
+
+    } catch (InputMismatchException ex) {
+      System.out.println(ex.getMessage());
+      input.next();
+      whoStartsFirst();
+    }
 
   }
 
@@ -155,21 +160,21 @@ public class Game {
 
     System.out.println("Enter \"1\" to Quit or \"2\" to Play again");//Player choose who starts the game
 
-//    try{
-//      if (askForIntegerBetweenMinAndMax(1,2) == 1) {
-//        return false;
-//      } else if (askForIntegerBetweenMinAndMax(1,2) == 2) {
-//        return true;
-//      }
-//    } catch (IllegalArgumentException ex) {
-//      System.out.println(ex.getMessage());
-//      playAgain();//recursive call when there is an exception
-//
-//    } catch (InputMismatchException ex) {
-//      System.out.println(ex.getMessage());
-//      input.next();
-//      playAgain();
-//    }
+    try{
+      if (cli.askForIntegerBetweenMinAndMax(1,2) == 1) {
+        return false;
+      } else if (cli.askForIntegerBetweenMinAndMax(1,2) == 2) {
+        return true;
+      }
+    } catch (IllegalArgumentException ex) {
+      System.out.println(ex.getMessage());
+      playAgain();//recursive call when there is an exception
+
+    } catch (InputMismatchException ex) {
+      System.out.println(ex.getMessage());
+      input.next();
+      playAgain();
+    }
 
     return false;
   }

@@ -50,7 +50,9 @@ public class Board {
 
   public boolean checkLinePlayer(Player player) {
     for ( Line line : allLines) {
-      return (line.allLine(player));
+      if(line.allLine(player)){
+        return true;
+      }
     }
     return false;
   }
@@ -64,6 +66,6 @@ public class Board {
   }
 
   public boolean tie(Player player1, Player player2) {
-    return (cells.stream().allMatch(t -> (t.belongsTo(player1) || t.belongsTo(player2))));
+    return (cells.stream().allMatch(t -> (t.belongsTo(player1) || t.belongsTo(player2))) && !threeInLine(player1,player2));
   }
 }
