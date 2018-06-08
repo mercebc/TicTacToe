@@ -1,5 +1,6 @@
 package players;
 
+import com.Cli;
 import game.Board;
 import game.Cell;
 
@@ -19,7 +20,7 @@ public class Computer extends Player{
 
   //overwrite the method in player
 
-  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer) {
+  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer, Cli cli) {
 
     List<Integer> availableSpaces = new ArrayList<Integer>();
     Player opponent;

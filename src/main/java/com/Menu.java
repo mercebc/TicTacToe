@@ -72,7 +72,7 @@ public class Menu {
 
           this.game.initGame();
 
-          if(this.game.playAgain()){
+          if(this.game.playAgain(cli.askForIntegerBetweenMinAndMax(1,2))){
             showOptions(1);
           };
 
@@ -98,6 +98,7 @@ public class Menu {
           } catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
             validInput = false;
+
           } catch (InputMismatchException ex) {
             System.out.println(ex.getMessage());
             validInput = false;

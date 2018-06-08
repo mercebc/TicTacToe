@@ -1,5 +1,6 @@
 package players;
 
+import com.Cli;
 import game.Board;
 
 import java.util.InputMismatchException;
@@ -16,40 +17,40 @@ public class Human extends Player {
 
   public static Scanner input = new Scanner(System.in); // the input Scanner
 
-  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer) {
+  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer, Cli cli) {
 
     int spot = 0;
     boolean validInput = false;
 
-//    do {
-//
-//      String help = "";
-//
-//      System.out.print(currentPlayer.getName() + ", please enter a number between 1 and 9 to allocate your symbol. Enter \"h\" for help.\n");
-//
-//      try {
-//
-//        spot = askForIntegerOrHelpBetweenMinAndMax(1, 10) - 1;
-//
-//        if(spot > 0) {
-//          if (validateSpot(board, spot, player1, player2)) {
-//            validInput = true;//input value is true as its an int 1-9
-//          } else {
-//            validInput = false;
-//          }
-//        }
-//      }
-//      catch (InputMismatchException ex) {
-//        System.out.println(ex.getMessage());
-//        validInput = false;
-//      }
-//
-//      catch (IllegalArgumentException ex) {
-//        System.out.println(ex.getMessage());
-//        validInput = false;
-//      }
-//
-//    } while(!validInput);
+    do {
+
+      String help = "";
+
+      System.out.print(currentPlayer.getName() + ", please enter a number between 1 and 9 to allocate your symbol. Enter \"h\" for help.\n");
+
+      try {
+
+        spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, 9) - 1;
+
+        if(spot > 0) {
+          if (validateSpot(board, spot, player1, player2)) {
+            validInput = true;//input value is true as its an int 1-9
+          } else {
+            validInput = false;
+          }
+        }
+      }
+      catch (InputMismatchException ex) {
+        System.out.println(ex.getMessage());
+        validInput = false;
+      }
+
+      catch (IllegalArgumentException ex) {
+        System.out.println(ex.getMessage());
+        validInput = false;
+      }
+
+    } while(!validInput);
 
   return spot;
 

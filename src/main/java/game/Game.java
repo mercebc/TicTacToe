@@ -29,9 +29,11 @@ public class Game {
 
     this.playerFactory = new PlayerFactory();
     this.gameOptions = new HashMap<Integer, String>();
+
     gameOptions.put(1, "HUMAN-HUMAN");
     gameOptions.put(2, "HUMAN-COMPUTER");
     gameOptions.put(3, "COMPUTER-COMPUTER");
+
     createPlayers(2);
   }
 
@@ -47,11 +49,19 @@ public class Game {
     return currentPlayer;
   }
 
+  public void setCurrentPlayer(Player currentPlayer) {
+    this.currentPlayer = currentPlayer;
+  }
 
+  public Board getBoard() {
+    return board;
+  }
 
   public void initGame(){
 
-    whoStartsFirst();
+    System.out.println("Enter \"1\" for " + player1.getName() + " to start or \"2\" for " + player2.getName() + " to start");//Player choose who starts the game
+
+    whoStartsFirst(cli.askForIntegerBetweenMinAndMax(1,2));
 
     do {
       int spot = getSpot();
@@ -60,12 +70,15 @@ public class Game {
 
       this.currentPlayer = nextPlayer(); //change players
 
-      printBoard();
+      cli.printBoard(board);
 
     } while (!this.board.threeInLine(player1, player2) && !this.board.tie(player1, player2)); // repeat if not game-over
 
     finalGameAnnouncements();
 
+    System.out.println("Enter \"1\" to Quit or \"2\" to Play again");//Player choose who starts the game
+
+    playAgain(cli.askForIntegerBetweenMinAndMax(1,2));
   }
 
   /** Initializes the game with player against computer. This is the default game if players haven't been changed */
@@ -79,24 +92,21 @@ public class Game {
 
   }
 
-  public void whoStartsFirst() {
-
-    System.out.println("Enter \"1\" for " + player1.getName() + " to start or \"2\" for " + player2.getName() + " to start");//Player choose who starts the game
+  public void whoStartsFirst(int InputStream) {
 
     try{
-      if (cli.askForIntegerBetweenMinAndMax(1,2) == 1) {
+      if (InputStream == 1) {
         currentPlayer = player1;
-      } else if (cli.askForIntegerBetweenMinAndMax(1,2) == 2) {
+      } else if (InputStream == 2) {
         currentPlayer = player2;
       }
     } catch (IllegalArgumentException ex) {
       System.out.println(ex.getMessage());
-      whoStartsFirst();//recursive call when there is an exception
+      whoStartsFirst(InputStream);//recursive call when there is an exception
 
     } catch (InputMismatchException ex) {
       System.out.println(ex.getMessage());
-      input.next();
-      whoStartsFirst();
+      whoStartsFirst(InputStream);
     }
 
   }
@@ -113,7 +123,7 @@ public class Game {
   /** Get the spot of the player that is playing */
   public int getSpot(){
 
-    return currentPlayer.getSpot(this.board, this.player1, this.player2, this.currentPlayer);//get the spot of the player, Human and Computer have different methods for this
+    return currentPlayer.getSpot(this.board, this.player1, this.player2, this.currentPlayer, this.cli);//get the spot of the player, Human and Computer have different methods for this
 
   }
 
@@ -124,56 +134,38 @@ public class Game {
 
   }
 
-  /** Print the game board */
-  public void printBoard() {
-    System.out.println(" " + this.board.getCell(0) + " | " + this.board.getCell(1) + " | " + this.board.getCell(2) + "\n===+===+===\n" + " " + this.board.getCell(3)
-    + " | " + this.board.getCell(4) + " | " + this.board.getCell(5) + "\n===+===+===\n" + " " + this.board.getCell(6) + " | " + this.board.getCell(7) + " | " + this.board.getCell(8) + "\n"); // print all the board cells
-  }
-
-  /** Announce winner */
-  public void announceWinner(Player winner) {
-    System.out.println("Congratulations! The winner is " + winner.getName());
-  }
-
-  /** Announce ties */
-  public void announceTie() {
-    System.out.println("Ohh there's no winner, it's a tie!");
-  }
-
   /** Final Game Announcements */
   public void finalGameAnnouncements(){
     if(this.board.tie(player1, player2)){
-      announceTie();
+      cli.announceTie();
     }
 
     if(this.board.checkLinePlayer(player1)){
-      announceWinner(player1);
+      cli.announceWinner(player1);
     }
 
     if(this.board.checkLinePlayer(player2)){
-      announceWinner(player2);
+      cli.announceWinner(player2);
     }
   }
 
-  /** Ask if player want to play again */
-  public boolean playAgain() {
-
-    System.out.println("Enter \"1\" to Quit or \"2\" to Play again");//Player choose who starts the game
+  /** Player want to play again */
+  public boolean playAgain(int InputStream) {
 
     try{
-      if (cli.askForIntegerBetweenMinAndMax(1,2) == 1) {
+
+      if (InputStream == 1) {
         return false;
-      } else if (cli.askForIntegerBetweenMinAndMax(1,2) == 2) {
+      } else if (InputStream == 2) {
         return true;
       }
     } catch (IllegalArgumentException ex) {
       System.out.println(ex.getMessage());
-      playAgain();//recursive call when there is an exception
+      playAgain(InputStream);//recursive call when there is an exception
 
     } catch (InputMismatchException ex) {
       System.out.println(ex.getMessage());
-      input.next();
-      playAgain();
+      playAgain(InputStream);
     }
 
     return false;
