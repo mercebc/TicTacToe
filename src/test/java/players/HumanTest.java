@@ -27,12 +27,14 @@ public class HumanTest {
 
   @Test
   public void CantChangeNameItsTheSameOneAsTheOpponent() {
-    assertThat (john.changeSymbol("Tom", tom), is(false));
+    assertThat (john.changeName("Tom", tom), is(false));
+    assertThat ((john.getName()), is("John"));
   }
 
   @Test
   public void ChangeNameItsDifferentThanTheOpponent() {
-    assertThat (john.changeSymbol("Sophie", tom), is(true));
+    assertThat (john.changeName("Sophie", tom), is(true));
+    assertThat ((john.getName()), is("Sophie"));
   }
 
 

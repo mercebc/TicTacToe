@@ -40,9 +40,7 @@ public class Board {
     this.cells.get(position).setValue(symbol);
   }
 
-  public double getCapacity() {
-    return capacity;
-  }
+  public double getCapacity() { return capacity; }
 
   public List<Cell> getCells() {
     return cells;
