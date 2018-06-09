@@ -36,4 +36,9 @@ public abstract class Player {//Abstract class. Cannot be instantiated.
     return spot;
   }
 
+  public boolean changeName(String InputStream, Player player2) { return false; }
+
+  public boolean changeSymbol(String InputStream, Player player2) { return false; }
+
+
 }
