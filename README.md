@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/mercebc/TicTacToe/badge.svg?branch=master)](https://coveralls.io/github/mercebc/TicTacToe?branch=master)
+
 # TicTacToe
 
 Tic-tac-toe is a console game for two players who take turns marking the spaces in a 3×3 grid. 
