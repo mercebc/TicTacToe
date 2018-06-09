@@ -1,4 +1,4 @@
 language: java
-install: gradle assemble
+install: gradle build
 scrpit: gradle check
-after_success: - ./gradlew jacocoTestReport coveralls
+after_success: ./gradlew jacocoTestReport coveralls

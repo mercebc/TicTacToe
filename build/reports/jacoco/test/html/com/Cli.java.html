@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cli.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TicTacToe</a> &gt; <a href="index.source.html" class="el_package">com</a> &gt; <span class="el_source">Cli.java</span></div><h1>Cli.java</h1><pre class="source lang-java linenums">package com;
+
+import game.Board;
+import game.Game;
+import players.Computer;
+import players.Player;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+<span class="fc" id="L11">public class Cli {</span>
+
+<span class="fc" id="L13">  Scanner input = new Scanner(System.in); // the input Scanner</span>
+
+  public int askForIntegerBetweenMinAndMax(int min, int max){
+    int num;
+
+
+<span class="nc bnc" id="L19" title="All 2 branches missed.">    if (input.hasNextInt()) {</span>
+<span class="nc" id="L20">      num = input.nextInt();</span>
+    } else {
+<span class="nc" id="L22">      input.next();</span>
+<span class="nc" id="L23">      throw new InputMismatchException(&quot;You can only input integers&quot;);</span>
+    }
+
+<span class="nc bnc" id="L26" title="All 4 branches missed.">    if (num &gt;= min &amp;&amp; num &lt;= max) {</span>
+<span class="nc" id="L27">      return num;</span>
+    } else {
+<span class="nc" id="L29">      throw new IllegalArgumentException(&quot;You can only input an integer between &quot; + min + &quot; and &quot; + max);</span>
+    }
+
+  }
+
+
+  public int askForIntegerOrHelpBetweenMinAndMax(int min, int max){
+<span class="nc" id="L36">    int spot = 0;</span>
+    String help;
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">    if (input.hasNextInt()) {</span>
+<span class="nc" id="L40">      spot = input.nextInt();//assigns to spot the inserted value. Only if it's a number</span>
+
+<span class="nc bnc" id="L42" title="All 4 branches missed.">      if (spot &gt;= min &amp;&amp; spot &lt;= max) {</span>
+<span class="nc" id="L43">        return spot;</span>
+      } else {
+<span class="nc" id="L45">        throw new IllegalArgumentException(&quot;You can only input an integer between &quot; + min + &quot; and &quot; + max);</span>
+      }
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">    } else if (input.hasNext()) {</span>
+
+<span class="nc" id="L50">      help = input.next();//assigns to help the inserted value. If it isn't a number.</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">      if (help.equals(&quot;h&quot;)) {//if the input equals &quot;h&quot; a note is displayed to help the user understand how the game works</span>
+
+<span class="nc" id="L54">        System.out.println(&quot;The following numbers are the position your symbol will be placed.&quot;);</span>
+<span class="nc" id="L55">        System.out.println(&quot; 1 | 2 | 3 &quot; + &quot;\n===+===+===\n&quot; + &quot; 4 | 5 | 6 &quot; + &quot;\n===+===+===\n&quot; + &quot; 7 | 8 | 9 &quot;);</span>
+
+<span class="nc" id="L57">        return spot;</span>
+
+      } else {//if it isn't a &quot;h&quot;, throw an exception
+<span class="nc" id="L60">        throw new InputMismatchException(&quot;You can only input integers or \&quot;h\&quot; for help.&quot;);</span>
+      }
+
+    } else {
+<span class="nc" id="L64">      input.next();</span>
+<span class="nc" id="L65">      throw new InputMismatchException(&quot;You can only input integers or \&quot;h\&quot; for help.&quot;);</span>
+    }
+
+  }
+
+  public String askForString(){
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    if (input.hasNext()) {</span>
+<span class="nc" id="L72">      return input.next();</span>
+    }else {
+<span class="nc" id="L74">        throw new InputMismatchException(&quot;You can only input characters.&quot;);</span>
+      }
+  }
+
+  /** Announce winner */
+  public void announceWinner(Player winner) {
+<span class="nc" id="L80">    System.out.println(&quot;Congratulations! The winner is &quot; + winner.getName());</span>
+<span class="nc" id="L81">  }</span>
+
+  /** Announce ties */
+  public void announceTie() {
+<span class="nc" id="L85">    System.out.println(&quot;Ohh there's no winner, it's a tie!&quot;);</span>
+<span class="nc" id="L86">  }</span>
+
+  /** Print the game board */
+  public void printBoard(Board board) {
+<span class="nc" id="L90">    System.out.println(&quot; &quot; + board.getCell(0).getValue() + &quot; | &quot; + board.getCell(1).getValue() + &quot; | &quot; + board.getCell(2).getValue() + &quot;\n===+===+===\n&quot; + &quot; &quot; + board.getCell(3).getValue()</span>
+<span class="nc" id="L91">        + &quot; | &quot; + board.getCell(4).getValue() + &quot; | &quot; + board.getCell(5).getValue() + &quot;\n===+===+===\n&quot; + &quot; &quot; + board.getCell(6).getValue() + &quot; | &quot; + board.getCell(7).getValue() + &quot; | &quot; + board.getCell(8).getValue() + &quot;\n&quot;); // print all the board cells</span>
+<span class="nc" id="L92">  }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -3,7 +3,6 @@ plugins {
     id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
-
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
@@ -23,3 +22,5 @@ jacocoTestReport {
         html.enabled = true
     }
 }
+
+mainClassName = 'Start'
