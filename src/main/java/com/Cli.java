@@ -67,6 +67,14 @@ public class Cli {
 
   }
 
+  public String askForString(){
+    if (input.hasNext()) {
+      return input.next();
+    }else {
+        throw new InputMismatchException("You can only input characters.");
+      }
+  }
+
   /** Announce winner */
   public void announceWinner(Player winner) {
     System.out.println("Congratulations! The winner is " + winner.getName());

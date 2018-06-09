@@ -1,6 +1,5 @@
 package players;
 
-import com.Cli;
 import game.Board;
 
 import java.util.InputMismatchException;
@@ -15,9 +14,7 @@ public class Human extends Player {
 
   //overwrite the methods in player
 
-  public static Scanner input = new Scanner(System.in); // the input Scanner
-
-  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer, Cli cli) {
+  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer) {
 
     int spot = 0;
     boolean validInput = false;
@@ -56,47 +53,55 @@ public class Human extends Player {
 
   }
 
-  public boolean changeName(Player player2) {
+  public boolean changeName(String InputStream, Player opponent) {
     System.out.println("Enter new name for " + this.getName());
-    if (input.hasNext()) {//No need to check input as there is no restrictions for name
-      String name = input.next();
 
-      if (!(player2.getName().equals(name))) {//if new name is not the same as the other player's name
-        this.setName(name);//change name
-        System.out.println("Name changed to " + this.getName());
-        return true;
-      }else{
-        System.out.println("The name you are trying to change is the same one as your opponent's name: " + player2.getName());
-        return false;
-      }
+    String name = InputStream;
+
+    if (checkOpponentName(opponent, name)) {//if new name is not the same as the other player's name
+      this.setName(name);//change name
+      System.out.println("Name changed to " + this.getName());
+      return true;
+    }else{
+      System.out.println("The name you are trying to change is the same one as your opponent's name: " + opponent.getName());
+      return false;
     }
-    return false;
   }
 
-  public boolean changeSymbol(Player player2) {
-    System.out.println("Enter new symbol for " + this.getName());
-    if (input.hasNext()) {
-      String symbol = input.next();
-
-      if(symbol.length() > 1){//if input is more than one character, trim and inform user
-        char s = symbol.charAt(0);//get only the first character
-        symbol = Character.toString(s);
-        System.out.println("Note: We have trimmed your Symbol as it can only contain one character");
-      }
-
-      if (!(player2.getSymbol().equals(symbol))) {
-        this.setSymbol(symbol);//change symbol
-        System.out.println("Symbol changed to " + this.getSymbol());
-        return true;
-      }else{
-        System.out.println("The symbol you are trying to change is the same one as your opponent's symbol: " + player2.getName());
-        return false;
-      }
-    }
-    return false;
+  private boolean checkOpponentName(Player opponent, String name) {
+    return (!(opponent.getName().equals(name)));
   }
 
-  public boolean validateSpot(Board board, int spot, Player player1, Player player2){
+  public boolean changeSymbol(String InputStream, Player opponent) {
+
+    String symbol = InputStream;
+
+    if(symbol.length() > 1) {//if input is more than one character, trim and inform user
+      symbol = trimSymbol(symbol);
+    }
+
+    if(checkOpponentSymbol(opponent, symbol)){
+      this.setSymbol(symbol);//change symbol
+      System.out.println("Symbol changed to " + this.getSymbol());
+      return true;
+    }else{
+      System.out.println("The symbol you are trying to change is the same one as your opponent's symbol: " + opponent.getName());
+      return false;
+    }
+  }
+
+  private boolean checkOpponentSymbol(Player opponent, String symbol) {
+    return (!(opponent.getSymbol().equals(symbol)));
+  }
+
+
+  private String trimSymbol(String symbol) {
+    char s = symbol.charAt(0);//get only the first character
+    System.out.println("Note: We have trimmed your Symbol as it can only contain one character");
+    return Character.toString(s);
+  }
+
+  private boolean validateSpot(Board board, int spot, Player player1, Player player2){
     if (!board.getCell(spot).equals(player1.getSymbol()) && !board.getCell(spot).equals(player2.getSymbol())) {//check the spot is already taken
       return true;
     } else {
@@ -104,7 +109,5 @@ public class Human extends Player {
       return false;
     }
   }
-
-
 
 }

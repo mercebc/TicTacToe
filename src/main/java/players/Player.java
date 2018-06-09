@@ -6,6 +6,7 @@ import game.Board;
 import java.util.Scanner;
 
 public abstract class Player {//Abstract class. Cannot be instantiated.
+  Cli cli = new Cli();
   private String name;
   private String symbol;
 
@@ -30,18 +31,16 @@ public abstract class Player {//Abstract class. Cannot be instantiated.
     this.symbol = symbol;
   }
 
-  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer, Cli cli) {
+  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer) {
     int spot = 0;
     return spot;
   }
 
-  public boolean changeName(Player player2) {
+  public boolean changeName(String InputStream, Player player2) {
     return false;
   }
 
-  public boolean changeSymbol(Player player2) {
-    return false;
-  }
+  public boolean changeSymbol(String InputStream, Player player2) { return false; }
 
 
 }

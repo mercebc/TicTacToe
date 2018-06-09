@@ -20,7 +20,7 @@ public class Computer extends Player{
 
   //overwrite the method in player
 
-  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer, Cli cli) {
+  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer) {
 
     List<Integer> availableSpaces = new ArrayList<Integer>();
     Player opponent;

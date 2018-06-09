@@ -18,9 +18,6 @@ public class Menu {
 
   Scanner input = new Scanner(System.in);
 
-  int choiceEntry = 0;
-  boolean validInput = false;
-
   public Menu(Game game, Cli cli) {
 
     this.game = game;
@@ -64,10 +61,13 @@ public class Menu {
 
 
   public void showOptions(int choiceEntry){
-    do {
+
+    boolean validInput = false;
+
       switch (choiceEntry) {
 
         case 1:
+          do{
           validInput = true;
 
           this.game.initGame();
@@ -75,11 +75,12 @@ public class Menu {
           if(this.game.playAgain(cli.askForIntegerBetweenMinAndMax(1,2))){
             showOptions(1);
           };
-
+          } while (!validInput) ;
           break;
 
 
         case 2:
+          do{
           System.out.println("Enter \"1\" to play against another Player or \"2\" to play against the Computer or \"3\" to watch Computer playing against Computer");
           try {
 
@@ -104,13 +105,15 @@ public class Menu {
             validInput = false;
             input.next();
           }
-
+          } while (!validInput) ;
           break;
 
+
         case 3:
+          do{
           if (player2 instanceof Computer && !(player1 instanceof Computer)) {//when playing against the Computer, won't show to change name for Computer.
             //when playing computer against computer, wont show to change name for Computers.
-            validInput = player1.changeName(player2);
+            validInput = player1.changeName(cli.askForString(), player2);
 
           } else if (player1 instanceof Computer && player2 instanceof Computer) {
             System.out.println("You can't change the name of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
@@ -123,12 +126,10 @@ public class Menu {
               int num = cli.askForIntegerBetweenMinAndMax(1,2);
 
               if (num == 1) {
-                validInput = player1.changeName(player2);//Returns true if has been successfully executed
+                validInput = player1.changeName(cli.askForString(), player2);//Returns true if has been successfully executed
               } else {
-                validInput = player2.changeName(player1);
+                validInput = player2.changeName(cli.askForString(), player1);
               }
-
-              showMenu();
 
             } catch (IllegalArgumentException ex) {
               System.out.println(ex.getMessage());
@@ -141,46 +142,45 @@ public class Menu {
             }
 
           }
+          } while (!validInput) ;
           break;
 
         case 4:
-          if (player2 instanceof Computer) {
-            validInput = player1.changeSymbol(player2);
+          do {
+            if (player2 instanceof Computer) {
+              System.out.println("Enter new symbol for " + player1.getName());
+              validInput = player1.changeSymbol(cli.askForString(), player2);
 
-          } else if (player1 instanceof Computer && player2 instanceof Computer) {
-            System.out.println("You can't change the symbol of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
-            validInput = true;
+            } else if (player1 instanceof Computer && player2 instanceof Computer) {
+              System.out.println("You can't change the symbol of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
+              validInput = true;
 
-          } else {
-            System.out.println("Enter \"1\" to change " + player1.getName() + "'s symbol or \"2\" to change " + player2.getName() + "'s symbol");
+            } else {
+              System.out.println("Enter \"1\" to change " + player1.getName() + "'s symbol or \"2\" to change " + player2.getName() + "'s symbol");
 
-            try {
-              int num = cli.askForIntegerBetweenMinAndMax(1,2);
+              try {
+                int num = cli.askForIntegerBetweenMinAndMax(1, 2);
 
-              if (num == 1) {
-                validInput = player1.changeSymbol(player2);
-              } else {
-                validInput = player2.changeSymbol(player1);
+                if (num == 1) {
+                  validInput = player1.changeSymbol(cli.askForString(), player2);
+                } else {
+                  validInput = player2.changeSymbol(cli.askForString(), player1);
+                }
+
+              } catch (IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+                validInput = false;
+
+              } catch (InputMismatchException ex) {
+                System.out.println(ex.getMessage());
+                validInput = false;
+                input.next();
               }
-
-              showMenu();
-
-            } catch (IllegalArgumentException ex) {
-              System.out.println(ex.getMessage());
-              validInput = false;
-
-            } catch (InputMismatchException ex) {
-              System.out.println(ex.getMessage());
-              validInput = false;
-              input.next();
             }
-          }
+          } while (!validInput) ;
           break;
 
       }
-
-    } while (!validInput) ;
-
   }
 
 

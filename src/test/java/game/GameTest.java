@@ -4,7 +4,6 @@ import com.Cli;
 import org.junit.Test;
 import players.Computer;
 import players.Human;
-import players.Player;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
