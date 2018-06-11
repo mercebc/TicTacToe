@@ -1,5 +1,6 @@
 package players;
 
+import com.Cli;
 import game.Board;
 
 import java.util.InputMismatchException;
@@ -14,7 +15,7 @@ public class Human extends Player {
 
   //overwrite the methods in player
 
-  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer) {
+  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer, Cli cli) {
 
     int spot = 0;
     boolean validInput = false;

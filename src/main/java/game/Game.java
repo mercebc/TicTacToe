@@ -123,7 +123,7 @@ public class Game {
   /** Get the spot of the player that is playing */
   public int getSpot(){
 
-    return currentPlayer.getSpot(this.board, this.player1, this.player2, this.currentPlayer);//get the spot of the player, Human and Computer have different methods for this
+    return currentPlayer.getSpot(this.board, this.player1, this.player2, this.currentPlayer, this.cli);//get the spot of the player, Human and Computer have different methods for this
 
   }
 

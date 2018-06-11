@@ -78,4 +78,5 @@ public class CliTest {
     assertThat(out.toString(), containsString("The following numbers are the position your symbol will be placed."));
   }
 
+
 }

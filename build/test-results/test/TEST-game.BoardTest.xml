@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="game.BoardTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2018-06-11T19:16:46" hostname="Merces-MBP" time="0.013">
+<testsuite name="game.BoardTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2018-06-11T22:34:53" hostname="Merces-MBP" time="0.018">
   <properties/>
   <testcase name="setNewValueOfACell" classname="game.BoardTest" time="0.0"/>
-  <testcase name="checkThatPlayerHasntALine" classname="game.BoardTest" time="0.006"/>
-  <testcase name="checkThatPlayerHasALineVertical" classname="game.BoardTest" time="0.0"/>
-  <testcase name="FilledWithThreeInLine" classname="game.BoardTest" time="0.002"/>
+  <testcase name="checkThatPlayerHasntALine" classname="game.BoardTest" time="0.01"/>
+  <testcase name="checkThatPlayerHasALineVertical" classname="game.BoardTest" time="0.001"/>
+  <testcase name="FilledWithThreeInLine" classname="game.BoardTest" time="0.003"/>
   <testcase name="ThreeInLineDiagonalPlayer2" classname="game.BoardTest" time="0.0"/>
-  <testcase name="ThreeInLineVerticalPlayer1" classname="game.BoardTest" time="0.001"/>
-  <testcase name="FilledTie" classname="game.BoardTest" time="0.0"/>
+  <testcase name="ThreeInLineVerticalPlayer1" classname="game.BoardTest" time="0.0"/>
+  <testcase name="FilledTie" classname="game.BoardTest" time="0.001"/>
   <testcase name="checkThatPlayerHasALineDiagonal" classname="game.BoardTest" time="0.0"/>
-  <testcase name="checkThatPlayerHasALineHorizontal" classname="game.BoardTest" time="0.001"/>
-  <testcase name="ThreeInLineHorizontalPlayer1" classname="game.BoardTest" time="0.0"/>
+  <testcase name="checkThatPlayerHasALineHorizontal" classname="game.BoardTest" time="0.0"/>
+  <testcase name="ThreeInLineHorizontalPlayer1" classname="game.BoardTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
