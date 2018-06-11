@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="game.GameTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2018-06-09T09:25:37" hostname="Merces-MBP" time="0.008">
+<testsuite name="game.GameTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2018-06-11T19:16:46" hostname="Merces-MBP" time="0.009">
   <properties/>
   <testcase name="SetASpotInACell" classname="game.GameTest" time="0.001"/>
   <testcase name="PlayerChoosesToPlayAgain" classname="game.GameTest" time="0.0"/>
-  <testcase name="NextPlayerIfPlayer1sTurn" classname="game.GameTest" time="0.0"/>
+  <testcase name="NextPlayerIfPlayer1sTurn" classname="game.GameTest" time="0.001"/>
   <testcase name="NextPlayerIfPlayer2sTurn" classname="game.GameTest" time="0.0"/>
   <testcase name="PlayersOptionComputerComputer" classname="game.GameTest" time="0.002"/>
-  <testcase name="PlayersOptionHumanHuman" classname="game.GameTest" time="0.0"/>
-  <testcase name="PlayersOptionHumanComputer" classname="game.GameTest" time="0.001"/>
+  <testcase name="PlayersOptionHumanHuman" classname="game.GameTest" time="0.001"/>
+  <testcase name="PlayersOptionHumanComputer" classname="game.GameTest" time="0.0"/>
   <testcase name="Player1StartsFirst" classname="game.GameTest" time="0.0"/>
   <testcase name="PlayerChoosesToQuit" classname="game.GameTest" time="0.0"/>
   <testcase name="Player2StartsFirst" classname="game.GameTest" time="0.0"/>

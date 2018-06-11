@@ -116,26 +116,26 @@ public class GameTest {
     assertThat(game.getPlayer2(), instanceOf(Computer.class));
   }
 
-  @Test
-  public void FinalAnnouncemntsIsTie() {
-    game.getBoard().setCell(0, "X");
-    game.getBoard().setCell(1, "O");
-    game.getBoard().setCell(2, "O");
-
-    game.getBoard().setCell(3, "O");
-    game.getBoard().setCell(4, "X");
-    game.getBoard().setCell(5, "X");
-
-    game.getBoard().setCell(6, "X");
-    game.getBoard().setCell(7, "O");
-    game.getBoard().setCell(8, "O");
-
-    game.finalGameAnnouncements();
-
-    //assertThat(out.toString(), containsString(game.getPlayer1().getSymbol()));
-    //assertThat(out.toString(), containsString(game.getPlayer2().getSymbol()));
-    assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
-  }
+//  @Test
+//  public void FinalAnnouncemntsIsTie() {
+//    game.getBoard().setCell(0, "X");
+//    game.getBoard().setCell(1, "O");
+//    game.getBoard().setCell(2, "O");
+//
+//    game.getBoard().setCell(3, "O");
+//    game.getBoard().setCell(4, "X");
+//    game.getBoard().setCell(5, "X");
+//
+//    game.getBoard().setCell(6, "X");
+//    game.getBoard().setCell(7, "O");
+//    game.getBoard().setCell(8, "O");
+//
+//    game.finalGameAnnouncements();
+//
+//    //assertThat(out.toString(), containsString(game.getPlayer1().getSymbol()));
+//    //assertThat(out.toString(), containsString(game.getPlayer2().getSymbol()));
+//    assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
+//  }
 
   //TestInitGame
 
