@@ -6,7 +6,7 @@ import game.Board;
 import java.util.Scanner;
 
 public abstract class Player {//Abstract class. Cannot be instantiated.
-  Cli cli = new Cli();
+  Cli cli = new Cli(System.in, System.out);
   private String name;
   private String symbol;
 

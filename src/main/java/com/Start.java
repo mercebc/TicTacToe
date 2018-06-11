@@ -2,12 +2,15 @@ package com;
 
 import game.Game;
 
+import java.util.Scanner;
+
 public class Start {
 
     public static void main(String[] args) {
+      Cli cli = new Cli(System.in, System.out);
 
-      Cli cli = new Cli();
       Game game = new Game(cli);
+
       Menu menu = new Menu(game, cli);
 
       menu.showMenu();

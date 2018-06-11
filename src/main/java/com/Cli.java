@@ -5,12 +5,20 @@ import game.Game;
 import players.Computer;
 import players.Player;
 
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Cli {
 
-  Scanner input = new Scanner(System.in); // the input Scanner
+  private PrintStream output;
+  private Scanner input;
+
+  public Cli(InputStream inputStream, PrintStream output) {
+    this.output = output;
+    this.input = new Scanner(inputStream);
+  }
 
   public int askForIntegerBetweenMinAndMax(int min, int max){
     int num;
@@ -51,8 +59,8 @@ public class Cli {
 
       if (help.equals("h")) {//if the input equals "h" a note is displayed to help the user understand how the game works
 
-        System.out.println("The following numbers are the position your symbol will be placed.");
-        System.out.println(" 1 | 2 | 3 " + "\n===+===+===\n" + " 4 | 5 | 6 " + "\n===+===+===\n" + " 7 | 8 | 9 ");
+        output.println("The following numbers are the position your symbol will be placed.");
+        output.println(" 1 | 2 | 3 " + "\n===+===+===\n" + " 4 | 5 | 6 " + "\n===+===+===\n" + " 7 | 8 | 9 ");
 
         return spot;
 
@@ -77,17 +85,17 @@ public class Cli {
 
   /** Announce winner */
   public void announceWinner(Player winner) {
-    System.out.println("Congratulations! The winner is " + winner.getName());
+    output.println("Congratulations! The winner is " + winner.getName());
   }
 
   /** Announce ties */
   public void announceTie() {
-    System.out.println("Ohh there's no winner, it's a tie!");
+    output.println("Ohh there's no winner, it's a tie!");
   }
 
   /** Print the game board */
   public void printBoard(Board board) {
-    System.out.println(" " + board.getCell(0).getValue() + " | " + board.getCell(1).getValue() + " | " + board.getCell(2).getValue() + "\n===+===+===\n" + " " + board.getCell(3).getValue()
+    output.println(" " + board.getCell(0).getValue() + " | " + board.getCell(1).getValue() + " | " + board.getCell(2).getValue() + "\n===+===+===\n" + " " + board.getCell(3).getValue()
         + " | " + board.getCell(4).getValue() + " | " + board.getCell(5).getValue() + "\n===+===+===\n" + " " + board.getCell(6).getValue() + " | " + board.getCell(7).getValue() + " | " + board.getCell(8).getValue() + "\n"); // print all the board cells
   }
 

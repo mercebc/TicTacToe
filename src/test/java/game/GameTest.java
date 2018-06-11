@@ -1,17 +1,34 @@
 package game;
 
 import com.Cli;
+import org.junit.Before;
 import org.junit.Test;
 import players.Computer;
 import players.Human;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.containsString;
 
 public class GameTest {
-  Cli cli = new Cli();
+
+  private ByteArrayOutputStream out;
+  private PrintStream output;
+
+  @Before
+  public void setUp() {
+    out = new ByteArrayOutputStream();
+    output = new PrintStream(out);
+  }
+
+  Cli cli = new Cli(System.in, output);
   Game game = new Game(cli);
+
 
   @Test
   public void Player1StartsFirst() {
@@ -99,9 +116,44 @@ public class GameTest {
     assertThat(game.getPlayer2(), instanceOf(Computer.class));
   }
 
+  @Test
+  public void FinalAnnouncemntsIsTie() {
+    game.getBoard().setCell(0, "X");
+    game.getBoard().setCell(1, "O");
+    game.getBoard().setCell(2, "O");
+
+    game.getBoard().setCell(3, "O");
+    game.getBoard().setCell(4, "X");
+    game.getBoard().setCell(5, "X");
+
+    game.getBoard().setCell(6, "X");
+    game.getBoard().setCell(7, "O");
+    game.getBoard().setCell(8, "O");
+
+    game.finalGameAnnouncements();
+
+    //assertThat(out.toString(), containsString(game.getPlayer1().getSymbol()));
+    //assertThat(out.toString(), containsString(game.getPlayer2().getSymbol()));
+    assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
+  }
+
   //TestInitGame
 
-  //TestFinalAnnouncements
+//
+
+//  @Test
+//  public void AnnounceIfCheckLinePlayer1() {
+//    Cli cli = mockCliString("UserInput");
+//    cli.announceWinner(game.getPlayer1());
+//    assertThat(out.toString(), containsString("Congratulations! The winner is " + game.getPlayer1().getName()));
+//  }
+//
+//  @Test
+//  public void AnnounceIfCheckLinePlayer2() {
+//    Cli cli = mockCliString("UserInput");
+//    cli.announceWinner(game.getPlayer2);
+//    assertThat(out.toString(), containsString("Congratulations! The winner is " + game.getPlayer2().getName()));
+//  }
 
   //TestGetSpot
 
