@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="game.GameTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2018-06-12T00:23:05" hostname="Merces-MBP" time="0.016">
+<testsuite name="game.GameTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2018-06-12T08:07:56" hostname="Merces-MBP" time="0.009">
   <properties/>
   <testcase name="SetASpotInACell" classname="game.GameTest" time="0.0"/>
   <testcase name="PlayerChoosesToPlayAgain" classname="game.GameTest" time="0.001"/>
   <testcase name="NextPlayerIfPlayer1sTurn" classname="game.GameTest" time="0.001"/>
   <testcase name="NextPlayerIfPlayer2sTurn" classname="game.GameTest" time="0.001"/>
-  <testcase name="PlayersOptionComputerComputer" classname="game.GameTest" time="0.003"/>
-  <testcase name="PlayersOptionHumanHuman" classname="game.GameTest" time="0.0"/>
-  <testcase name="PlayersOptionHumanComputer" classname="game.GameTest" time="0.001"/>
-  <testcase name="Player1StartsFirst" classname="game.GameTest" time="0.002"/>
+  <testcase name="PlayersOptionComputerComputer" classname="game.GameTest" time="0.0"/>
+  <testcase name="PlayersOptionHumanHuman" classname="game.GameTest" time="0.001"/>
+  <testcase name="PlayersOptionHumanComputer" classname="game.GameTest" time="0.0"/>
+  <testcase name="Player1StartsFirst" classname="game.GameTest" time="0.001"/>
   <testcase name="PlayerChoosesToQuit" classname="game.GameTest" time="0.001"/>
   <testcase name="Player2StartsFirst" classname="game.GameTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>

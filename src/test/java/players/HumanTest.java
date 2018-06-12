@@ -4,11 +4,14 @@ import com.Cli;
 import game.Board;
 import game.Cell;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.InputMismatchException;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -69,6 +72,18 @@ public class HumanTest {
     Cli cli = mockCli("Sophie");
     assertThat (john.changeName(cli, tom), is(true));
     assertThat ((john.getName()), is("Sophie"));
+  }
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
+  @Test
+  public void CantChangeSymbolItsSpace() {
+    Cli cli = mockCli(" ");
+    thrown.expect(InputMismatchException.class);
+    thrown.expectMessage(containsString("You can only input characters."));
+
+    john.changeName(cli, tom);
   }
 
   @Test

@@ -53,7 +53,7 @@ public class Cli {
         throw new IllegalArgumentException("You can only input an integer between " + min + " and " + max);
       }
 
-    } else if (input.hasNext()) {
+    } else {
 
       help = input.next();//assigns to help the inserted value. If it isn't a number.
 
@@ -67,17 +67,12 @@ public class Cli {
       } else {//if it isn't a "h", throw an exception
         throw new InputMismatchException("You can only input integers or \"h\" for help.");
       }
-
-    } else {
-      input.next();
-      throw new InputMismatchException("You can only input integers or \"h\" for help.");
     }
-
   }
 
   public String askForString(){
     if (input.hasNext()) {
-      return input.next();
+       return input.next();
     }else {
         throw new InputMismatchException("You can only input characters.");
       }

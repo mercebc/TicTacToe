@@ -1,7 +1,10 @@
 package com;
 
+import game.Board;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import players.Human;
 import players.Player;
 
@@ -12,6 +15,7 @@ import java.util.InputMismatchException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 
 public class CliTest {
@@ -78,5 +82,73 @@ public class CliTest {
     assertThat(out.toString(), containsString("The following numbers are the position your symbol will be placed."));
   }
 
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
+  @Test
+  public void UserInpuALetter() {
+    Cli cli = mockCli("p");
+    thrown.expect(InputMismatchException.class);
+    thrown.expectMessage(containsString("You can only input integers"));
+
+    cli.askForIntegerBetweenMinAndMax(1, 7);
+
+  }
+
+  @Test
+  public void userInputHigherThanMax() {
+    Cli cli = mockCli("9");
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(containsString("You can only input an integer between"));
+
+    cli.askForIntegerBetweenMinAndMax(1, 7);
+
+  }
+
+  @Test
+  public void userInputALetterDifferentThanH() {
+    Cli cli = mockCli("p");
+    thrown.expect(InputMismatchException.class);
+    thrown.expectMessage(containsString("You can only input integers or"));
+
+    cli.askForIntegerOrHelpBetweenMinAndMax(1, 4);
+
+  }
+
+  @Test
+  public void userInputLowerThanMin() {
+    Cli cli = mockCli("1");
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(containsString("You can only input an integer between"));
+
+    cli.askForIntegerOrHelpBetweenMinAndMax(2, 4);
+  }
+
+  @Test
+  public void userInputEmptyString() {
+    Cli cli = mockCli(" ");
+    thrown.expect(InputMismatchException.class);
+    thrown.expectMessage(containsString("You can only input characters."));
+
+    cli.askForString();
+  }
+
+  @Test
+  public void printBoard() {
+    Board board = new Board();
+    Cli cli = mockCli("UserInput");
+    board.setCell(2,"X");
+    board.setCell(6,"X");
+    board.setCell(8,"X");
+
+    board.setCell(3,"O");
+    board.setCell(5,"O");
+
+    cli.printBoard(board);
+
+    assertThat(out.toString(), containsString("  |   | X"));
+    assertThat(out.toString(), containsString("O |   | O"));
+    assertThat(out.toString(), containsString("X |   | X"));
+
+  }
 }

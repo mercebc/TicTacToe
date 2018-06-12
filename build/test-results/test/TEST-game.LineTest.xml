@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="game.LineTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2018-06-12T00:23:05" hostname="Merces-MBP" time="0.002">
+<testsuite name="game.LineTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2018-06-12T08:07:56" hostname="Merces-MBP" time="0.003">
   <properties/>
-  <testcase name="playerWinsALine" classname="game.LineTest" time="0.0"/>
-  <testcase name="playerLoseALine" classname="game.LineTest" time="0.001"/>
+  <testcase name="playerWinsALine" classname="game.LineTest" time="0.001"/>
+  <testcase name="playerLoseALine" classname="game.LineTest" time="0.0"/>
   <testcase name="ClaimingTheLastCellWinsTheLine" classname="game.LineTest" time="0.0"/>
   <testcase name="CellsSymbolBelongsToPlayer" classname="game.LineTest" time="0.001"/>
   <testcase name="playerDontHaveALineYet" classname="game.LineTest" time="0.0"/>
