@@ -6,6 +6,9 @@ import players.Human;
 import players.HumanTest;
 import players.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -19,11 +22,11 @@ public class BoardTest {
   @Test
   public void setNewValueOfACell() {
 
-    assertThat((board.getCell(0).getValue()), is(" "));
+    assertThat(board.getCell(0).getValue(), is(" "));
 
     board.setCell(0, "P");
 
-    assertThat((board.getCell(0).getValue()), is("P"));
+    assertThat(board.getCell(0).getValue(), is("P"));
   }
 
   @Test
@@ -33,7 +36,7 @@ public class BoardTest {
     board.setCell(1, "P");
     board.setCell(2, "P");
 
-    assertThat((board.checkLinePlayer(peter)), is(true));
+    assertThat(board.checkLinePlayer(peter), is(true));
 
   }
 
@@ -44,7 +47,7 @@ public class BoardTest {
     board.setCell(4, "P");
     board.setCell(7, "P");
 
-    assertThat((board.checkLinePlayer(peter)), is(true));
+    assertThat(board.checkLinePlayer(peter), is(true));
 
   }
 
@@ -55,7 +58,7 @@ public class BoardTest {
     board.setCell(4, "P");
     board.setCell(6, "P");
 
-    assertThat((board.checkLinePlayer(peter)), is(true));
+    assertThat(board.checkLinePlayer(peter), is(true));
 
   }
 
@@ -65,7 +68,7 @@ public class BoardTest {
     board.setCell(0, "P");
     board.setCell(2, "P");
 
-    assertThat((board.checkLinePlayer(peter)), is(false));
+    assertThat(board.checkLinePlayer(peter), is(false));
 
   }
 
@@ -76,7 +79,7 @@ public class BoardTest {
     board.setCell(1, "P");
     board.setCell(2, "P");
 
-    assertThat((board.threeInLine(peter, computer)), is(true));
+    assertThat(board.threeInLine(peter, computer), is(true));
 
   }
 
@@ -87,7 +90,7 @@ public class BoardTest {
     board.setCell(3, "P");
     board.setCell(6, "P");
 
-    assertThat((board.threeInLine(peter, computer)), is(true));
+    assertThat(board.threeInLine(peter, computer), is(true));
 
   }
 
@@ -98,7 +101,7 @@ public class BoardTest {
     board.setCell(4, "X");
     board.setCell(8, "X");
 
-    assertThat((board.threeInLine(peter, computer)), is(true));
+    assertThat(board.threeInLine(peter, computer), is(true));
 
   }
 
@@ -117,7 +120,7 @@ public class BoardTest {
     board.setCell(7, "P");
     board.setCell(8, "X");
 
-    assertThat((board.tie(peter, computer)), is(false));
+    assertThat(board.tie(peter, computer), is(false));
 
   }
 
@@ -136,8 +139,40 @@ public class BoardTest {
     board.setCell(7, "P");
     board.setCell(8, "P");
 
-    assertThat((board.tie(peter, computer)), is(true));
+    assertThat(board.tie(peter, computer), is(true));
 
   }
+
+  @Test
+  public void CapacityIfSize3() {
+    int size = 3;
+
+    assertThat(board.getCapacity(), is(Math.pow(size, 2)));
+  }
+
+  @Test
+  public void getAllTheCells() {
+
+    List<Cell> cellsTemp = new ArrayList<>();
+
+    board.setCell(0, "X");
+    board.setCell(5, "P");
+    board.setCell(8, "P");
+
+    for (int i = 0; i < board.getCapacity(); i++) {
+      cellsTemp.add(board.getCell(i));
+    }
+
+    assertThat(board.getCells(), is(cellsTemp));
+
+  }
+
+
+
+  //  public double getCapacity() { return capacity; }
+//
+//  public List<Cell> getCells() {
+//    return cells;
+//  }
 
 }
