@@ -2,8 +2,10 @@ package players;
 
 import com.Cli;
 import game.Board;
+import game.Cell;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -15,49 +17,37 @@ public class Human extends Player {
 
   //overwrite the methods in player
 
-  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer, Cli cli) {
 
-    int spot = 0;
-    boolean validInput = false;
+  public int getSpot(Board board, Player player1, Player player2, Cli cli) {
+    System.out.print(this.getName() + ", please enter a number between 1 and 9 to allocate your symbol. Enter \"h\" for help.\n");
+    int spot = getHumanSpot(cli);
+    if(validateSpot (board, spot, player1, player2)) {
+      return spot;
+    }else{
+      return getSpot (board, player1, player2, cli);
+    }
+  }
 
-    do {
-
-      String help = "";
-
-      System.out.print(currentPlayer.getName() + ", please enter a number between 1 and 9 to allocate your symbol. Enter \"h\" for help.\n");
-
-      try {
-
-        spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, 9) - 1;
-
-        if(spot > 0) {
-          if (validateSpot(board, spot, player1, player2)) {
-            validInput = true;//input value is true as its an int 1-9
-          } else {
-            validInput = false;
-          }
-        }
+  private int getHumanSpot(Cli cli) {
+    int spot = -1;
+    try {
+      spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, 9) - 1;
       }
       catch (InputMismatchException ex) {
         System.out.println(ex.getMessage());
-        validInput = false;
+        getHumanSpot(cli);
       }
-
       catch (IllegalArgumentException ex) {
         System.out.println(ex.getMessage());
-        validInput = false;
+        getHumanSpot(cli);
       }
-
-    } while(!validInput);
-
   return spot;
-
   }
 
-  public boolean changeName(String InputStream, Player opponent) {
+  public boolean changeName(Cli cli, Player opponent) {
     System.out.println("Enter new name for " + this.getName());
 
-    String name = InputStream;
+    String name = cli.askForString();
 
     if (checkOpponentName(opponent, name)) {//if new name is not the same as the other player's name
       this.setName(name);//change name
@@ -73,9 +63,9 @@ public class Human extends Player {
     return (!(opponent.getName().equals(name)));
   }
 
-  public boolean changeSymbol(String InputStream, Player opponent) {
+  public boolean changeSymbol(Cli cli, Player opponent) {
 
-    String symbol = InputStream;
+    String symbol = cli.askForString();
 
     if(symbol.length() > 1) {//if input is more than one character, trim and inform user
       symbol = trimSymbol(symbol);
@@ -103,7 +93,7 @@ public class Human extends Player {
   }
 
   private boolean validateSpot(Board board, int spot, Player player1, Player player2){
-    if (!board.getCell(spot).equals(player1.getSymbol()) && !board.getCell(spot).equals(player2.getSymbol())) {//check the spot is already taken
+    if (!board.getCell(spot).getValue().equals(player1.getSymbol()) && !board.getCell(spot).getValue().equals(player2.getSymbol())) {//check the spot is already taken
       return true;
     } else {
       System.out.println("Enter a number that is not already used");

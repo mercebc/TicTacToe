@@ -72,7 +72,7 @@ public class Menu {
 
           this.game.initGame();
 
-          if(this.game.playAgain(cli.askForIntegerBetweenMinAndMax(1,2))){
+          if(this.game.playAgain(cli)){
             showOptions(1);
           };
           } while (!validInput) ;
@@ -113,7 +113,7 @@ public class Menu {
           do{
           if (player2 instanceof Computer && !(player1 instanceof Computer)) {//when playing against the Computer, won't show to change name for Computer.
             //when playing computer against computer, wont show to change name for Computers.
-            validInput = player1.changeName(cli.askForString(), player2);
+            validInput = player1.changeName(cli, player2);
 
           } else if (player1 instanceof Computer && player2 instanceof Computer) {
             System.out.println("You can't change the name of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
@@ -126,9 +126,9 @@ public class Menu {
               int num = cli.askForIntegerBetweenMinAndMax(1,2);
 
               if (num == 1) {
-                validInput = player1.changeName(cli.askForString(), player2);//Returns true if has been successfully executed
+                validInput = player1.changeName(cli, player2);//Returns true if has been successfully executed
               } else {
-                validInput = player2.changeName(cli.askForString(), player1);
+                validInput = player2.changeName(cli, player1);
               }
 
             } catch (IllegalArgumentException ex) {
@@ -149,7 +149,7 @@ public class Menu {
           do {
             if (player2 instanceof Computer) {
               System.out.println("Enter new symbol for " + player1.getName());
-              validInput = player1.changeSymbol(cli.askForString(), player2);
+              validInput = player1.changeSymbol(cli, player2);
 
             } else if (player1 instanceof Computer && player2 instanceof Computer) {
               System.out.println("You can't change the symbol of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
@@ -162,9 +162,9 @@ public class Menu {
                 int num = cli.askForIntegerBetweenMinAndMax(1, 2);
 
                 if (num == 1) {
-                  validInput = player1.changeSymbol(cli.askForString(), player2);
+                  validInput = player1.changeSymbol(cli, player2);
                 } else {
-                  validInput = player2.changeSymbol(cli.askForString(), player1);
+                  validInput = player2.changeSymbol(cli, player1);
                 }
 
               } catch (IllegalArgumentException ex) {

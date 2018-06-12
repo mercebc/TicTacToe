@@ -20,6 +20,13 @@ public class GameTest {
   private ByteArrayOutputStream out;
   private PrintStream output;
 
+
+  private Cli mockCli(String mockInput) {
+    ByteArrayInputStream input = new ByteArrayInputStream(mockInput.getBytes());
+
+    return new Cli(input, output);
+  }
+
   @Before
   public void setUp() {
     out = new ByteArrayOutputStream();
@@ -32,24 +39,24 @@ public class GameTest {
 
   @Test
   public void Player1StartsFirst() {
-
-    game.whoStartsFirst(1);
+    Cli cli = mockCli("1");
+    game.whoStartsFirst(cli);
 
     assertThat(game.getPlayer1(), is (game.getCurrentPlayer()));
   }
 
   @Test
   public void Player2StartsFirst() {
-
-    game.whoStartsFirst(2);
+    Cli cli = mockCli("2");
+    game.whoStartsFirst(cli);
 
     assertThat(game.getPlayer2(), is (game.getCurrentPlayer()));
   }
 
   @Test
   public void NextPlayerIfPlayer1sTurn() {
-
-    game.whoStartsFirst(1);
+    Cli cli = mockCli("1");
+    game.whoStartsFirst(cli);
 
     assertThat(game.nextPlayer(), is (game.getPlayer2()));
 
@@ -57,8 +64,8 @@ public class GameTest {
 
   @Test
   public void NextPlayerIfPlayer2sTurn() {
-
-    game.whoStartsFirst(1);
+    Cli cli = mockCli("1");
+    game.whoStartsFirst(cli);
 
     game.setCurrentPlayer(game.nextPlayer());
 
@@ -79,19 +86,18 @@ public class GameTest {
 
   @Test
   public void PlayerChoosesToQuit() {
-
-    assertThat(game.playAgain(1), is (false));
+    Cli cli = mockCli("1");
+    assertThat(game.playAgain(cli), is (false));
   }
 
   @Test
   public void PlayerChoosesToPlayAgain() {
-
-    assertThat(game.playAgain(2), is (true));
+    Cli cli = mockCli("2");
+    assertThat(game.playAgain(cli), is (true));
   }
 
   @Test
   public void PlayersOptionHumanHuman() {
-
     game.createPlayers(1);
 
     assertThat(game.getPlayer1(), instanceOf(Human.class));
@@ -100,7 +106,6 @@ public class GameTest {
 
   @Test
   public void PlayersOptionHumanComputer() {
-
     game.createPlayers(2);
 
     assertThat(game.getPlayer1(), instanceOf(Human.class));
@@ -109,7 +114,6 @@ public class GameTest {
 
   @Test
   public void PlayersOptionComputerComputer() {
-
     game.createPlayers(3);
 
     assertThat(game.getPlayer1(), instanceOf(Computer.class));
@@ -129,6 +133,9 @@ public class GameTest {
 //    game.getBoard().setCell(6, "X");
 //    game.getBoard().setCell(7, "O");
 //    game.getBoard().setCell(8, "O");
+//
+//    Cli cli = mockCli("UserInput");
+//    String output = out.toString();
 //
 //    game.finalGameAnnouncements();
 //

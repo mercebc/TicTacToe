@@ -30,14 +30,14 @@ public abstract class Player {//Abstract class. Cannot be instantiated.
     this.symbol = symbol;
   }
 
-  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer, Cli cli) {
+  public int getSpot(Board board, Player player1, Player player2, Cli cli) {
     int spot = 0;
     return spot;
   }
 
-  public boolean changeName(String InputStream, Player player2) { return false; }
+  public boolean changeName(Cli cli, Player player2) { return false; }
 
-  public boolean changeSymbol(String InputStream, Player player2) { return false; }
+  public boolean changeSymbol(Cli cli, Player player2) { return false; }
 
 
 }

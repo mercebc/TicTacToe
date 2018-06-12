@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="players.HumanTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2018-06-11T22:34:53" hostname="Merces-MBP" time="0.021">
+<testsuite name="players.HumanTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2018-06-12T00:23:05" hostname="Merces-MBP" time="0.026">
   <properties/>
-  <testcase name="getSpotHumanValidated" classname="players.HumanTest" time="0.017"/>
-  <testcase name="ChangeNameItsDifferentThanTheOpponent" classname="players.HumanTest" time="0.0"/>
-  <testcase name="TrimsSymbolIfHasMoreThan1Char" classname="players.HumanTest" time="0.0"/>
+  <testcase name="getSpotHumanValidated" classname="players.HumanTest" time="0.021"/>
+  <testcase name="ChangeNameItsDifferentThanTheOpponent" classname="players.HumanTest" time="0.001"/>
+  <testcase name="TrimsSymbolIfHasMoreThan1Char" classname="players.HumanTest" time="0.001"/>
   <testcase name="CantChangeNameItsTheSameOneAsTheOpponent" classname="players.HumanTest" time="0.001"/>
-  <testcase name="ChangeSymbolItsDifferentThanTheOpponent" classname="players.HumanTest" time="0.0"/>
+  <testcase name="ChangeSymbolItsDifferentThanTheOpponent" classname="players.HumanTest" time="0.001"/>
   <testcase name="CantChangeSymbolItsTheSameOneAsTheOpponent" classname="players.HumanTest" time="0.001"/>
-  <system-out><![CDATA[Mary, please enter a number between 1 and 9 to allocate your symbol. Enter "h" for help.
+  <system-out><![CDATA[John, please enter a number between 1 and 9 to allocate your symbol. Enter "h" for help.
 Enter new name for John
 Name changed to Sophie
 Note: We have trimmed your Symbol as it can only contain one character

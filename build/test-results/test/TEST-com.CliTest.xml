@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.CliTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2018-06-11T22:34:53" hostname="Merces-MBP" time="0.009">
+<testsuite name="com.CliTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2018-06-12T00:23:05" hostname="Merces-MBP" time="0.012">
   <properties/>
-  <testcase name="betweenNumbers" classname="com.CliTest" time="0.001"/>
-  <testcase name="AnnounceIfCheckLine" classname="com.CliTest" time="0.005"/>
+  <testcase name="betweenNumbers" classname="com.CliTest" time="0.002"/>
+  <testcase name="AnnounceIfCheckLine" classname="com.CliTest" time="0.006"/>
   <testcase name="betweenNumbersOrHelpisHelp" classname="com.CliTest" time="0.001"/>
   <testcase name="betweenNumbersOrHelpisNumber" classname="com.CliTest" time="0.001"/>
-  <testcase name="AnnounceTieIfTieGame" classname="com.CliTest" time="0.0"/>
+  <testcase name="AnnounceTieIfTieGame" classname="com.CliTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

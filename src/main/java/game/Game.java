@@ -57,11 +57,12 @@ public class Game {
     return board;
   }
 
+
   public void initGame(){
 
     System.out.println("Enter \"1\" for " + player1.getName() + " to start or \"2\" for " + player2.getName() + " to start");//Player choose who starts the game
 
-    whoStartsFirst(cli.askForIntegerBetweenMinAndMax(1,2));
+    whoStartsFirst(cli);
 
     do {
       int spot = getSpot();
@@ -78,7 +79,7 @@ public class Game {
 
     System.out.println("Enter \"1\" to Quit or \"2\" to Play again");//Player choose who starts the game
 
-    playAgain(cli.askForIntegerBetweenMinAndMax(1,2));
+    playAgain(cli);
   }
 
   /** Initializes the game with player against computer. This is the default game if players haven't been changed */
@@ -92,21 +93,23 @@ public class Game {
 
   }
 
-  public void whoStartsFirst(int InputStream) {
+  public void whoStartsFirst(Cli cli) {
+
+    int inputStream = cli.askForIntegerBetweenMinAndMax(1,2);
 
     try{
-      if (InputStream == 1) {
+      if (inputStream == 1) {
         currentPlayer = player1;
-      } else if (InputStream == 2) {
+      } else if (inputStream == 2) {
         currentPlayer = player2;
       }
     } catch (IllegalArgumentException ex) {
       System.out.println(ex.getMessage());
-      whoStartsFirst(InputStream);//recursive call when there is an exception
+      whoStartsFirst(cli);//recursive call when there is an exception
 
     } catch (InputMismatchException ex) {
       System.out.println(ex.getMessage());
-      whoStartsFirst(InputStream);
+      whoStartsFirst(cli);
     }
 
   }
@@ -123,7 +126,7 @@ public class Game {
   /** Get the spot of the player that is playing */
   public int getSpot(){
 
-    return currentPlayer.getSpot(this.board, this.player1, this.player2, this.currentPlayer, this.cli);//get the spot of the player, Human and Computer have different methods for this
+    return currentPlayer.getSpot(this.board, this.player1, this.player2, this.cli);//get the spot of the player, Human and Computer have different methods for this
 
   }
 
@@ -150,22 +153,24 @@ public class Game {
   }
 
   /** Player want to play again */
-  public boolean playAgain(int InputStream) {
+  public boolean playAgain(Cli cli) {
+
+    Integer inputStream = cli.askForIntegerBetweenMinAndMax(1,2);
 
     try{
 
-      if (InputStream == 1) {
+      if (inputStream == 1) {
         return false;
-      } else if (InputStream == 2) {
+      } else if (inputStream == 2) {
         return true;
       }
     } catch (IllegalArgumentException ex) {
       System.out.println(ex.getMessage());
-      playAgain(InputStream);//recursive call when there is an exception
+      playAgain(cli);//recursive call when there is an exception
 
     } catch (InputMismatchException ex) {
       System.out.println(ex.getMessage());
-      playAgain(InputStream);
+      playAgain(cli);
     }
 
     return false;

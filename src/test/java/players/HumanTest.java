@@ -2,19 +2,24 @@ package players;
 
 import com.Cli;
 import game.Board;
+import game.Cell;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
 public class HumanTest {
   Player john = new Human("John", "J");
   Player tom = new Human("Tom", "T");
+  Board board = new Board();
+  int spot = 0;
 
   private ByteArrayOutputStream out;
   private PrintStream output;
@@ -35,43 +40,39 @@ public class HumanTest {
 
   @Test
   public void TrimsSymbolIfHasMoreThan1Char() {
-    john.changeSymbol("PO", tom);
+    Cli cli = mockCli("PO");
+    john.changeSymbol(cli, tom);
     assertThat (john.getSymbol(), is("P"));
   }
 
   @Test
   public void CantChangeSymbolItsTheSameOneAsTheOpponent() {
-
-    assertThat (john.changeSymbol("T", tom), is(false));
+    Cli cli = mockCli("T");
+    assertThat (john.changeSymbol(cli, tom), is(false));
   }
 
   @Test
   public void ChangeSymbolItsDifferentThanTheOpponent() {
-
-    assertThat (john.changeSymbol("S", tom), is(true));
+    Cli cli = mockCli("S");
+    assertThat (john.changeSymbol(cli, tom), is(true));
   }
 
   @Test
   public void CantChangeNameItsTheSameOneAsTheOpponent() {
-    assertThat (john.changeName("Tom", tom), is(false));
+    Cli cli = mockCli("Tom");
+    assertThat (john.changeName(cli, tom), is(false));
     assertThat ((john.getName()), is("John"));
   }
 
   @Test
   public void ChangeNameItsDifferentThanTheOpponent() {
-    assertThat (john.changeName("Sophie", tom), is(true));
+    Cli cli = mockCli("Sophie");
+    assertThat (john.changeName(cli, tom), is(true));
     assertThat ((john.getName()), is("Sophie"));
   }
 
   @Test
   public void getSpotHumanValidated() {
-
-    Board board = new Board();
-    Player player1 = new Human("Mary", "M");
-    Player player2 = new Computer("Computer", "X");
-    Player currentPlayer = player1;
-
-    int spot = 0;
 
     Cli cli = mockCli("2");
 
@@ -79,9 +80,25 @@ public class HumanTest {
 
     Cli cli1 = mockCli("2");
 
-    assertThat(currentPlayer.getSpot(board, player1, player2, currentPlayer, cli1), is(spot) );
+    assertThat(john.getSpot(board, john, tom, cli1), is(spot) );
 
   }
+
+//
+//  @Test
+//  public void SpotHumanNotValidated() {
+//
+//    board.setCell(2,"T");
+//
+//    Cli cli = mockCli("3");
+//
+//    john.getSpot(board, john, tom, cli);
+//
+//    assertThat(out.toString(), containsString("Enter a number that is not already used"));
+//
+//    Cli breakLoop = mockCli("2");
+//
+//  }
 
 //  public int getSpot(Board board, Player player1, Player player2, Player currentPlayer) {
 //
