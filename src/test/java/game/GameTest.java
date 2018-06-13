@@ -2,13 +2,16 @@ package game;
 
 import com.Cli;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import players.Computer;
 import players.Human;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.InputMismatchException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
@@ -34,7 +37,7 @@ public class GameTest {
   }
 
   Cli cli = new Cli(System.in, output);
-  Game game = new Game(cli);
+  Game game = new Game();
 
 
   @Test
@@ -120,48 +123,123 @@ public class GameTest {
     assertThat(game.getPlayer2(), instanceOf(Computer.class));
   }
 
-//  @Test
-//  public void FinalAnnouncemntsIsTie() {
-//    game.getBoard().setCell(0, "X");
-//    game.getBoard().setCell(1, "O");
-//    game.getBoard().setCell(2, "O");
-//
-//    game.getBoard().setCell(3, "O");
-//    game.getBoard().setCell(4, "X");
-//    game.getBoard().setCell(5, "X");
-//
-//    game.getBoard().setCell(6, "X");
-//    game.getBoard().setCell(7, "O");
-//    game.getBoard().setCell(8, "O");
-//
-//    Cli cli = mockCli("UserInput");
-//    String output = out.toString();
-//
-//    game.finalGameAnnouncements();
-//
-//    //assertThat(out.toString(), containsString(game.getPlayer1().getSymbol()));
-//    //assertThat(out.toString(), containsString(game.getPlayer2().getSymbol()));
-//    assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
-//  }
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
+  @Test
+  public void InputUserLetterWhenAskPlayerStartFirst() {
+    Cli cli = mockCli("a");
+    game.whoStartsFirst(cli);
+
+    assertThat(out.toString(), containsString("You can only input integers"));
+  }
+
+  @Test
+  public void InputUserNumHigherThanMaxWhenAskPlayerStartFirst() {
+    Cli cli = mockCli("5");
+    game.whoStartsFirst(cli);
+
+    assertThat(out.toString(), containsString("You can only input an integer between"));
+  }
+
+  @Test
+  public void InputUserCharWhenAskQuitOrPlay() {
+    Cli cli = mockCli("!");
+    game.playAgain(cli);
+
+    assertThat(out.toString(), containsString("You can only input integers"));
+  }
+
+  @Test
+  public void InputUserNumHigherThanMaxWhenAskQuitOrPlay() {
+    Cli cli = mockCli("3");
+    game.playAgain(cli);
+
+    assertThat(out.toString(), containsString("You can only input an integer between"));
+  }
+
+  @Test
+  public void FinalAnnouncemntsIsTie() {
+    game.getBoard().setCell(0, game.getPlayer1().getSymbol());
+    game.getBoard().setCell(1, game.getPlayer2().getSymbol());
+    game.getBoard().setCell(2, game.getPlayer2().getSymbol());
+
+    game.getBoard().setCell(3, game.getPlayer2().getSymbol());
+    game.getBoard().setCell(4, game.getPlayer1().getSymbol());
+    game.getBoard().setCell(5, game.getPlayer1().getSymbol());
+
+    game.getBoard().setCell(6, game.getPlayer1().getSymbol());
+    game.getBoard().setCell(7, game.getPlayer2().getSymbol());
+    game.getBoard().setCell(8, game.getPlayer2().getSymbol());
+
+    Cli cli = mockCli("UserInput");
+
+    game.finalGameAnnouncements(cli);
+
+    assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
+  }
+
+  @Test
+  public void FinalAnnouncemntsPlayer1Wins() {
+    game.getBoard().setCell(0, game.getPlayer1().getSymbol());
+    game.getBoard().setCell(1, game.getPlayer2().getSymbol());
+    game.getBoard().setCell(2, " ");
+
+    game.getBoard().setCell(3, game.getPlayer1().getSymbol());
+    game.getBoard().setCell(4, game.getPlayer2().getSymbol());
+    game.getBoard().setCell(5, game.getPlayer1().getSymbol());
+
+    game.getBoard().setCell(6, game.getPlayer1().getSymbol());
+    game.getBoard().setCell(7, " ");
+    game.getBoard().setCell(8, game.getPlayer2().getSymbol());
+
+    Cli cli = mockCli("UserInput");
+
+    game.finalGameAnnouncements(cli);
+
+    assertThat(out.toString(), containsString(game.getPlayer1().getName()));
+  }
+
+  @Test
+  public void FinalAnnouncemntsPlayer2Wins() {
+    game.getBoard().setCell(0, game.getPlayer1().getSymbol());
+    game.getBoard().setCell(1, game.getPlayer2().getSymbol());
+    game.getBoard().setCell(2, game.getPlayer2().getSymbol());
+
+    game.getBoard().setCell(3, game.getPlayer2().getSymbol());
+    game.getBoard().setCell(4, game.getPlayer1().getSymbol());
+    game.getBoard().setCell(5, game.getPlayer1().getSymbol());
+
+    game.getBoard().setCell(6, game.getPlayer2().getSymbol());
+    game.getBoard().setCell(7, game.getPlayer2().getSymbol());
+    game.getBoard().setCell(8, game.getPlayer2().getSymbol());
+
+    Cli cli = mockCli("UserInput");
+
+    game.finalGameAnnouncements(cli);
+
+    assertThat(out.toString(), containsString(game.getPlayer2().getName()));
+  }
 
   //TestInitGame
 
+//  public void initGame(Cli cli){
 //
-
-//  @Test
-//  public void AnnounceIfCheckLinePlayer1() {
-//    Cli cli = mockCliString("UserInput");
-//    cli.announceWinner(game.getPlayer1());
-//    assertThat(out.toString(), containsString("Congratulations! The winner is " + game.getPlayer1().getName()));
-//  }
+//    whoStartsFirst(cli);
 //
-//  @Test
-//  public void AnnounceIfCheckLinePlayer2() {
-//    Cli cli = mockCliString("UserInput");
-//    cli.announceWinner(game.getPlayer2);
-//    assertThat(out.toString(), containsString("Congratulations! The winner is " + game.getPlayer2().getName()));
+//    do {
+//      int spot = currentPlayer.getSpot(this.board, this.player1, this.player2, cli);//get the spot of the player, Human and Computer have different methods for this
+//
+//      setSpot(spot);
+//
+//      this.currentPlayer = nextPlayer(); //change players
+//
+//      cli.printBoard(board);
+//
+//    } while (!this.board.threeInLine(player1, player2) && !this.board.tie(player1, player2)); // repeat if not game-over
+//
+//    finalGameAnnouncements(cli);
+//
 //  }
-
-  //TestGetSpot
 
 }

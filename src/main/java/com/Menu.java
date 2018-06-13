@@ -4,6 +4,7 @@ import game.Game;
 import players.Computer;
 import players.Player;
 
+import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,76 +13,65 @@ public class Menu {
   Game game;
   Cli cli;
 
-  Player player1;
-  Player player2;
-  Player currentPlayer;
-
-  Scanner input = new Scanner(System.in);
-
   public Menu(Game game, Cli cli) {
 
     this.game = game;
     this.cli = cli;
-    this.player1 = game.getPlayer1();
-    this.player2 = game.getPlayer2();
-    this.currentPlayer = game.getCurrentPlayer();
+
   }
 
-  public void showMenu(){
 
-    boolean validEntry = false;
+  public int showMenu(){
+
     int maxvalue;
+    int choiceEntry = -1;
 
-    do {
-      if (player1 instanceof Computer) {
-        System.out.println("Enter \"1\" to watch a computer battle, \"2\" to Choose game mode");
+      if (game.getPlayer1() instanceof Computer) {
+        cli.printMessage("Enter \"1\" to watch a computer battle, \"2\" to Choose game mode");
         maxvalue = 2;
       } else {
-        System.out.println("Enter \"1\" to Play, \"2\" to Choose game mode, \"3\" to Change names or \"4\" to Change symbols");
+        cli.printMessage("Enter \"1\" to Play, \"2\" to Choose game mode, \"3\" to Change names or \"4\" to Change symbols");
         maxvalue = 4;
       }
       //Validate the input
       try {
+        choiceEntry = cli.askForIntegerBetweenMinAndMax(1,maxvalue);
 
-        showOptions(cli.askForIntegerBetweenMinAndMax(1,maxvalue));
-        validEntry = true;
+        showOptions(choiceEntry, cli);
 
       } catch (IllegalArgumentException ex) {//catch the exceptions
-        System.out.println(ex.getMessage());
-        validEntry = false; //to loop
+        cli.printMessage(ex.getMessage());
+        showMenu(); //to loop
 
       } catch (InputMismatchException ex) {
-        System.out.println(ex.getMessage());
-        input.next();//to lose the value as it is not valid
-        validEntry = false;
+        cli.printMessage(ex.getMessage());
+        showMenu();
       }
-    } while (!validEntry);//keeps looping until validEntry is valid(true)
-
+    return choiceEntry;
   }
 
 
-  public void showOptions(int choiceEntry){
+  public void showOptions(int choiceEntry, Cli cli){
 
-    boolean validInput = false;
-
-      switch (choiceEntry) {
+     switch (choiceEntry) {
 
         case 1:
-          do{
-          validInput = true;
 
-          this.game.initGame();
+          this.game.initGame(cli);
 
           if(this.game.playAgain(cli)){
-            showOptions(1);
+            showMenu();
+          }else{
+            cli.farewell();
           };
-          } while (!validInput) ;
+
           break;
 
 
         case 2:
-          do{
+
           System.out.println("Enter \"1\" to play against another Player or \"2\" to play against the Computer or \"3\" to watch Computer playing against Computer");
+
           try {
 
             int type = cli.askForIntegerBetweenMinAndMax(1,3);
@@ -89,95 +79,94 @@ public class Menu {
             this.game.createPlayers(type);
 
             if (type == 1 || type == 2) {
-              System.out.println("You are playing against " + player2.getName());//notifies the player
+              cli.printMessage("You are playing against " + game.getPlayer2().getName());//notifies the player
             }
-
-            validInput = true;
 
             showMenu();
 
           } catch (IllegalArgumentException ex) {
-            System.out.println(ex.getMessage());
-            validInput = false;
+            cli.printMessage(ex.getMessage());
+            showOptions(2, cli);
 
           } catch (InputMismatchException ex) {
-            System.out.println(ex.getMessage());
-            validInput = false;
-            input.next();
+            cli.printMessage(ex.getMessage());
+            showOptions(2, cli);
           }
-          } while (!validInput) ;
+
           break;
 
 
         case 3:
-          do{
-          if (player2 instanceof Computer && !(player1 instanceof Computer)) {//when playing against the Computer, won't show to change name for Computer.
-            //when playing computer against computer, wont show to change name for Computers.
-            validInput = player1.changeName(cli, player2);
 
-          } else if (player1 instanceof Computer && player2 instanceof Computer) {
-            System.out.println("You can't change the name of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
-            validInput = true;
+          if (game.getPlayer2() instanceof Computer && !(game.getPlayer1() instanceof Computer)) {//when human against the Computer, won't show to change name for Computer.
+            //when playing computer against computer, wont show to change name for Computers.
+            game.getPlayer1().changeName(cli, game.getPlayer2());
+
+            showMenu();
+
+          } else if (game.getPlayer1() instanceof Computer && game.getPlayer2() instanceof Computer) {
+            cli.printMessage("You can't change the name of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
 
           } else {//when playing against player, you can change both names
-            System.out.println("Enter \"1\" to change " + player1.getName() + "'s name or \"2\" to change " + player2.getName() + "'s name");
+            cli.printMessage("Enter \"1\" to change " + game.getPlayer1().getName() + "'s name or \"2\" to change " + game.getPlayer2().getName() + "'s name");
 
             try {
-              int num = cli.askForIntegerBetweenMinAndMax(1,2);
+              int num = cli.askForIntegerBetweenMinAndMax(1, 2);
 
               if (num == 1) {
-                validInput = player1.changeName(cli, player2);//Returns true if has been successfully executed
+                game.getPlayer1().changeName(cli, game.getPlayer2());
+
               } else {
-                validInput = player2.changeName(cli, player1);
-              }
+                game.getPlayer2().changeName(cli, game.getPlayer1());
+               }
+
+               showMenu();
 
             } catch (IllegalArgumentException ex) {
-              System.out.println(ex.getMessage());
-              validInput = false;
+              cli.printMessage(ex.getMessage());
+              showOptions(3, cli);
 
             } catch (InputMismatchException ex) {
-              System.out.println(ex.getMessage());
-              validInput = false;
-              input.next();
+              cli.printMessage(ex.getMessage());
+              showOptions(3, cli);
             }
-
           }
-          } while (!validInput) ;
+
           break;
 
         case 4:
-          do {
-            if (player2 instanceof Computer) {
-              System.out.println("Enter new symbol for " + player1.getName());
-              validInput = player1.changeSymbol(cli, player2);
+            if (game.getPlayer2() instanceof Computer && !(game.getPlayer1() instanceof Computer)) {
+              game.getPlayer1().changeSymbol(cli, game.getPlayer2());
 
-            } else if (player1 instanceof Computer && player2 instanceof Computer) {
-              System.out.println("You can't change the symbol of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
-              validInput = true;
+              showMenu();
+
+            } else if (game.getPlayer1() instanceof Computer && game.getPlayer2() instanceof Computer) {
+              cli.printMessage("You can't change the symbol of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
 
             } else {
-              System.out.println("Enter \"1\" to change " + player1.getName() + "'s symbol or \"2\" to change " + player2.getName() + "'s symbol");
+              cli.printMessage("Enter \"1\" to change " + game.getPlayer1().getName() + "'s symbol or \"2\" to change " + game.getPlayer2().getName() + "'s symbol");
 
               try {
                 int num = cli.askForIntegerBetweenMinAndMax(1, 2);
 
                 if (num == 1) {
-                  validInput = player1.changeSymbol(cli, player2);
+                  game.getPlayer1().changeSymbol(cli, game.getPlayer2());
                 } else {
-                  validInput = player2.changeSymbol(cli, player1);
+                  game.getPlayer2().changeSymbol(cli, game.getPlayer1());
                 }
 
+                showMenu();
+
               } catch (IllegalArgumentException ex) {
-                System.out.println(ex.getMessage());
-                validInput = false;
+                cli.printMessage(ex.getMessage());
+                showOptions(4, cli);
 
               } catch (InputMismatchException ex) {
-                System.out.println(ex.getMessage());
-                validInput = false;
-                input.next();
+                cli.printMessage(ex.getMessage());
+                showOptions(4, cli);
               }
             }
-          } while (!validInput) ;
+
           break;
 
       }

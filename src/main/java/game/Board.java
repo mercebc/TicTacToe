@@ -66,4 +66,11 @@ public class Board {
   public boolean tie(Player player1, Player player2) {
     return (cells.stream().allMatch(t -> (t.belongsTo(player1) || t.belongsTo(player2))) && !threeInLine(player1,player2));
   }
+
+  public void clearBoard(){
+    for (int i = 0; i < this.capacity; i++) {
+      this.getCell(i).setValue(" ");
+    }
+  }
+
 }

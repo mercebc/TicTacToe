@@ -167,12 +167,19 @@ public class BoardTest {
 
   }
 
+  @Test
+  public void emptyBoard() {
 
+    double isEmpty = 0;
+    board.clearBoard();
 
-  //  public double getCapacity() { return capacity; }
-//
-//  public List<Cell> getCells() {
-//    return cells;
-//  }
+    for (int i = 0; i < board.getCapacity(); i++) {
+      if(board.getCell(i).getValue().equals(" ")){
+        isEmpty = isEmpty + 1;
+      }
+    }
+
+    assertThat(isEmpty, is(board.getCapacity()));
+  }
 
 }

@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="players.HumanTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2018-06-12T08:07:55" hostname="Merces-MBP" time="0.04">
+<testsuite name="players.HumanTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2018-06-13T11:46:17" hostname="Merces-MacBook-Pro.local" time="0.032">
   <properties/>
-  <testcase name="getSpotHumanValidated" classname="players.HumanTest" time="0.02"/>
-  <testcase name="ChangeNameItsDifferentThanTheOpponent" classname="players.HumanTest" time="0.001"/>
-  <testcase name="TrimsSymbolIfHasMoreThan1Char" classname="players.HumanTest" time="0.0"/>
-  <testcase name="CantChangeSymbolItsSpace" classname="players.HumanTest" time="0.013"/>
+  <testcase name="getSpotHumanValidated" classname="players.HumanTest" time="0.015"/>
+  <testcase name="CantChangeNameItsSpace" classname="players.HumanTest" time="0.011"/>
+  <testcase name="ChangeNameItsDifferentThanTheOpponent" classname="players.HumanTest" time="0.0"/>
+  <testcase name="TrimsSymbolIfHasMoreThan1Char" classname="players.HumanTest" time="0.001"/>
+  <testcase name="CantChangeSymbolItsSpace" classname="players.HumanTest" time="0.001"/>
   <testcase name="CantChangeNameItsTheSameOneAsTheOpponent" classname="players.HumanTest" time="0.001"/>
-  <testcase name="ChangeSymbolItsDifferentThanTheOpponent" classname="players.HumanTest" time="0.001"/>
-  <testcase name="CantChangeSymbolItsTheSameOneAsTheOpponent" classname="players.HumanTest" time="0.001"/>
-  <system-out><![CDATA[John, please enter a number between 1 and 9 to allocate your symbol. Enter "h" for help.
+  <testcase name="ChangeSymbolItsDifferentThanTheOpponent" classname="players.HumanTest" time="0.0"/>
+  <testcase name="CantChangeSymbolItsTheSameOneAsTheOpponent" classname="players.HumanTest" time="0.0"/>
+  <system-out><![CDATA[Enter new name for John
 Enter new name for John
-Name changed to Sophie
-Note: We have trimmed your Symbol as it can only contain one character
-Symbol changed to P
-Enter new name for John
-Enter new name for John
-The name you are trying to change is the same one as your opponent's name: Tom
-Symbol changed to S
-The symbol you are trying to change is the same one as your opponent's symbol: Tom
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

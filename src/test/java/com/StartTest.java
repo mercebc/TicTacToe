@@ -8,7 +8,7 @@ public class StartTest {
 
 
     Cli cli = new Cli(System.in, System.out);
-    Game game = new Game(cli);
+    Game game = new Game();
     Menu menu = new Menu(game, cli);
 
     menu.showMenu();

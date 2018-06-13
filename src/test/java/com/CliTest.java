@@ -12,10 +12,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 
 public class CliTest {
@@ -127,7 +127,7 @@ public class CliTest {
   @Test
   public void userInputEmptyString() {
     Cli cli = mockCli(" ");
-    thrown.expect(InputMismatchException.class);
+    thrown.expect(NoSuchElementException.class);
     thrown.expectMessage(containsString("You can only input characters."));
 
     cli.askForString();
@@ -150,5 +150,13 @@ public class CliTest {
     assertThat(out.toString(), containsString("O |   | O"));
     assertThat(out.toString(), containsString("X |   | X"));
 
+  }
+
+  @Test
+  public void PrintsMessage() {
+    Cli cli = mockCli("UserInput");
+    cli.printMessage("Printed");
+
+    assertThat(out.toString(), containsString("Printed"));
   }
 }

@@ -13,9 +13,9 @@ public class PlayerFactory {
 
   public Player player2(String gameOption) {
     if(gameOption.equalsIgnoreCase("HUMAN-COMPUTER") || gameOption.equalsIgnoreCase("COMPUTER-COMPUTER")){
-      return new Computer("Computer", "O");
+      return new Computer("Computer", "L");
     }
-    return new Human("Player 2", "X");
+    return new Human("Player 2", "D");
   }
 
 }

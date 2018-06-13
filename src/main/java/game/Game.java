@@ -6,13 +6,11 @@ import players.Player;
 
 import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 
 public class Game {
 
   private Board board;
-  private Cli cli;
   private PlayerFactory playerFactory;
   private HashMap<Integer, String> gameOptions;
 
@@ -20,11 +18,8 @@ public class Game {
   private Player player2;
   private Player currentPlayer;
 
-  public static Scanner input = new Scanner(System.in);
+  public Game(){
 
-  public Game(Cli cli){
-
-    this.cli = cli;
     this.board = new Board();
 
     this.playerFactory = new PlayerFactory();
@@ -58,14 +53,12 @@ public class Game {
   }
 
 
-  public void initGame(){
-
-    System.out.println("Enter \"1\" for " + player1.getName() + " to start or \"2\" for " + player2.getName() + " to start");//Player choose who starts the game
+  public void initGame(Cli cli){
 
     whoStartsFirst(cli);
 
     do {
-      int spot = getSpot();
+      int spot = currentPlayer.getSpot(this.board, this.player1, this.player2, cli);//get the spot of the player, Human and Computer have different methods for this
 
       setSpot(spot);
 
@@ -75,11 +68,8 @@ public class Game {
 
     } while (!this.board.threeInLine(player1, player2) && !this.board.tie(player1, player2)); // repeat if not game-over
 
-    finalGameAnnouncements();
+    finalGameAnnouncements(cli);
 
-    System.out.println("Enter \"1\" to Quit or \"2\" to Play again");//Player choose who starts the game
-
-    playAgain(cli);
   }
 
   /** Initializes the game with player against computer. This is the default game if players haven't been changed */
@@ -95,23 +85,25 @@ public class Game {
 
   public void whoStartsFirst(Cli cli) {
 
-    int inputStream = cli.askForIntegerBetweenMinAndMax(1,2);
+    cli.printMessage("Enter \"1\" for " + player1.getName() + " to start or \"2\" for " + player2.getName() + " to start");//Player choose who starts the game
 
     try{
-      if (inputStream == 1) {
+
+      int num = cli.askForIntegerBetweenMinAndMax(1,2);
+
+      if (num == 1) {
         currentPlayer = player1;
-      } else if (inputStream == 2) {
+      } else {
         currentPlayer = player2;
       }
     } catch (IllegalArgumentException ex) {
-      System.out.println(ex.getMessage());
-      whoStartsFirst(cli);//recursive call when there is an exception
+      cli.printMessage(ex.getMessage());
+       //whoStartsFirst(cli);//recursive call when there is an exception
 
     } catch (InputMismatchException ex) {
-      System.out.println(ex.getMessage());
-      whoStartsFirst(cli);
+      cli.printMessage(ex.getMessage());
+      //whoStartsFirst(cli);
     }
-
   }
 
   /** Change the player that is playing */
@@ -123,12 +115,6 @@ public class Game {
     }
   }
 
-  /** Get the spot of the player that is playing */
-  public int getSpot(){
-
-    return currentPlayer.getSpot(this.board, this.player1, this.player2, this.cli);//get the spot of the player, Human and Computer have different methods for this
-
-  }
 
   /** Set the spot that the player has chosen */
   public void setSpot(int spot){
@@ -138,7 +124,7 @@ public class Game {
   }
 
   /** Final Game Announcements */
-  public void finalGameAnnouncements(){
+  public void finalGameAnnouncements(Cli cli){
     if(this.board.tie(player1, player2)){
       cli.announceTie();
     }
@@ -155,25 +141,29 @@ public class Game {
   /** Player want to play again */
   public boolean playAgain(Cli cli) {
 
-    Integer inputStream = cli.askForIntegerBetweenMinAndMax(1,2);
+    cli.printMessage("Enter \"1\" to Quit or \"2\" to Play again");//Player choose who starts the game
+
+    boolean playAgain = false;
 
     try{
 
-      if (inputStream == 1) {
-        return false;
-      } else if (inputStream == 2) {
-        return true;
+      int num = cli.askForIntegerBetweenMinAndMax(1,2);
+
+      if (num == 1) {
+        playAgain = false;
+      } else {
+        this.board.clearBoard();
+        playAgain = true;
       }
     } catch (IllegalArgumentException ex) {
-      System.out.println(ex.getMessage());
-      playAgain(cli);//recursive call when there is an exception
+      cli.printMessage(ex.getMessage());
+      //playAgain(cli);//recursive call when there is an exception
 
     } catch (InputMismatchException ex) {
-      System.out.println(ex.getMessage());
-      playAgain(cli);
+      cli.printMessage(ex.getMessage());
+      //playAgain(cli);
     }
-
-    return false;
+    return playAgain;
   }
 
 }
