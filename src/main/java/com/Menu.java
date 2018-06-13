@@ -62,7 +62,7 @@ public class Menu {
           if(this.game.playAgain(cli)){
             showMenu();
           }else{
-            cli.farewell();
+            cli.printMessage("Thanks for playing, see you soon!");
           };
 
           break;

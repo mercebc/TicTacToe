@@ -111,6 +111,16 @@ public class HumanTest {
 
   }
 
+//  @Test
+//  public void spotGreaterThanMax() {
+//
+//    Cli cli1 = mockCli("10");
+//    john.getSpot(board, john, tom, cli1);
+//
+//    assertThat(out.toString(), containsString("You can only input integers"));
+//
+//  }
+
 }
 
 //testValidateSpot

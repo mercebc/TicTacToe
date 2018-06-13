@@ -21,10 +21,6 @@ public class Cli {
     this.input = new Scanner(inputStream);
   }
 
-  public PrintStream getOutput() {
-    return output;
-  }
-
   public int askForIntegerBetweenMinAndMax(int min, int max){
     int num;
 
@@ -43,7 +39,6 @@ public class Cli {
     }
 
   }
-
 
   public int askForIntegerOrHelpBetweenMinAndMax(int min, int max){
     int spot = 0;
@@ -100,11 +95,6 @@ public class Cli {
         + " | " + board.getCell(4).getValue() + " | " + board.getCell(5).getValue() + "\n===+===+===\n" + " " + board.getCell(6).getValue() + " | " + board.getCell(7).getValue() + " | " + board.getCell(8).getValue() + "\n"); // print all the board cells
   }
 
-
-  /** Messages */
-  public void farewell() {
-    output.println("Thanks for playing, see you soon!");
-  }
 
   /** Messages */
   public void printMessage(String message) {

@@ -41,11 +41,11 @@ public class Human extends Player {
     }
       catch (InputMismatchException ex) {
         cli.printMessage(ex.getMessage());
-        getHumanSpot(cli);
+       //getHumanSpot(cli);
       }
       catch (IllegalArgumentException ex) {
         cli.printMessage(ex.getMessage());
-        getHumanSpot(cli);
+        //getHumanSpot(cli);
       }
     return spot;
   }

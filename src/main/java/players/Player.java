@@ -39,5 +39,4 @@ public abstract class Player {//Abstract class. Cannot be instantiated.
 
   public void changeSymbol(Cli cli, Player player2) { }
 
-
 }
