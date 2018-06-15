@@ -53,6 +53,7 @@ public class HumanTest {
   public void CantChangeSymbolItsTheSameOneAsTheOpponent() {
     Cli cli = mockCli("T");
     john.changeSymbol(cli, tom);
+    assertThat(out.toString(), containsString("The symbol you are trying to change is the same"));
     assertThat (john.getSymbol(), is("J"));
   }
 
@@ -66,7 +67,8 @@ public class HumanTest {
   @Test
   public void CantChangeNameItsTheSameOneAsTheOpponent() {
     Cli cli = mockCli("Tom");
-    john.changeSymbol(cli, tom);
+    john.changeName(cli, tom);
+    assertThat(out.toString(), containsString("The name you are trying to change is the same"));
     assertThat ((john.getName()), is("John"));
   }
 
@@ -87,7 +89,7 @@ public class HumanTest {
     thrown.expectMessage(containsString("You can only input characters."));
 
     john.changeSymbol(cli, tom);
-  }
+}
 
   @Test
   public void CantChangeNameItsSpace() {
@@ -96,7 +98,7 @@ public class HumanTest {
     thrown.expectMessage(containsString("You can only input characters."));
 
     john.changeName(cli, tom);
-  }
+ }
 
   @Test
   public void getSpotHumanValidated() {
@@ -111,18 +113,20 @@ public class HumanTest {
 
   }
 
-//  @Test
-//  public void spotGreaterThanMax() {
-//
-//    Cli cli1 = mockCli("10");
-//    john.getSpot(board, john, tom, cli1);
-//
-//    assertThat(out.toString(), containsString("You can only input integers"));
-//
-//  }
+  @Test
+  public void spotLetter() {
+    Cli cli = mockCli("p\n2");
+    john.getSpot(board, john, tom, cli);
+
+    assertThat(out.toString(), containsString("You can only input integers"));
+  }
+
+  @Test
+  public void spotGreaterThanMax() {
+    Cli cli = mockCli("10\n1");
+    john.getSpot(board, john, tom, cli);
+
+    assertThat(out.toString(), containsString("You can only input an integer between"));
+  }
 
 }
-
-//testValidateSpot
-
-//testGetSpot

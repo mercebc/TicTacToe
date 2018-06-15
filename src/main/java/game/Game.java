@@ -98,11 +98,11 @@ public class Game {
       }
     } catch (IllegalArgumentException ex) {
       cli.printMessage(ex.getMessage());
-      //whoStartsFirst(cli);//recursive call when there is an exception
+      whoStartsFirst(cli);//recursive call when there is an exception
 
     } catch (InputMismatchException ex) {
       cli.printMessage(ex.getMessage());
-      //whoStartsFirst(cli);
+      whoStartsFirst(cli);
     }
   }
 
@@ -157,11 +157,11 @@ public class Game {
       }
     } catch (IllegalArgumentException ex) {
       cli.printMessage(ex.getMessage());
-      //playAgain(cli);//recursive call when there is an exception
+      playAgain(cli);//recursive call when there is an exception
 
     } catch (InputMismatchException ex) {
       cli.printMessage(ex.getMessage());
-      //playAgain(cli);
+      playAgain(cli);
     }
     return playAgain;
   }

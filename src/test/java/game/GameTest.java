@@ -127,32 +127,36 @@ public class GameTest {
   public ExpectedException thrown = ExpectedException.none();
 
   @Test
-  public void InputUserLetterWhenAskPlayerStartFirst() {
-    Cli cli = mockCli("a");
+  public void InputUserLetterWhenAskPlayerStartFirstThenPlayer1() {
+    Cli cli = mockCli("a\n1");
     game.whoStartsFirst(cli);
 
     assertThat(out.toString(), containsString("You can only input integers"));
+    assertThat(game.getPlayer1(), is (game.getCurrentPlayer()));
+
   }
 
   @Test
-  public void InputUserNumHigherThanMaxWhenAskPlayerStartFirst() {
-    Cli cli = mockCli("5");
+  public void InputUserNumHigherThanMaxWhenAskPlayerStartFirstThenPlayer2() {
+    Cli cli = mockCli("5\n2");
     game.whoStartsFirst(cli);
 
     assertThat(out.toString(), containsString("You can only input an integer between"));
+    assertThat(game.getPlayer2(), is (game.getCurrentPlayer()));
+
   }
 
   @Test
-  public void InputUserCharWhenAskQuitOrPlay() {
-    Cli cli = mockCli("!");
+  public void InputUserCharWhenAskQuitOrPlayThenQuit() {
+    Cli cli = mockCli("!\n1");
     game.playAgain(cli);
 
     assertThat(out.toString(), containsString("You can only input integers"));
   }
 
   @Test
-  public void InputUserNumHigherThanMaxWhenAskQuitOrPlay() {
-    Cli cli = mockCli("3");
+  public void InputUserNumHigherThanMaxWhenAskQuitOrPlayThenStartAgain() {
+    Cli cli = mockCli("3\n2");
     game.playAgain(cli);
 
     assertThat(out.toString(), containsString("You can only input an integer between"));
