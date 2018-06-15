@@ -4,7 +4,7 @@ import com.Cli;
 import game.Board;
 
 import java.util.InputMismatchException;
-
+import java.util.NoSuchElementException;
 
 
 public class Human extends Player {
@@ -20,9 +20,8 @@ public class Human extends Player {
     int spot;
 
     do{
-      cli.printMessage(this.getName() + ", please enter a number between 1 and 9 to allocate your symbol. Enter \"h\" for help.\n");
-
       spot = getHumanSpot(cli);
+
     }while (spot == -1);
 
     if(validateSpot (board, spot, player1, player2, cli)) {
@@ -35,17 +34,17 @@ public class Human extends Player {
   private int getHumanSpot(Cli cli) {
     int spot = -1;
     try {
+      cli.printMessage(this.getName() + ", please enter a number between 1 and 9 to allocate your symbol. Enter \"h\" for help.\n");
 
-        spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, 9) - 1;
-
+      spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, 9) - 1;
     }
       catch (InputMismatchException ex) {
         cli.printMessage(ex.getMessage());
-       //getHumanSpot(cli);
+        spot = getHumanSpot(cli);
       }
       catch (IllegalArgumentException ex) {
         cli.printMessage(ex.getMessage());
-        //getHumanSpot(cli);
+        spot = getHumanSpot(cli);
       }
     return spot;
   }
@@ -53,8 +52,7 @@ public class Human extends Player {
   public void changeName(Cli cli, Player opponent) {
     System.out.println("Enter new name for " + this.getName());
 
-    try {
-      String name = cli.askForString();
+    String name = cli.askForString();
 
       if (checkOpponentName(opponent, name)) {//if new name is not the same as the other player's name
         this.setName(name);//change name
@@ -62,10 +60,7 @@ public class Human extends Player {
       } else {
         cli.printMessage("The name you are trying to change is the same one as your opponent's name: " + opponent.getName());
       }
-    }catch (InputMismatchException ex) {
-        cli.printMessage(ex.getMessage());
-        changeName(cli, opponent);
-    }
+
   }
 
   private boolean checkOpponentName(Player opponent, String name) {
@@ -75,8 +70,7 @@ public class Human extends Player {
   public void changeSymbol(Cli cli, Player opponent) {
     cli.printMessage("Enter new symbol for " + this.getName());
 
-    try{
-      String symbol = cli.askForString();
+    String symbol = cli.askForString();
 
       if(symbol.length() > 1) {//if input is more than one character, trim and inform user
         symbol = trimSymbol(symbol, cli);
@@ -88,10 +82,6 @@ public class Human extends Player {
       }else{
         cli.printMessage("The symbol you are trying to change is the same one as your opponent's symbol: " + opponent.getName());
       }
-    }catch (InputMismatchException ex) {
-      cli.printMessage(ex.getMessage());
-      changeSymbol(cli, opponent);
-    }
   }
 
   private boolean checkOpponentSymbol(Player opponent, String symbol) {

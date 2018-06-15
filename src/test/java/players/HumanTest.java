@@ -79,27 +79,6 @@ public class HumanTest {
     assertThat ((john.getName()), is("Sophie"));
   }
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
-  @Test
-  public void CantChangeSymbolItsSpace() {
-    Cli cli = mockCli(" ");
-    thrown.expect(NoSuchElementException.class);
-    thrown.expectMessage(containsString("You can only input characters."));
-
-    john.changeSymbol(cli, tom);
-}
-
-  @Test
-  public void CantChangeNameItsSpace() {
-    Cli cli = mockCli(" ");
-    thrown.expect(NoSuchElementException.class);
-    thrown.expectMessage(containsString("You can only input characters."));
-
-    john.changeName(cli, tom);
- }
-
   @Test
   public void getSpotHumanValidated() {
 
@@ -115,7 +94,7 @@ public class HumanTest {
 
   @Test
   public void spotLetter() {
-    Cli cli = mockCli("p\n2");
+    Cli cli = mockCli("p\np\n2");
     john.getSpot(board, john, tom, cli);
 
     assertThat(out.toString(), containsString("You can only input integers"));
@@ -129,4 +108,17 @@ public class HumanTest {
     assertThat(out.toString(), containsString("You can only input an integer between"));
   }
 
+
+  @Test
+  public void numberAlreadyUsed() {
+
+    board.setCell(7,"J");//position 7 in the board equals to 8 position for the user input
+
+    Cli cli = mockCli("8\n1");
+    john.getSpot(board, john, tom, cli);
+
+    assertThat(out.toString(), containsString("Enter a number that is not already used"));
+  }
+
 }
+
