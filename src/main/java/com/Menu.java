@@ -27,11 +27,11 @@ public class Menu {
     int choiceEntry = -1;
 
       if (game.getPlayer1() instanceof Computer) {
-        cli.printMessage("Enter \"1\" to watch a computer battle, \"2\" to Choose game mode");
-        maxvalue = 2;
+        cli.printMessage("Enter \"1\" to watch a computer battle, \"2\" to Choose game mode or \"3\" to Exit");
+        maxvalue = 3;
       } else {
-        cli.printMessage("Enter \"1\" to Play, \"2\" to Choose game mode, \"3\" to Change names or \"4\" to Change symbols");
-        maxvalue = 4;
+        cli.printMessage("Enter \"1\" to Play, \"2\" to Choose game mode, \"3\" to Change names, \"4\" to Change symbols or \"5\" to Exit");
+        maxvalue = 5;
       }
       //Validate the input
       try {
@@ -62,7 +62,7 @@ public class Menu {
           if(this.game.playAgain(cli)){
             showMenu();
           }else{
-            cli.printMessage("Thanks for playing, see you soon!");
+            game.quit(cli);
           };
 
           break;
@@ -86,11 +86,11 @@ public class Menu {
 
           } catch (IllegalArgumentException ex) {
             cli.printMessage(ex.getMessage());
-            showOptions(2, cli);
+            showOptions(choiceEntry, cli);
 
           } catch (InputMismatchException ex) {
             cli.printMessage(ex.getMessage());
-            showOptions(2, cli);
+            showOptions(choiceEntry, cli);
           }
 
           break;
@@ -100,12 +100,11 @@ public class Menu {
 
           if (game.getPlayer2() instanceof Computer && !(game.getPlayer1() instanceof Computer)) {//when human against the Computer, won't show to change name for Computer.
             //when playing computer against computer, wont show to change name for Computers.
-            game.getPlayer1().changeName(cli, game.getPlayer2());
-
-            showMenu();
-
-          } else if (game.getPlayer1() instanceof Computer && game.getPlayer2() instanceof Computer) {
-            cli.printMessage("You can't change the name of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
+            if(game.getPlayer1().changeName(cli, game.getPlayer2())){
+              showMenu();
+            }else{
+              showOptions(choiceEntry, cli);
+            };
 
           } else {//when playing against player, you can change both names
             cli.printMessage("Enter \"1\" to change " + game.getPlayer1().getName() + "'s name or \"2\" to change " + game.getPlayer2().getName() + "'s name");
@@ -114,21 +113,27 @@ public class Menu {
               int num = cli.askForIntegerBetweenMinAndMax(1, 2);
 
               if (num == 1) {
-                game.getPlayer1().changeName(cli, game.getPlayer2());
-
+                if(game.getPlayer1().changeName(cli, game.getPlayer2())){
+                  showMenu();
+                }else{
+                  showOptions(choiceEntry, cli);
+                };
               } else {
-                game.getPlayer2().changeName(cli, game.getPlayer1());
-               }
+                if(game.getPlayer2().changeName(cli, game.getPlayer1())){
+                  showMenu();
+                }else{
+                  showOptions(choiceEntry, cli);
+                };
 
-               showMenu();
+              }
 
             } catch (IllegalArgumentException ex) {
               cli.printMessage(ex.getMessage());
-              showOptions(3, cli);
+              showOptions(choiceEntry, cli);
 
             } catch (InputMismatchException ex) {
               cli.printMessage(ex.getMessage());
-              showOptions(3, cli);
+              showOptions(choiceEntry, cli);
             }
           }
 
@@ -140,9 +145,6 @@ public class Menu {
 
               showMenu();
 
-            } else if (game.getPlayer1() instanceof Computer && game.getPlayer2() instanceof Computer) {
-              cli.printMessage("You can't change the symbol of the Computer");//the code allows you to change it as it has a method for it, but I'm not implementing it in my game
-
             } else {
               cli.printMessage("Enter \"1\" to change " + game.getPlayer1().getName() + "'s symbol or \"2\" to change " + game.getPlayer2().getName() + "'s symbol");
 
@@ -150,23 +152,33 @@ public class Menu {
                 int num = cli.askForIntegerBetweenMinAndMax(1, 2);
 
                 if (num == 1) {
-                  game.getPlayer1().changeSymbol(cli, game.getPlayer2());
+                  if(game.getPlayer1().changeSymbol(cli, game.getPlayer2())){
+                    showMenu();
+                  }else{
+                    showOptions(choiceEntry, cli);
+                  };
                 } else {
-                  game.getPlayer2().changeSymbol(cli, game.getPlayer1());
+                  if(game.getPlayer2().changeSymbol(cli, game.getPlayer1())){
+                    showMenu();
+                  }else{
+                    showOptions(choiceEntry, cli);
+                  };
                 }
-
-                showMenu();
 
               } catch (IllegalArgumentException ex) {
                 cli.printMessage(ex.getMessage());
-                showOptions(4, cli);
+                showOptions(choiceEntry, cli);
 
               } catch (InputMismatchException ex) {
                 cli.printMessage(ex.getMessage());
-                showOptions(4, cli);
+                showOptions(choiceEntry, cli);
               }
             }
 
+          break;
+
+       case 5:
+          game.quit(cli);
           break;
 
       }

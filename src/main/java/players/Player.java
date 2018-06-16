@@ -3,8 +3,6 @@ package players;
 import com.Cli;
 import game.Board;
 
-import java.util.Scanner;
-
 public abstract class Player {//Abstract class. Cannot be instantiated.
   private String name;
   private String symbol;
@@ -35,8 +33,8 @@ public abstract class Player {//Abstract class. Cannot be instantiated.
     return spot;
   }
 
-  public void changeName(Cli cli, Player player2) { }
+  public boolean changeName(Cli cli, Player player2) { return false;}
 
-  public void changeSymbol(Cli cli, Player player2) { }
+  public boolean changeSymbol(Cli cli, Player player2) {return false;}
 
 }

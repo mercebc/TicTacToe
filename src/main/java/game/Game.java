@@ -166,4 +166,7 @@ public class Game {
     return playAgain;
   }
 
+  public void quit(Cli cli) {
+    cli.printMessage("Sorry to hear you are leaving us, see you soon!");
+  }
 }

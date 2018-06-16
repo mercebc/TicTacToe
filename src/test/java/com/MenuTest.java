@@ -38,51 +38,75 @@ public class MenuTest {
     output = new PrintStream(out);
   }
 
-//  @Test
-//  public void showMenuIfplayer1IsComputerAndEnterValidValue() {
-//    Cli cli = mockCli("1");
-//    Menu menu = new Menu(game, cli);
-//    game.createPlayers(3);
-//
-//    menu.showMenu();
-//
-//    assertThat(out.toString(), containsString("to watch a computer battle"));
-//
-//  }
+  @Test
+  public void showMenuIfplayer1IsComputerAndEnterValidValueAndTie() {
+    Cli cli = mockCli("2\n3\n1\n1\n1");
+    Menu menu = new Menu(game, cli);
+    game.createPlayers(3);
 
-//  public void showMenu(){
-//
-//    boolean validEntry = false;
-//    int maxvalue;
-//
-//    do {
-//      if (player1 instanceof Computer) {
-//        System.out.println("Enter \"1\" to watch a computer battle, \"2\" to Choose game mode");
-//        maxvalue = 2;
-//      } else {
-//        System.out.println("Enter \"1\" to Play, \"2\" to Choose game mode, \"3\" to Change names or \"4\" to Change symbols");
-//        maxvalue = 4;
-//      }
-//      //Validate the input
-//      try {
-//
-//        showOptions(cli.askForIntegerBetweenMinAndMax(1,maxvalue));
-//        validEntry = true;
-//
-//      } catch (IllegalArgumentException ex) {//catch the exceptions
-//        System.out.println(ex.getMessage());
-//        validEntry = false; //to loop
-//
-//      } catch (InputMismatchException ex) {
-//        System.out.println(ex.getMessage());
-//        input.next();//to lose the value as it is not valid
-//        validEntry = false;
-//      }
-//    } while (!validEntry);//keeps looping until validEntry is valid(true)
-//
-//  }
+    menu.showMenu();
 
+    assertThat(out.toString(), containsString("to watch a computer battle"));
+    assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
 
+  }
 
+  @Test
+  public void changeNameHumanHumanHigherThenOk() {
+    Cli cli = mockCli("3\n3\n2\nAngela\n5");
+    Menu menu = new Menu(game, cli);
+    game.createPlayers(1);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("to change Player 2's name"));
+    assertThat(out.toString(), containsString("You can only input an integer between"));
+    assertThat(out.toString(), containsString("Name changed to " + game.getPlayer2().getName()));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+  }
+
+  @Test
+  public void changeNameHumanHumanCharThenOk() {
+    Cli cli = mockCli("3\np\n1\nAmelia\n5");
+    Menu menu = new Menu(game, cli);
+    game.createPlayers(1);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("to change Player 1's name"));
+    assertThat(out.toString(), containsString("You can only input integers"));
+    assertThat(out.toString(), containsString("Name changed to " + game.getPlayer1().getName()));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+  }
+
+  @Test
+  public void changeSymbolHumanHumanHigherThenTrim() {
+    Cli cli = mockCli("4\n6\n2\nApple\n5");
+    Menu menu = new Menu(game, cli);
+    game.createPlayers(1);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("to change " + game.getPlayer2().getName() +"'s symbol"));
+    assertThat(out.toString(), containsString("You can only input an integer between"));
+    assertThat(out.toString(), containsString("Note: We have trimmed your Symbol as it can only contain one character"));
+    assertThat(out.toString(), containsString("Symbol changed to " + game.getPlayer2().getSymbol()));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+  }
+
+  @Test
+  public void changeSymbolHumanHumanCharThenSameThenOk() {
+    Cli cli = mockCli("4\nl\n1\nD\n1\nM\n5");
+    Menu menu = new Menu(game, cli);
+    game.createPlayers(1);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("to change " + game.getPlayer1().getName() +"'s symbol"));
+    assertThat(out.toString(), containsString("You can only input integers"));
+    assertThat(out.toString(), containsString("The symbol you are trying to change is the same one as your opponent's symbol"));
+    assertThat(out.toString(), containsString("Symbol changed to " + game.getPlayer1().getSymbol()));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+  }
 
 }

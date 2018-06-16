@@ -4,7 +4,6 @@ import com.Cli;
 import game.Board;
 
 import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
 
 
 public class Human extends Player {
@@ -49,7 +48,7 @@ public class Human extends Player {
     return spot;
   }
 
-  public void changeName(Cli cli, Player opponent) {
+  public boolean changeName(Cli cli, Player opponent) {
     System.out.println("Enter new name for " + this.getName());
 
     String name = cli.askForString();
@@ -57,8 +56,10 @@ public class Human extends Player {
       if (checkOpponentName(opponent, name)) {//if new name is not the same as the other player's name
         this.setName(name);//change name
         cli.printMessage("Name changed to " + this.getName());
+        return true;
       } else {
         cli.printMessage("The name you are trying to change is the same one as your opponent's name: " + opponent.getName());
+        return false;
       }
 
   }
@@ -67,7 +68,7 @@ public class Human extends Player {
     return (!(opponent.getName().equals(name)));
   }
 
-  public void changeSymbol(Cli cli, Player opponent) {
+  public boolean changeSymbol(Cli cli, Player opponent) {
     cli.printMessage("Enter new symbol for " + this.getName());
 
     String symbol = cli.askForString();
@@ -79,8 +80,10 @@ public class Human extends Player {
       if(checkOpponentSymbol(opponent, symbol)){
         this.setSymbol(symbol);//change symbol
         cli.printMessage("Symbol changed to " + this.getSymbol());
+        return true;
       }else{
         cli.printMessage("The symbol you are trying to change is the same one as your opponent's symbol: " + opponent.getName());
+        return false;
       }
   }
 
