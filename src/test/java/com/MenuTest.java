@@ -154,6 +154,17 @@ public class MenuTest {
     assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
   }
 
+  @Test
+  public void changeSymbolHumanComputerSameThenOk() {
+    Cli cli = mockCli("4\n1\nD\n1\nM\n5");
+    Menu menu = new Menu(game, cli);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("The symbol you are trying to change is the same one as your opponent's symbol"));
+    assertThat(out.toString(), containsString("Symbol changed to " + game.getPlayer1().getSymbol()));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+  }
 
 
 
