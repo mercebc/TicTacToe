@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Board.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TicTacToe</a> &gt; <a href="index.source.html" class="el_package">game</a> &gt; <span class="el_source">Board.java</span></div><h1>Board.java</h1><pre class="source lang-java linenums">package game;
+
+import players.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Board {
+
+<span class="fc" id="L10">  private List&lt;Cell&gt; cells = new ArrayList&lt;&gt;();</span>
+  private double capacity;
+
+<span class="fc" id="L13">  private List&lt;Line&gt; allLines = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L15">  public Board() {</span>
+<span class="fc" id="L16">    int size = 3;</span>
+<span class="fc" id="L17">    this.capacity = Math.pow(size, 2);</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">    for (int i = 0; i &lt; this.capacity; i++) {</span>
+<span class="fc" id="L19">      this.cells.add(new Cell());</span>
+    }
+
+<span class="fc" id="L22">    this.allLines.add(new Line(getCell(0),getCell(1),getCell(2)));</span>
+<span class="fc" id="L23">    this.allLines.add(new Line(getCell(3),getCell(4),getCell(5)));</span>
+<span class="fc" id="L24">    this.allLines.add(new Line(getCell(6),getCell(7),getCell(8)));</span>
+
+<span class="fc" id="L26">    this.allLines.add(new Line(getCell(0),getCell(3),getCell(6)));</span>
+<span class="fc" id="L27">    this.allLines.add(new Line(getCell(1),getCell(4),getCell(7)));</span>
+<span class="fc" id="L28">    this.allLines.add(new Line(getCell(2),getCell(5),getCell(8)));</span>
+
+<span class="fc" id="L30">    this.allLines.add(new Line(getCell(0),getCell(4),getCell(8)));</span>
+<span class="fc" id="L31">    this.allLines.add(new Line(getCell(2),getCell(4),getCell(6)));</span>
+
+<span class="fc" id="L33">  }</span>
+
+  public Cell getCell(int position) {
+<span class="fc" id="L36">    return this.cells.get(position);</span>
+  }
+
+  public void setCell(int position, String symbol) {
+<span class="fc" id="L40">    this.cells.get(position).setValue(symbol);</span>
+<span class="fc" id="L41">  }</span>
+
+  public double getCapacity() {
+<span class="nc" id="L44">    return capacity;</span>
+  }
+
+  public List&lt;Cell&gt; getCells() {
+<span class="nc" id="L48">    return cells;</span>
+  }
+
+  public boolean checkLinePlayer(Player player) {
+<span class="fc bfc" id="L52" title="All 2 branches covered.">    for ( Line line : allLines) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">      if(line.allLine(player)){</span>
+<span class="fc" id="L54">        return true;</span>
+      }
+<span class="fc" id="L56">    }</span>
+<span class="fc" id="L57">    return false;</span>
+  }
+
+  private boolean checkLine(Player player2, Player player1){
+<span class="fc bfc" id="L61" title="All 4 branches covered.">    return (checkLinePlayer(player1) || checkLinePlayer(player2));</span>
+  }
+
+  public boolean threeInLine(Player player1, Player player2) {//check if there's three in line
+<span class="fc" id="L65">    return checkLine(player1, player2);</span>
+  }
+
+  public boolean tie(Player player1, Player player2) {
+<span class="pc bpc" id="L69" title="2 of 8 branches missed.">    return (cells.stream().allMatch(t -&gt; (t.belongsTo(player1) || t.belongsTo(player2))) &amp;&amp; !threeInLine(player1,player2));</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
