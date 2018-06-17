@@ -74,7 +74,7 @@ public class MenuTest {
 
   @Test
   public void PlayAgain() {
-    Cli cli = mockCli("2\n3\n1\n1\n2\n1\n1\n1");
+    Cli cli = mockCli("1\n2\n1\n1");
     Menu menu = new Menu(game, cli);
     game.createPlayers(3);
 

@@ -85,11 +85,11 @@ public class Game {
   }
 
   public void whoStartsFirst(Cli cli) {
-
-    cli.printMessage("Enter \"1\" for " + player1.getName() + " to start or \"2\" for " + player2.getName() + " to start");//Player choose who starts the game
     int num = 0;
     try{
       if(!(player1 instanceof Computer)){
+        cli.printMessage("Enter \"1\" for " + player1.getName() + " to start or \"2\" for " + player2.getName() + " to start");//Player choose who starts the game
+
         num = cli.askForIntegerBetweenMinAndMax(1,2);
       }
 
