@@ -10,6 +10,8 @@ public class Start {
       Game game = new Game();
       Menu menu = new Menu(game, cli);
 
+
       menu.showMenu();
+
     }
 }

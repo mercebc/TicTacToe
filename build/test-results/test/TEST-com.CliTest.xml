@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.CliTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2018-06-16T10:31:02" hostname="Merces-MBP" time="0.018">
+<testsuite name="com.CliTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2018-06-17T20:34:00" hostname="Merces-MBP" time="0.019">
   <properties/>
-  <testcase name="UserInpuALetter" classname="com.CliTest" time="0.006"/>
+  <testcase name="UserInpuALetter" classname="com.CliTest" time="0.007"/>
   <testcase name="userInputEmptyString" classname="com.CliTest" time="0.001"/>
   <testcase name="betweenNumbers" classname="com.CliTest" time="0.001"/>
   <testcase name="userInputALetterDifferentThanH" classname="com.CliTest" time="0.001"/>
   <testcase name="AnnounceIfCheckLine" classname="com.CliTest" time="0.0"/>
   <testcase name="printBoard" classname="com.CliTest" time="0.001"/>
   <testcase name="betweenNumbersOrHelpisHelp" classname="com.CliTest" time="0.001"/>
-  <testcase name="userInputHigherThanMax" classname="com.CliTest" time="0.001"/>
-  <testcase name="userInputLowerThanMin" classname="com.CliTest" time="0.001"/>
-  <testcase name="betweenNumbersOrHelpisNumber" classname="com.CliTest" time="0.001"/>
-  <testcase name="PrintsMessage" classname="com.CliTest" time="0.0"/>
-  <testcase name="AnnounceTieIfTieGame" classname="com.CliTest" time="0.0"/>
+  <testcase name="userInputHigherThanMax" classname="com.CliTest" time="0.002"/>
+  <testcase name="userInputLowerThanMin" classname="com.CliTest" time="0.0"/>
+  <testcase name="betweenNumbersOrHelpisNumber" classname="com.CliTest" time="0.0"/>
+  <testcase name="PrintsMessage" classname="com.CliTest" time="0.001"/>
+  <testcase name="AnnounceTieIfTieGame" classname="com.CliTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

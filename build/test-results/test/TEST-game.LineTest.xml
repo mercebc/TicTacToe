@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="game.LineTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2018-06-16T10:31:02" hostname="Merces-MBP" time="0.004">
+<testsuite name="game.LineTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2018-06-17T20:34:00" hostname="Merces-MBP" time="0.005">
   <properties/>
-  <testcase name="playerWinsALine" classname="game.LineTest" time="0.0"/>
+  <testcase name="playerWinsALine" classname="game.LineTest" time="0.001"/>
   <testcase name="playerLoseALine" classname="game.LineTest" time="0.0"/>
-  <testcase name="ClaimingTheLastCellWinsTheLine" classname="game.LineTest" time="0.001"/>
-  <testcase name="CellsSymbolBelongsToPlayer" classname="game.LineTest" time="0.001"/>
-  <testcase name="playerDontHaveALineYet" classname="game.LineTest" time="0.001"/>
-  <testcase name="CellsSymbolDoesntBelongToPlayer" classname="game.LineTest" time="0.0"/>
+  <testcase name="ClaimingTheLastCellWinsTheLine" classname="game.LineTest" time="0.0"/>
+  <testcase name="CellsSymbolBelongsToPlayer" classname="game.LineTest" time="0.0"/>
+  <testcase name="playerDontHaveALineYet" classname="game.LineTest" time="0.0"/>
+  <testcase name="CellsSymbolDoesntBelongToPlayer" classname="game.LineTest" time="0.001"/>
   <testcase name="anEmptyLineHasntWon" classname="game.LineTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

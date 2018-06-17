@@ -39,7 +39,28 @@ public class MenuTest {
   }
 
   @Test
-  public void showMenuIfplayer1IsComputerAndEnterValidValueAndTie() {
+  public void showMenuEnterHigherThenOk() {
+    Cli cli = mockCli("\n9\n2\n1\n5");
+    Menu menu = new Menu(game, cli);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("You can only input an integer between"));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+    }
+
+  @Test
+  public void showMenuEnterCharThenOk() {
+    Cli cli = mockCli("\np\n2\n1\n5");
+    Menu menu = new Menu(game, cli);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("You can only input integers"));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));}
+
+  @Test
+  public void showMenuComputerComputerAndEnterValidValueAndTie() {
     Cli cli = mockCli("2\n3\n1\n1\n1");
     Menu menu = new Menu(game, cli);
     game.createPlayers(3);
@@ -49,6 +70,30 @@ public class MenuTest {
     assertThat(out.toString(), containsString("to watch a computer battle"));
     assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
 
+  }
+
+  @Test
+  public void chooseComputerOpponentHigherThenOkThenExit() {
+    Cli cli = mockCli("2\n5\n1\n5");
+    Menu menu = new Menu(game, cli);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("You can only input an integer between"));
+    assertThat(out.toString(), containsString("You are playing against " + game.getPlayer2().getName()));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+  }
+
+  @Test
+  public void choosePlayerOpponentCharThenOkThenExit() {
+    Cli cli = mockCli("2\nkp\n1\n5");
+    Menu menu = new Menu(game, cli);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("You can only input integers"));
+    assertThat(out.toString(), containsString("You are playing against " + game.getPlayer2().getName()));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
   }
 
   @Test
@@ -108,5 +153,11 @@ public class MenuTest {
     assertThat(out.toString(), containsString("Symbol changed to " + game.getPlayer1().getSymbol()));
     assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
   }
+
+
+
+
+
+
 
 }

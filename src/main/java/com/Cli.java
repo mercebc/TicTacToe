@@ -11,7 +11,7 @@ import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Cli {
+public class Cli implements UserInterface {
 
   private PrintStream output;
   private Scanner input;
