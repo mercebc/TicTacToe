@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/mercebc/TicTacToe/badge.svg?branch=master)](https://coveralls.io/github/mercebc/TicTacToe?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/mercebc/TicTacToe/badge.svg)](https://coveralls.io/github/mercebc/TicTacToe)
 
 # TicTacToe
 
