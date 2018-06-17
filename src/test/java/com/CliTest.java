@@ -125,15 +125,6 @@ public class CliTest {
   }
 
   @Test
-  public void userInputEmptyString() {
-    Cli cli = mockCli(" ");
-    thrown.expect(NoSuchElementException.class);
-    thrown.expectMessage(containsString("You can only input characters."));
-
-    cli.askForString();
-  }
-
-  @Test
   public void printBoard() {
     Board board = new Board();
     Cli cli = mockCli("UserInput");

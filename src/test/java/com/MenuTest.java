@@ -73,6 +73,20 @@ public class MenuTest {
   }
 
   @Test
+  public void PlayAgain() {
+    Cli cli = mockCli("2\n3\n1\n1\n2\n1\n1\n1");
+    Menu menu = new Menu(game, cli);
+    game.createPlayers(3);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("to watch a computer battle"));
+    assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
+    assertThat(out.toString(), containsString("to Play again"));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+  }
+
+  @Test
   public void chooseComputerOpponentHigherThenOkThenExit() {
     Cli cli = mockCli("2\n5\n1\n5");
     Menu menu = new Menu(game, cli);
@@ -97,36 +111,38 @@ public class MenuTest {
   }
 
   @Test
-  public void changeNameHumanHumanHigherThenOk() {
-    Cli cli = mockCli("3\n3\n2\nAngela\n5");
+  public void changeNameHumanHumanHigherThenSameThenOk() {
+    Cli cli = mockCli("3\n3\n2\nPlayer1\n2\nAngela\n5");
     Menu menu = new Menu(game, cli);
     game.createPlayers(1);
 
     menu.showMenu();
 
-    assertThat(out.toString(), containsString("to change Player 2's name"));
+    assertThat(out.toString(), containsString("to change Player2's name"));
     assertThat(out.toString(), containsString("You can only input an integer between"));
+    assertThat(out.toString(), containsString("The name you are trying to change is the same one as your opponent's name"));
     assertThat(out.toString(), containsString("Name changed to " + game.getPlayer2().getName()));
     assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
   }
 
   @Test
-  public void changeNameHumanHumanCharThenOk() {
-    Cli cli = mockCli("3\np\n1\nAmelia\n5");
+  public void changeNameHumanHumanCharThenSameThenOk() {
+    Cli cli = mockCli("3\np\n1\nPlayer2\n1\nAmelia\n5");
     Menu menu = new Menu(game, cli);
     game.createPlayers(1);
 
     menu.showMenu();
 
-    assertThat(out.toString(), containsString("to change Player 1's name"));
+    assertThat(out.toString(), containsString("to change Player1's name"));
     assertThat(out.toString(), containsString("You can only input integers"));
+    assertThat(out.toString(), containsString("The name you are trying to change is the same one as your opponent's name"));
     assertThat(out.toString(), containsString("Name changed to " + game.getPlayer1().getName()));
     assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
   }
 
   @Test
-  public void changeSymbolHumanHumanHigherThenTrim() {
-    Cli cli = mockCli("4\n6\n2\nApple\n5");
+  public void changeSymbolHumanHumanHigherThenSameThenTrim() {
+    Cli cli = mockCli("4\n6\n2\nX\n2\nApple\n5");
     Menu menu = new Menu(game, cli);
     game.createPlayers(1);
 
@@ -134,6 +150,7 @@ public class MenuTest {
 
     assertThat(out.toString(), containsString("to change " + game.getPlayer2().getName() +"'s symbol"));
     assertThat(out.toString(), containsString("You can only input an integer between"));
+    assertThat(out.toString(), containsString("The symbol you are trying to change is the same one as your opponent's symbol"));
     assertThat(out.toString(), containsString("Note: We have trimmed your Symbol as it can only contain one character"));
     assertThat(out.toString(), containsString("Symbol changed to " + game.getPlayer2().getSymbol()));
     assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
@@ -155,8 +172,19 @@ public class MenuTest {
   }
 
   @Test
+  public void changeSymbolHumanComputer() {
+    Cli cli = mockCli("4\nX\n5");
+    Menu menu = new Menu(game, cli);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("Symbol changed to " + game.getPlayer1().getSymbol()));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+  }
+
+  @Test
   public void changeSymbolHumanComputerSameThenOk() {
-    Cli cli = mockCli("4\n1\nD\n1\nM\n5");
+    Cli cli = mockCli("4\nL\nM\n5");
     Menu menu = new Menu(game, cli);
 
     menu.showMenu();
@@ -167,8 +195,27 @@ public class MenuTest {
   }
 
 
+  @Test
+  public void changeNameHumanComputer() {
+    Cli cli = mockCli("3\nPeter\n5");
+    Menu menu = new Menu(game, cli);
 
+    menu.showMenu();
 
+    assertThat(out.toString(), containsString("Name changed to " + game.getPlayer1().getName()));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+  }
 
+  @Test
+  public void changeNameHumanComputerSameThenOk() {
+    Cli cli = mockCli("3\nComputer\nMary\n5");
+    Menu menu = new Menu(game, cli);
+
+    menu.showMenu();
+
+    assertThat(out.toString(), containsString("The name you are trying to change is the same one as your opponent's name"));
+    assertThat(out.toString(), containsString("Name changed to " + game.getPlayer1().getName()));
+    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
+  }
 
 }

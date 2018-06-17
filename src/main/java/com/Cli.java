@@ -27,8 +27,10 @@ public class Cli implements UserInterface {
 
     if (input.hasNextInt()) {
       num = input.nextInt();
+      input.skip(".*");
     } else {
       input.next();
+      input.skip(".*");
       throw new InputMismatchException("You can only input integers");
     }
 
@@ -46,6 +48,7 @@ public class Cli implements UserInterface {
 
     if (input.hasNextInt()) {
       spot = input.nextInt();//assigns to spot the inserted value. Only if it's a number
+      input.skip(".*");
 
       if (spot >= min && spot <= max) {
         return spot;
@@ -56,6 +59,7 @@ public class Cli implements UserInterface {
     } else {
 
       help = input.next();//assigns to help the inserted value. If it isn't a number.
+      input.skip(".*");
 
       if (help.equalsIgnoreCase("h")) {//if the input equals "h" a note is displayed to help the user understand how the game works
 
@@ -71,12 +75,12 @@ public class Cli implements UserInterface {
   }
 
   public String askForString(){
-    if (input.hasNext()) {
-       return input.next();
-    } else {
-      input.nextLine();
-        throw new NoSuchElementException("You can only input characters.");
-      }
+    String word;
+
+    word = input.next();//take only the first word
+    input.skip(".*");//ignore the rest
+
+    return word;
   }
 
   /** Announce winner */

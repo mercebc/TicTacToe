@@ -1,6 +1,7 @@
 package game;
 
 import com.Cli;
+import players.Computer;
 import players.PlayerFactory;
 import players.Player;
 
@@ -86,12 +87,13 @@ public class Game {
   public void whoStartsFirst(Cli cli) {
 
     cli.printMessage("Enter \"1\" for " + player1.getName() + " to start or \"2\" for " + player2.getName() + " to start");//Player choose who starts the game
-
+    int num = 0;
     try{
+      if(!(player1 instanceof Computer)){
+        num = cli.askForIntegerBetweenMinAndMax(1,2);
+      }
 
-      int num = cli.askForIntegerBetweenMinAndMax(1,2);
-
-      if (num == 1) {
+      if (num == 1 || player1 instanceof Computer) {
         currentPlayer = player1;
       } else {
         currentPlayer = player2;

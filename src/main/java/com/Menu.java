@@ -141,9 +141,11 @@ public class Menu {
 
         case 4:
             if (game.getPlayer2() instanceof Computer && !(game.getPlayer1() instanceof Computer)) {
-              game.getPlayer1().changeSymbol(cli, game.getPlayer2());
-
-              showMenu();
+              if(game.getPlayer1().changeSymbol(cli, game.getPlayer2())){
+                showMenu();
+              }else{
+                showOptions(choiceEntry, cli);
+              };
 
             } else {
               cli.printMessage("Enter \"1\" to change " + game.getPlayer1().getName() + "'s symbol or \"2\" to change " + game.getPlayer2().getName() + "'s symbol");

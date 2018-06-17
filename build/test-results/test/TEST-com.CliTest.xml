@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.CliTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2018-06-17T22:57:54" hostname="Merces-MBP" time="0.017">
+  <properties/>
+  <testcase name="UserInpuALetter" classname="com.CliTest" time="0.008"/>
+  <testcase name="betweenNumbers" classname="com.CliTest" time="0.001"/>
+  <testcase name="userInputALetterDifferentThanH" classname="com.CliTest" time="0.001"/>
+  <testcase name="AnnounceIfCheckLine" classname="com.CliTest" time="0.0"/>
+  <testcase name="printBoard" classname="com.CliTest" time="0.0"/>
+  <testcase name="betweenNumbersOrHelpisHelp" classname="com.CliTest" time="0.001"/>
+  <testcase name="userInputHigherThanMax" classname="com.CliTest" time="0.001"/>
+  <testcase name="userInputLowerThanMin" classname="com.CliTest" time="0.001"/>
+  <testcase name="betweenNumbersOrHelpisNumber" classname="com.CliTest" time="0.001"/>
+  <testcase name="PrintsMessage" classname="com.CliTest" time="0.001"/>
+  <testcase name="AnnounceTieIfTieGame" classname="com.CliTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -225,25 +225,4 @@ public class GameTest {
     assertThat(out.toString(), containsString(game.getPlayer2().getName()));
   }
 
-  //TestInitGame
-
-//  public void initGame(Cli cli){
-//
-//    whoStartsFirst(cli);
-//
-//    do {
-//      int spot = currentPlayer.getSpot(this.board, this.player1, this.player2, cli);//get the spot of the player, Human and Computer have different methods for this
-//
-//      setSpot(spot);
-//
-//      this.currentPlayer = nextPlayer(); //change players
-//
-//      cli.printBoard(board);
-//
-//    } while (!this.board.threeInLine(player1, player2) && !this.board.tie(player1, player2)); // repeat if not game-over
-//
-//    finalGameAnnouncements(cli);
-//
-//  }
-
 }
