@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.MenuTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2018-06-17T22:57:54" hostname="Merces-MBP" time="0.05">
+<testsuite name="com.MenuTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2018-06-18T22:39:44" hostname="Merces-MBP" time="0.051">
   <properties/>
   <testcase name="changeNameHumanComputer" classname="com.MenuTest" time="0.003"/>
-  <testcase name="changeSymbolHumanComputer" classname="com.MenuTest" time="0.001"/>
+  <testcase name="changeSymbolHumanComputer" classname="com.MenuTest" time="0.002"/>
   <testcase name="showMenuEnterCharThenOk" classname="com.MenuTest" time="0.002"/>
-  <testcase name="changeSymbolHumanHumanCharThenSameThenOk" classname="com.MenuTest" time="0.003"/>
-  <testcase name="changeSymbolHumanComputerSameThenOk" classname="com.MenuTest" time="0.002"/>
+  <testcase name="changeSymbolHumanHumanCharThenSameThenOk" classname="com.MenuTest" time="0.001"/>
+  <testcase name="changeSymbolHumanComputerSameThenOk" classname="com.MenuTest" time="0.001"/>
   <testcase name="changeNameHumanHumanCharThenSameThenOk" classname="com.MenuTest" time="0.002"/>
-  <testcase name="showMenuComputerComputerAndEnterValidValueAndTie" classname="com.MenuTest" time="0.021"/>
-  <testcase name="PlayAgain" classname="com.MenuTest" time="0.006"/>
+  <testcase name="showMenuComputerComputerAndEnterValidValueAndTie" classname="com.MenuTest" time="0.023"/>
+  <testcase name="PlayAgain" classname="com.MenuTest" time="0.008"/>
   <testcase name="changeNameHumanComputerSameThenOk" classname="com.MenuTest" time="0.002"/>
-  <testcase name="choosePlayerOpponentCharThenOkThenExit" classname="com.MenuTest" time="0.002"/>
-  <testcase name="changeSymbolHumanHumanHigherThenSameThenTrim" classname="com.MenuTest" time="0.001"/>
+  <testcase name="choosePlayerOpponentCharThenOkThenExit" classname="com.MenuTest" time="0.001"/>
+  <testcase name="changeSymbolHumanHumanHigherThenSameThenTrim" classname="com.MenuTest" time="0.002"/>
   <testcase name="showMenuEnterHigherThenOk" classname="com.MenuTest" time="0.001"/>
-  <testcase name="changeNameHumanHumanHigherThenSameThenOk" classname="com.MenuTest" time="0.002"/>
+  <testcase name="changeNameHumanHumanHigherThenSameThenOk" classname="com.MenuTest" time="0.001"/>
   <testcase name="chooseComputerOpponentHigherThenOkThenExit" classname="com.MenuTest" time="0.001"/>
   <system-out><![CDATA[Enter new name for Player1
 Enter "1" to play against another Player or "2" to play against the Computer or "3" to watch Computer playing against Computer
 Enter new name for Player1
 Enter new name for Player1
-Enter "1" to play against another Player or "2" to play against the Computer or "3" to watch Computer playing against Computer
 Enter "1" to play against another Player or "2" to play against the Computer or "3" to watch Computer playing against Computer
 Enter new name for Player1
 Enter new name for Player1
