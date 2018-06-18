@@ -2,11 +2,10 @@ package players;
 
 import com.Cli;
 import game.Board;
-import game.Cell;
+import game.Mapping;
+import game.State;
+import game.Turn;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -22,16 +21,8 @@ public class Computer extends Player{
 
   public int getSpot(Board board, Player player1, Player player2, Cli cli) {
 
-    List<Integer> availableSpaces = new ArrayList<Integer>();
     Player opponent;
     Integer foundBestMove = -1;
-
-
-    for (int i = 0; i < board.getCapacity(); i++) {
-      if (!board.getCell(i).getValue().equals(player1.getSymbol()) && !board.getCell(i).getValue().equals(player2.getSymbol())) {
-        availableSpaces.add(i);
-      }
-    }
 
     if (this == player1) {
       opponent = player2;
@@ -39,148 +30,121 @@ public class Computer extends Player{
       opponent = player1;
     }
 
-    List<Integer> corners = new ArrayList<Integer>();
-    corners.add(0);
-    corners.add(2);
-    corners.add(6);
-    corners.add(8);
+    Turn turn = new Turn(board, this, opponent);
+    State state = turn.getBoardState();
+    Mapping map = turn.getMapping();
 
-    String center = board.getCell(4).getValue();
-
-    //create an arraylist with values in the corners of the board
-    List<Cell> corner = new ArrayList<>();
-    corner.add(board.getCell(0));
-    corner.add(board.getCell(2));
-    corner.add(board.getCell(6));
-    corner.add(board.getCell(8));
-
-    //create an arraylist with values in the edges of the board
-    List<Cell> edge = new ArrayList<>();
-    edge.add(board.getCell(1));
-    edge.add(board.getCell(3));
-    edge.add(board.getCell(5));
-    edge.add(board.getCell(7));
-
-    long myCorners = corner.stream().filter(x -> x.getValue().equals(this.getSymbol())).count();//count how many symbols computer has placed in the corners
-    long oppCorners = corner.stream().filter(x -> x.getValue().equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the corners
-    long oppEdges = edge.stream().filter(x -> x.getValue().equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the edges
-
-
-    boolean oppCenter = center.equals(opponent.getSymbol());//true if opponent is in the center
-    boolean myCenter = center.equals(this.getSymbol());//true if computer is in the center
 
     cli.printMessage(this.getName() + " moves:\n");//notify the user that is the Computer turn
 
-
-    foundBestMove = getBestMove(foundBestMove, availableSpaces, board,  player1,  player2,  opponent,  this);
+    foundBestMove = getBestMove(foundBestMove, state.getAvailableSpaces(), board,  opponent,  this);
 
     if (foundBestMove > -1 && foundBestMove < board.getCapacity() ) {
 
       return foundBestMove;//return spot if it's between 0-8 (Found)
 
     } else {
-      //get the turn of the game
-      long turn = board.getCells().stream().filter(x -> x.getValue().equals(player1.getSymbol()) || x.getValue().equals(player2.getSymbol())).count();
 
-      switch (toIntExact(turn)){
+      switch (toIntExact(turn.getTurn())){
+
         case 0://computer moves first
-          return getRandomNum(corners);//get random corner
+          return getRandomNum(state.getCorners());//get random corner
 
         case 1:
-          if(oppEdges==1){//put it in corner next to the edge
-            return getSpotNextToList(opponent, edge, corner, corner, edge, availableSpaces);
-          }else if(oppCorners==1){
-            return 4;
-          }else if (oppCenter){
-            return getRandomNum(corners);
+          if(state.getCountOppEdges()==1){//put it in corner next to the edge
+            for (int i = 0; i < state.getEdge().size(); i++) {
+              if (state.getEdge().get(i).getValue().equals(opponent.getSymbol())) {
+                int num = nearSpotEmpty(i, state.getAvailableSpaces());
+                return map.getMappingCorner(num);
+              }
+            }
+           }else if(state.getCountOppCorners()==1){
+            return map.getMappingCenter();
+
+          }else if (state.getOppCenter()){
+            return getRandomNum(state.getCorners());
           }
 
         case 2:
-          if(oppEdges==1){
-            return 4;
-          }else if(oppCorners==1){ //put in any other free corner
-            for (int i = 0; i < corner.size(); i++) {
-              if (!corner.get(i).equals(this.getSymbol()) && !corner.get(i).getValue().equals(opponent.getSymbol())) {
-                return getSpotMapping(i, corner, corner, edge);
+          if(state.getCountOppEdges()==1){
+            return map.getMappingCenter();
+          }else if(state.getCountOppCorners()==1){ //put in any other free corner
+            for (int i = 0; i < state.getCorner().size(); i++) {
+              if (state.getAvailableSpaces().contains(state.getCorner().get(i))) {
+                return map.getMappingCorner(i);
               }
             }
-          }else if (oppCenter){//put in diagonal corner
-            for (int i = 0; i < corner.size(); i++) {
-              if (corner.get(i).getValue().equals(this.getSymbol())) {
-                switch (i){
-                  case 0:
-                    return 8;
-                  case 1:
-                    return 6;
-                  case 2:
-                    return 2;
-                  case 3:
-                    return 0;
-                }
+          }else if (state.getOppCenter()){//put in diagonal corner
+            for (int i = 0; i < state.getCorner().size(); i++) {
+              if (state.getCorner().get(i).getValue().equals(this.getSymbol())) {
+                return map.getMappingDiagonal(i);
               }
             }
           }
 
         case 3:
-          if(oppCorners==2){ //put in any other free edge
-            for (int i = 0; i < edge.size(); i++) {
-              if (!edge.get(i).getValue().equals(this.getSymbol()) && !edge.get(i).getValue().equals(opponent.getSymbol())) {
-                return getSpotMapping(i, edge, corner, edge);
+          if(state.getCountOppCorners()==2){ //put in any other free edge
+            for (int i = 0; i < state.getEdge().size(); i++) {
+              if (state.getAvailableSpaces().contains(state.getEdge().get(i))) {
+                return map.getMappingEdge(i);
               }
             }
-          }else if(oppCorners==1 && oppEdges==1 && myCenter){//put it in corner next to the edge of the opponent
-            return getSpotNextToList(opponent, edge, corner, corner, edge, availableSpaces);
-          }else if(!myCenter && !oppCenter){//put it in center if it's free
-            return 4;
+          }else if(state.getCountOppCorners()==1 && state.getCountOppEdges()==1 && state.getMyCenter()){//put it in corner next to the edge of the opponent
+            for (int i = 0; i < state.getEdge().size(); i++) {
+              if (state.getEdge().get(i).getValue().equals(opponent.getSymbol())) {
+                return nearSpotEmpty(i, state.getAvailableSpaces());
+              }
+            }
+
+          }else if(!state.getMyCenter() && !state.getOppCenter()){//put it in center if it's free
+            return map.getMappingCenter();
           }
           else{
-            return getRandomNum(availableSpaces);
+            return getRandomNum(state.getAvailableSpaces());
           }
 
         case 4:
-          if(myCorners == 1 && myCenter){//opposite corner with no opponent symbol between
-            for (int i = 0; i < corner.size(); i++) {
-              if (corner.get(i).getValue().equals(this.getSymbol())) {
-                int num =  getSpotNextToList(opponent, corner, edge, corner, edge, availableSpaces);
-
-                return getNextSpot(num, opponent,edge, corner, corner, edge, availableSpaces);
-
+          if(state.getCountMyCorners() == 1 && state.getMyCenter()){//opposite corner with no opponent symbol between
+            for (int i = 0; i < state.getCorner().size(); i++) {
+              if (state.getCorner().get(i).getValue().equals(this.getSymbol())) {
+                int num = nearSpotEmpty(i, state.getAvailableSpaces());
+                return nearSpotEmpty(num, state.getAvailableSpaces());
               }
             }
-            return getRandomNum(availableSpaces);
+            return getRandomNum(state.getAvailableSpaces());
 
-          }else if(myCorners==2){ //put in any other free corner
-            for (int i = 0; i < corner.size(); i++) {
-              if (!corner.get(i).getValue().equals(this.getSymbol()) && !corner.get(i).getValue().equals(opponent.getSymbol())) {
-                  return getSpotMapping(i, corner, corner, edge);
+          }else if(state.getCountMyCorners()==2){ //put in any other free corner
+            for (int i = 0; i < state.getCorner().size(); i++) {
+              if (state.getAvailableSpaces().contains(state.getCorner().get(i))) {
+                return map.getMappingCorner(i);
               }
             }
           }else{
-          return getRandomNum(availableSpaces);
+          return getRandomNum(state.getAvailableSpaces());
           }
 
         default:
-          return getRandomNum(availableSpaces);
+          return getRandomNum(state.getAvailableSpaces());
 
       }
     }
   }
 
-  private int getBestMove(int foundBestMove, List<Integer> availableSpaces,Board board, Player player1, Player player2, Player opponent, Player currentPlayer){
+  private int getBestMove(int foundBestMove, List<Integer> availableSpaces,Board board, Player opponent, Player currentPlayer){
 
     for (Integer spot: availableSpaces) {//loop through the array created
 
       board.setCell(spot,opponent.getSymbol());
       //temporary set the spots available with the opponent player's symbol
 
-      if (board.threeInLine(player1,player2)) {//check if the opponent would do three in line
+      if (board.threeInLine(currentPlayer,opponent)) {//check if the opponent would do three in line
         foundBestMove = spot; //if so, get that spot to avoid that
       }
 
       else {
         board.setCell(spot,currentPlayer.getSymbol()); //temporary set the spots available with Computer's symbol
 
-        if (board.threeInLine(player1,player2)) {//check if Computer would do three in line
+        if (board.threeInLine(currentPlayer,opponent)) {//check if Computer would do three in line
           foundBestMove = spot;//if so, take that spot to win
         }
       }
@@ -197,76 +161,34 @@ public class Computer extends Player{
     return availableSpaces.get(n);
   }
 
-//gets the spot near the spot i of the list
-  private int getSpotNextToList(Player opponent, List<Cell> listBelong, List<Cell> listNear, List<Cell> corner, List<Cell> edge, List<Integer> availableSpaces) {
-    for (int i = 0; i < listBelong.size(); i++) {
-      if (listBelong.get(i).getValue().equals(opponent.getSymbol())) {
-        return getNextSpot(i, opponent,listNear, listBelong, corner, edge, availableSpaces);
-      }
-    }
-    return getRandomNum(availableSpaces);
-  }
-
-
-//gets the spot near the spot i
-  private int getNextSpot(int i, Player opponent, List<Cell> currentList, List<Cell> otherList, List<Cell> corner, List<Cell> edge, List<Integer> availableSpaces){
+  private int nearSpotEmpty(int i, List<Integer> availableSpaces){
     switch (i) {
       case 0:
         for (int j = 0; j < 2; j++) {
-          if (!otherList.get(j).getValue().equals(this.getSymbol()) && !otherList.get(j).getValue().equals(opponent.getSymbol())) {
-            return getSpotMapping(i, currentList, corner, edge);
+          if (availableSpaces.contains(j)) {
+            return j;
           }
         }
       case 1:
         for (int j = 0; j < 3; j = j + 2) {
-          if (!otherList.get(j).getValue().equals(this.getSymbol()) && !otherList.get(j).getValue().equals(opponent.getSymbol())) {
-            return getSpotMapping(i, currentList, corner, edge);
+          if (availableSpaces.contains(j)) {
+            return j;
           }
         }
       case 2:
         for (int j = 1; j < 4; j = j + 2) {
-          if (!otherList.get(j).getValue().equals(this.getSymbol()) && !otherList.get(j).getValue().equals(opponent.getSymbol())) {
-            return getSpotMapping(i, currentList, corner, edge);
+          if (availableSpaces.contains(j)) {
+            return j;
           }
         }
       case 3:
         for (int j = 2; j < 4; j++) {
-          if (!otherList.get(j).getValue().equals(this.getSymbol()) && !otherList.get(j).getValue().equals(opponent.getSymbol())) {
-            return getSpotMapping(i, currentList, corner, edge);
+          if (availableSpaces.contains(j)) {
+            return j;
           }
         }
       default:
-          return getRandomNum(availableSpaces);
-    }
-
-  }
-
-  //get the mapping with the lists of corner and edge and the spots of the board
-  private int getSpotMapping(int i,List<Cell> mappingList, List<Cell> corner, List<Cell> edge) {
-
-    HashMap<Integer, Integer> mapCorner = new HashMap<Integer, Integer>();
-
-    mapCorner.put(0, 0);
-    mapCorner.put(1, 2);
-    mapCorner.put(2, 6);
-    mapCorner.put(3, 8);
-
-    HashMap<Integer, Integer> mapEdge = new HashMap<Integer, Integer>();
-
-    mapEdge.put(0, 1);
-    mapEdge.put(1, 3);
-    mapEdge.put(2, 5);
-    mapEdge.put(3, 7);
-
-
-    if (Arrays.deepEquals(mappingList.toArray(), corner.toArray())) {
-      return mapCorner.get(i);
-
-    } else if (Arrays.deepEquals(mappingList.toArray(), edge.toArray())) {
-      return mapEdge.get(i);
-    }
-    else{
-      return -1;
+        return getRandomNum(availableSpaces);
     }
   }
 
