@@ -15,10 +15,10 @@ import static org.hamcrest.Matchers.is;
 public class StateTest {
 
   Board board = new Board();
+  State state;
+
   Player current = new Computer("Computer", "X");
   Player opponent = new Human("Jenny", "O");
-
-  State state = new State(board, current, opponent);
 
   private List<Integer> corners = new ArrayList<>();
   private List<Cell> corner = new ArrayList<>();
@@ -41,20 +41,7 @@ public class StateTest {
     board.setCell(4, "O");
     board.setCell(7, "X");
 
-    corners.add(0);
-    corners.add(2);
-    corners.add(6);
-    corners.add(8);
-
-    corner.add(board.getCell(0));
-    corner.add(board.getCell(2));
-    corner.add(board.getCell(6));
-    corner.add(board.getCell(8));
-
-    edge.add(board.getCell(1));
-    edge.add(board.getCell(3));
-    edge.add(board.getCell(5));
-    edge.add(board.getCell(7));
+    state = new State(board, current, opponent);
 
 //    countMyCorners = corner.stream().filter(x -> x.getValue().equals(current.getSymbol())).count();//count how many symbols computer has placed in the corners
 //
@@ -66,28 +53,33 @@ public class StateTest {
   }
 
   @Test
+  public void currentHasOneSymbolCorner1(){
+    assertThat(state.getCountMyCorners(), is(1L));
+  }
+
+  @Test
   public void currentHasOneSymbolCorner(){
-    assertThat(corner.stream().filter(x -> x.getValue().equals(current.getSymbol())).count(), is(1L));
+    assertThat(state.getCountMyCorners(), is(1L));
   }
 
   @Test
   public void opponentHasNoneSymbolCorner() {
-    assertThat(corner.stream().filter(x -> x.getValue().equals(opponent.getSymbol())).count(), is(0L));
+    assertThat(state.getCountOppCorners(), is(0L));
   }
 
   @Test
   public void opponentHasTwoSymbolEdge() {
-    assertThat(edge.stream().filter(x -> x.getValue().equals(opponent.getSymbol())).count(), is(2L));
+    assertThat(state.getCountOppEdges(), is(2L));
   }
 
   @Test
   public void opponentHaveCenter() {
-    assertThat(board.getCell(4).getValue().equals(opponent.getSymbol()), is(true));
+    assertThat(state.getOppCenter(), is(true));
   }
 
   @Test
   public void currentDoesntHasCenter() {
-    assertThat(board.getCell(4).getValue().equals(current.getSymbol()), is(false));
+    assertThat(state.getMyCenter(), is(false));
   }
 
   @Test
@@ -106,13 +98,13 @@ public class StateTest {
     assertThat(state.getEdge().get(3).getValue(), is("X"));
   }
 
-//  @Test
-//  public void getListCellsEmpty() {
-//    assertThat(state.getAvailableSpaces().get(0), is(2));
-//    assertThat(state.getAvailableSpaces().get(1), is(5));
-//    assertThat(state.getAvailableSpaces().get(2), is(6));
-//    assertThat(state.getAvailableSpaces().get(3), is(8));
-//  }
+  @Test
+  public void getListCellsEmpty() {
+    assertThat(state.getAvailableSpaces().get(0), is(2));
+    assertThat(state.getAvailableSpaces().get(1), is(5));
+    assertThat(state.getAvailableSpaces().get(2), is(6));
+    assertThat(state.getAvailableSpaces().get(3), is(8));
+  }
 
   @Test
   public void getCornerPositions() {
