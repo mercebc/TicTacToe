@@ -43,13 +43,6 @@ public class StateTest {
 
     state = new State(board, current, opponent);
 
-//    countMyCorners = corner.stream().filter(x -> x.getValue().equals(current.getSymbol())).count();//count how many symbols computer has placed in the corners
-//
-//    for (int i = 0; i < board.getCapacity(); i++) {
-//      if (!board.getCell(i).getValue().equals(current.getSymbol()) && !board.getCell(i).getValue().equals(opponent.getSymbol())) {
-//        availableSpaces.add(i);
-//      }
-//    }
   }
 
   @Test
@@ -84,18 +77,18 @@ public class StateTest {
 
   @Test
   public void getListCellsCorner() {
-    assertThat(state.getCorner().get(0).getValue(), is("X"));
-    assertThat(state.getCorner().get(1).getValue(), is(" "));
-    assertThat(state.getCorner().get(2).getValue(), is(" "));
-    assertThat(state.getCorner().get(3).getValue(), is(" "));
+    assertThat(state.getCorner().getCells().get(0).getValue(), is("X"));
+    assertThat(state.getCorner().getCells().get(1).getValue(), is(" "));
+    assertThat(state.getCorner().getCells().get(2).getValue(), is(" "));
+    assertThat(state.getCorner().getCells().get(3).getValue(), is(" "));
   }
 
   @Test
   public void getListCellsEdge() {
-    assertThat(state.getEdge().get(0).getValue(), is("O"));
-    assertThat(state.getEdge().get(1).getValue(), is("O"));
-    assertThat(state.getEdge().get(2).getValue(), is(" "));
-    assertThat(state.getEdge().get(3).getValue(), is("X"));
+    assertThat(state.getEdge().getCells().get(0).getValue(), is("O"));
+    assertThat(state.getEdge().getCells().get(1).getValue(), is("O"));
+    assertThat(state.getEdge().getCells().get(2).getValue(), is(" "));
+    assertThat(state.getEdge().getCells().get(3).getValue(), is("X"));
   }
 
   @Test

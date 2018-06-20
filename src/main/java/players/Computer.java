@@ -2,6 +2,7 @@ package players;
 
 import com.Cli;
 import game.Board;
+import game.Borders;
 import game.Mapping;
 import game.State;
 import game.Turn;
@@ -52,10 +53,10 @@ public class Computer extends Player{
 
         case 1:
           if(state.getCountOppEdges()==1){//put it in corner next to the edge
-            for (int i = 0; i < state.getEdge().size(); i++) {
-              if (state.getEdge().get(i).getValue().equals(opponent.getSymbol())) {
-                int num = nearSpotEmpty(i, state.getAvailableSpaces());
-                return map.getMappingCorner(num);
+            for (int i = 0; i < state.getEdge().getCells().size(); i++) {
+              if (state.getEdge().getCells().get(i).getValue().equals(opponent.getSymbol())) {
+                int num = nearSpotEmpty(i, state.getAvailableSpaces(), state.getCorner());
+                return state.getCorner().getPosition(num);
               }
             }
            }else if(state.getCountOppCorners()==1){
@@ -68,15 +69,17 @@ public class Computer extends Player{
         case 2:
           if(state.getCountOppEdges()==1){
             return map.getMappingCenter();
-          }else if(state.getCountOppCorners()==1){ //put in any other free corner
-            for (int i = 0; i < state.getCorner().size(); i++) {
-              if (state.getAvailableSpaces().contains(state.getCorner().get(i))) {
-                return map.getMappingCorner(i);
+          }
+          else if(state.getCountOppCorners()==1){ //put in any other free corner
+            for (int i = 0; i < state.getCorner().getCells().size(); i++) {
+              if (state.getAvailableSpaces().contains(state.getCorner().getPosition(i))) {
+                return state.getCorner().getPosition(i);
               }
             }
-          }else if (state.getOppCenter()){//put in diagonal corner
-            for (int i = 0; i < state.getCorner().size(); i++) {
-              if (state.getCorner().get(i).getValue().equals(this.getSymbol())) {
+          }
+          else if (state.getOppCenter()){//put in diagonal corner
+            for (int i = 0; i < state.getCorner().getCells().size(); i++) {
+              if (state.getCorner().getCells().get(i).getValue().equals(this.getSymbol())) {
                 return map.getMappingDiagonal(i);
               }
             }
@@ -84,15 +87,15 @@ public class Computer extends Player{
 
         case 3:
           if(state.getCountOppCorners()==2){ //put in any other free edge
-            for (int i = 0; i < state.getEdge().size(); i++) {
-              if (state.getAvailableSpaces().contains(state.getEdge().get(i))) {
-                return map.getMappingEdge(i);
+            for (int i = 0; i < state.getEdge().getCells().size(); i++) {
+              if (state.getAvailableSpaces().contains(state.getEdge().getPosition(i))) {
+                return state.getEdge().getPosition(i);
               }
             }
           }else if(state.getCountOppCorners()==1 && state.getCountOppEdges()==1 && state.getMyCenter()){//put it in corner next to the edge of the opponent
-            for (int i = 0; i < state.getEdge().size(); i++) {
-              if (state.getEdge().get(i).getValue().equals(opponent.getSymbol())) {
-                return nearSpotEmpty(i, state.getAvailableSpaces());
+            for (int i = 0; i < state.getEdge().getCells().size(); i++) {
+              if (state.getEdge().getCells().get(i).getValue().equals(opponent.getSymbol())) {
+                return state.getCorner().getPosition(nearSpotEmpty(i, state.getAvailableSpaces(), state.getCorner()));//
               }
             }
 
@@ -105,18 +108,20 @@ public class Computer extends Player{
 
         case 4:
           if(state.getCountMyCorners() == 1 && state.getMyCenter()){//opposite corner with no opponent symbol between
-            for (int i = 0; i < state.getCorner().size(); i++) {
-              if (state.getCorner().get(i).getValue().equals(this.getSymbol())) {
-                int num = nearSpotEmpty(i, state.getAvailableSpaces());
-                return nearSpotEmpty(num, state.getAvailableSpaces());
+            for (int i = 0; i < state.getCorner().getCells().size(); i++) {
+              if (state.getCorner().getCells().get(i).getValue().equals(this.getSymbol())) {
+
+                int num = nearSpotEmpty(i, state.getAvailableSpaces(), state.getCorner());
+                return state.getCorner().getPosition(nearSpotEmpty(num, state.getAvailableSpaces(), state.getCorner()));
+
               }
             }
             return getRandomNum(state.getAvailableSpaces());
 
           }else if(state.getCountMyCorners()==2){ //put in any other free corner
-            for (int i = 0; i < state.getCorner().size(); i++) {
-              if (state.getAvailableSpaces().contains(state.getCorner().get(i))) {
-                return map.getMappingCorner(i);
+            for (int i = 0; i < state.getCorner().getCells().size(); i++) {
+              if (state.getAvailableSpaces().contains(state.getCorner().getPosition(i))) {
+                return state.getCorner().getPosition(i);
               }
             }
           }else{
@@ -161,29 +166,29 @@ public class Computer extends Player{
     return availableSpaces.get(n);
   }
 
-  private int nearSpotEmpty(int i, List<Integer> availableSpaces){
+  private int nearSpotEmpty(int i, List<Integer> availableSpaces, Borders list){
     switch (i) {
       case 0:
         for (int j = 0; j < 2; j++) {
-          if (availableSpaces.contains(j)) {
+          if (availableSpaces.contains(list.getPosition(j))) {
             return j;
           }
         }
       case 1:
         for (int j = 0; j < 3; j = j + 2) {
-          if (availableSpaces.contains(j)) {
+          if (availableSpaces.contains(list.getPosition(j))) {
             return j;
           }
         }
       case 2:
         for (int j = 1; j < 4; j = j + 2) {
-          if (availableSpaces.contains(j)) {
+          if (availableSpaces.contains(list.getPosition(j))) {
             return j;
           }
         }
       case 3:
         for (int j = 2; j < 4; j++) {
-          if (availableSpaces.contains(j)) {
+          if (availableSpaces.contains(list.getPosition(j))) {
             return j;
           }
         }

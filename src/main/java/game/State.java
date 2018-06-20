@@ -8,10 +8,9 @@ import java.util.List;
 public class State{
 
   private List<Integer> corners = new ArrayList<>();
-  private List<Cell> corner = new ArrayList<>();
-  private List<Cell> edge = new ArrayList<>();
+  private Corner corner;
+  private Edge edge;
   private List<Integer> availableSpaces = new ArrayList<>();
-
 
   private long countMyCorners;
   private long countOppCorners;
@@ -26,19 +25,12 @@ public class State{
     corners.add(6);
     corners.add(8);
 
-    corner.add(board.getCell(0));//arraylist with values in the corners of the board
-    corner.add(board.getCell(2));
-    corner.add(board.getCell(6));
-    corner.add(board.getCell(8));
+    corner = new Corner(board);
+    edge = new Edge(board);
 
-    edge.add(board.getCell(1));//arraylist with values in the edges of the board
-    edge.add(board.getCell(3));
-    edge.add(board.getCell(5));
-    edge.add(board.getCell(7));
-
-    countMyCorners = corner.stream().filter(x -> x.getValue().equals(current.getSymbol())).count();//count how many symbols computer has placed in the corners
-    countOppCorners = corner.stream().filter(x -> x.getValue().equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the corners
-    countOppEdges = edge.stream().filter(x -> x.getValue().equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the edges
+    countMyCorners = corner.getCells().stream().filter(x -> x.getValue().equals(current.getSymbol())).count();//count how many symbols computer has placed in the corners
+    countOppCorners = corner.getCells().stream().filter(x -> x.getValue().equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the corners
+    countOppEdges = edge.getCells().stream().filter(x -> x.getValue().equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the edges
 
     oppCenter = board.getCell(4).getValue().equals(opponent.getSymbol());//true if opponent is in the center
     myCenter = board.getCell(4).getValue().equals(current.getSymbol());//true if computer is in the center
@@ -51,11 +43,11 @@ public class State{
 
   }
 
-  public List<Cell> getCorner() {
+  public Corner getCorner() {
     return corner;
   }
 
-  public List<Cell> getEdge() {
+  public Edge getEdge() {
     return edge;
   }
 
