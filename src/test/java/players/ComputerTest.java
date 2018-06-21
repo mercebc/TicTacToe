@@ -2,6 +2,7 @@ package players;
 
 import com.Cli;
 import game.Board;
+import game.Turn;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,12 +10,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItem;
+
 
 public class ComputerTest {
   Board board;
@@ -26,6 +28,9 @@ public class ComputerTest {
   private ByteArrayInputStream input;
   private PrintStream output;
 
+  List<Integer> corners;
+  List<Integer> availableSpaces;
+
   @Before
   public void setUp() {
     out = new ByteArrayOutputStream();
@@ -33,21 +38,22 @@ public class ComputerTest {
     output = new PrintStream(out);
 
     cli = new Cli(input, output);
+
+    corners = new ArrayList<>();
+    corners.add(0);
+    corners.add(2);
+    corners.add(6);
+    corners.add(8);
+
   }
 
-//  @Test
-//  public void RandomCorner() {
-//
-//    board = new Board();
-//
-//    List<Integer> corners = new ArrayList<>();
-//    corners.add(0);
-//    corners.add(2);
-//    corners.add(6);
-//    corners.add(8);
-//
-//    assertThat (corners, contains(current.getSpot(board, current, opponent, cli))); //random corner
-//  }
+  @Test
+  public void RandomCorner() {
+
+    board = new Board();
+
+    assertThat (corners, hasItem(current.getSpot(board, current, opponent, cli)));
+  }
 
   @Test
   public void FirstTurn_CurrentPlaceInCornerNextToTheOppEdge() {
@@ -75,8 +81,7 @@ public class ComputerTest {
     board = new Board();
     board.setCell(4,"X");
 
-    //assertThat (current.getSpot(board, current, opponent, cli), is(0,2,6,8)); //random corner
-
+    assertThat (corners, hasItem(current.getSpot(board, current, opponent, cli)));
   }
 
   @Test
@@ -160,6 +165,25 @@ public class ComputerTest {
   }
 
   @Test
+  public void  ThirdTurn_PlaceRandomAvailableSpaces() {
+
+    board = new Board();
+      board.setCell(1,"X");
+      board.setCell(4,"X");
+      board.setCell(6,"O");
+
+    availableSpaces = new ArrayList<>();
+
+    for (int i = 0; i < board.getCapacity(); i++) {
+      if (!board.getCell(i).getValue().equals(current.getSymbol()) && !board.getCell(i).getValue().equals(opponent.getSymbol())) {
+        availableSpaces.add(i);
+      }
+    }
+
+    assertThat (availableSpaces, hasItem(current.getSpot(board, current, opponent, cli))); //random available spaces
+    }
+
+  @Test
   public void FourthTurn_CurrentPlaceOppositeCornerNoSymbolBetween() {//change name
 
     board = new Board();
@@ -172,9 +196,40 @@ public class ComputerTest {
 
   }
 
+  @Test
+  public void FourthTurn_CurrentPlaceCornerIfTwoMyCorners() {
+
+    board = new Board();
+    board.setCell(0,"O");
+    board.setCell(2,"O");
+    board.setCell(1,"X");
+    board.setCell(8,"X");
+
+    assertThat (current.getSpot(board, current, opponent, cli), is(6));
+
+  }
+
+
+  @Test
+  public void FourthTurn_CurrentPlaceRandomElse() {
+
+    board = new Board();
+    board.setCell(0,"O");
+    board.setCell(3,"O");
+    board.setCell(1,"X");
+    board.setCell(6,"X");
+
+    availableSpaces = new ArrayList<>();
+
+    for (int i = 0; i < board.getCapacity(); i++) {
+      if (!board.getCell(i).getValue().equals(current.getSymbol()) && !board.getCell(i).getValue().equals(opponent.getSymbol())) {
+        availableSpaces.add(i);
+      }
+    }
+
+    assertThat (availableSpaces, hasItem(current.getSpot(board, current, opponent, cli))); //random available spaces
+  }
 
 
 
 }
-
-//testGetSpot
