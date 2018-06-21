@@ -66,6 +66,7 @@ public class Computer extends Player{
           }else if (state.getOppCenter()){
             return getRandomNum(state.getCorners());
           }
+          break;
 
         case 2:
           if(state.getCountOppEdges()==1){
@@ -85,6 +86,7 @@ public class Computer extends Player{
               }
             }
           }
+          break;
 
         case 3:
           if(state.getCountOppCorners()==2){ //put in any other free edge
@@ -103,9 +105,7 @@ public class Computer extends Player{
           }else if(!state.getMyCenter() && !state.getOppCenter()){//put it in center if it's free
             return map.getMappingCenter();
           }
-          else{
-            return getRandomNum(state.getAvailableSpaces());
-          }
+          break;
 
         case 4:
           if(state.getCountMyCorners() == 1 && state.getMyCenter()){//opposite corner with no opponent symbol between
@@ -117,23 +117,21 @@ public class Computer extends Player{
 
               }
             }
-            return getRandomNum(state.getAvailableSpaces());
-
           }else if(state.getCountMyCorners()==2){ //put in any other free corner
             for (int i = 0; i < state.getCorner().getCells().size(); i++) {
               if (state.getAvailableSpaces().contains(state.getCorner().getPosition(i))) {
                 return state.getCorner().getPosition(i);
               }
             }
-          }else{
-          return getRandomNum(state.getAvailableSpaces());
           }
+          break;
 
         default:
           return getRandomNum(state.getAvailableSpaces());
 
       }
     }
+    return getRandomNum(state.getAvailableSpaces());
   }
 
   private int getBestMove(int foundBestMove, List<Integer> availableSpaces,Board board, Player opponent, Player currentPlayer){

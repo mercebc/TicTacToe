@@ -21,8 +21,6 @@ public class StateTest {
   Player opponent = new Human("Jenny", "O");
 
   private List<Integer> corners = new ArrayList<>();
-  private List<Cell> corner = new ArrayList<>();
-  private List<Cell> edge = new ArrayList<>();
   private List<Integer> availableSpaces = new ArrayList<>();
 
   private long countMyCorners;
@@ -73,22 +71,6 @@ public class StateTest {
   @Test
   public void currentDoesntHasCenter() {
     assertThat(state.getMyCenter(), is(false));
-  }
-
-  @Test
-  public void getListCellsCorner() {
-    assertThat(state.getCorner().getCells().get(0).getValue(), is("X"));
-    assertThat(state.getCorner().getCells().get(1).getValue(), is(" "));
-    assertThat(state.getCorner().getCells().get(2).getValue(), is(" "));
-    assertThat(state.getCorner().getCells().get(3).getValue(), is(" "));
-  }
-
-  @Test
-  public void getListCellsEdge() {
-    assertThat(state.getEdge().getCells().get(0).getValue(), is("O"));
-    assertThat(state.getEdge().getCells().get(1).getValue(), is("O"));
-    assertThat(state.getEdge().getCells().get(2).getValue(), is(" "));
-    assertThat(state.getEdge().getCells().get(3).getValue(), is("X"));
   }
 
   @Test

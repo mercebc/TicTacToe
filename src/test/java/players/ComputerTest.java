@@ -2,7 +2,7 @@ package players;
 
 import com.Cli;
 import game.Board;
-import game.Turn;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -230,6 +230,71 @@ public class ComputerTest {
     assertThat (availableSpaces, hasItem(current.getSpot(board, current, opponent, cli))); //random available spaces
   }
 
+
+  @Test
+  public void makeThreeInLine() {
+
+    board = new Board();
+    board.setCell(0,"O");
+    board.setCell(7,"X");
+    board.setCell(1,"O");
+    board.setCell(5,"X");
+
+    assertThat (current.getSpot(board, current, opponent, cli), is(2));
+
+  }
+
+  @Test
+  public void AvoidThreeInLine() {
+
+    board = new Board();
+    board.setCell(4,"O");
+    board.setCell(5,"X");
+    board.setCell(1,"O");
+    board.setCell(3,"X");
+
+    assertThat (current.getSpot(board, current, opponent, cli), is(7));
+  }
+
+  @Test
+  public void NearestSpotEmptyPositionOne() {
+
+    board = new Board();
+    board.setCell(1,"X");
+
+    assertThat (current.getSpot(board, current, opponent, cli), is(0));
+
+  }
+
+  @Test
+  public void NearestSpotEmptyPositionThree() {
+
+    board = new Board();
+    board.setCell(3,"X");
+
+    assertThat (current.getSpot(board, current, opponent, cli), is(0));
+
+  }
+
+  @Test
+  public void NearestSpotEmptyPositionFive() {
+
+    board = new Board();
+    board.setCell(5,"X");
+
+    assertThat (current.getSpot(board, current, opponent, cli), is(2));
+
+  }
+
+  @Test
+  public void NearestSpotEmptyPositionSeven() {
+
+    board = new Board();
+    board.setCell(7,"X");
+
+    assertThat (current.getSpot(board, current, opponent, cli), is(6));
+
+  }
 
 
 }
