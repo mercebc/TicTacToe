@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Corner extends Borders {
+public class Corner implements Borders {
 
   private HashMap<Integer, Integer> position;
   private List<Cell> cells;
 
   public Corner(Board board){
-    super(board);
 
     cells = new ArrayList<>();
     position = new HashMap<Integer, Integer>();
