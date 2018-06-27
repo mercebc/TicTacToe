@@ -7,14 +7,15 @@ import java.util.List;
 
 public class Board {
 
+  public static final int size = 3;
+  public static final double capacity = Math.pow(size, 2);
+
   private List<Cell> cells = new ArrayList<>();
-  private double capacity;
 
   private List<Line> allLines = new ArrayList<>();
 
   public Board() {
-    int size = 3;
-    this.capacity = Math.pow(size, 2);
+
     for (int i = 0; i < this.capacity; i++) {
       this.cells.add(new Cell());
     }
