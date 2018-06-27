@@ -138,18 +138,22 @@ public class Computer extends Player{
 
     for (Integer spot: availableSpaces) {//loop through the array created
 
-      board.setCell(spot,opponent.getSymbol());
-      //temporary set the spots available with the opponent player's symbol
+      board.setCell(spot,currentPlayer.getSymbol());
+      //temporary set the spots available with Computer's symbol
 
-      if (board.threeInLine(currentPlayer,opponent)) {//check if the opponent would do three in line
-        foundBestMove = spot; //if so, get that spot to avoid that
+      if (board.threeInLine(currentPlayer,opponent)) {//check if the computer would do three in line
+        board.setCell(spot," ");
+        foundBestMove = spot;
+        return foundBestMove;//if so, get that spot to avoid that
       }
 
       else {
-        board.setCell(spot,currentPlayer.getSymbol()); //temporary set the spots available with Computer's symbol
+        board.setCell(spot,opponent.getSymbol()); //temporary set the spots available with the opponent's symbol
 
-        if (board.threeInLine(currentPlayer,opponent)) {//check if Computer would do three in line
-          foundBestMove = spot;//if so, take that spot to win
+        if (board.threeInLine(currentPlayer,opponent)) {//check if opponent would do three in line
+          board.setCell(spot," ");
+          foundBestMove = spot;
+          return foundBestMove;//if so, take that spot to win
         }
       }
 
