@@ -49,7 +49,7 @@ public class Computer extends Player{
 
       switch (toIntExact(turn.getTurn())){
 
-        case 0://computer moves first
+        case 0:
           return openingMove.compute(opponent, state, map);
 
         case 1:
@@ -71,7 +71,7 @@ public class Computer extends Player{
     }
   }
 
-  private ComputerMove openingMove = (Player opponent, State state, Mapping map) -> {
+  private ComputerMove openingMove = (Player opponent, State state, Mapping map) -> {//computer moves first
     return getRandomNum(state.getCorners());//get random corner
   };
 

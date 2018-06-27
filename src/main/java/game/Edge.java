@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Edge extends Borders{
+public class Edge implements Borders{
 
   private HashMap<Integer, Integer> position;
   private List<Cell> cells;
 
   public Edge(Board board){
-    super(board);
-
     cells = new ArrayList<>();
     position = new HashMap<Integer, Integer>();
 
