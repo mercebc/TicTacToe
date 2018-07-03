@@ -8,7 +8,7 @@ import java.util.List;
 public class Board {
 
   public static final int size = 3;
-  public static final double capacity = Math.pow(size, 2);
+  public static final int capacity = size*size;
 
   private List<Cell> cells = new ArrayList<>();
 
