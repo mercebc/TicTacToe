@@ -78,7 +78,7 @@ public class Computer extends Player{
   private ComputerMove RespondTo4Pieces = (Player opponent, State state, Mapping map) -> {
     if(state.getCountMyCorners() == 1 && state.getMyCenter()){//opposite corner with no opponent symbol between
       for (int i = 0; i < state.getCorner().getCells().size(); i++) {
-        if (state.getCorner().getCells().get(i).getValue().equals(this.getSymbol())) {
+        if (state.getCorner().getCells().get(i).belongsTo(this)) {
 
           int num = nearSpotEmpty(i, state.getAvailableSpaces(), state.getCorner());
           return state.getCorner().getPosition(nearSpotEmpty(num, state.getAvailableSpaces(), state.getCorner()));
@@ -104,7 +104,7 @@ public class Computer extends Player{
       }
     }else if(state.getCountOppCorners()==1 && state.getCountOppEdges()==1 && state.getMyCenter()){//put it in corner next to the edge of the opponent
       for (int i = 0; i < state.getEdge().getCells().size(); i++) {
-        if (state.getEdge().getCells().get(i).getValue().equals(opponent.getSymbol())) {
+        if (state.getEdge().getCells().get(i).belongsTo(opponent)) {
           return state.getCorner().getPosition(nearSpotEmpty(i, state.getAvailableSpaces(), state.getCorner()));//
         }
       }
@@ -128,7 +128,7 @@ public class Computer extends Player{
     }
     else if (state.getOppCenter()){//put in diagonal corner
       for (int i = 0; i < state.getCorner().getCells().size(); i++) {
-        if (state.getCorner().getCells().get(i).getValue().equals(this.getSymbol())) {
+        if (state.getCorner().getCells().get(i).belongsTo(this)) {
           return map.getMappingDiagonal(i);
         }
       }
@@ -139,7 +139,7 @@ public class Computer extends Player{
   private ComputerMove respondTo1Piece = (Player opponent, State state, Mapping map) -> {
     if(state.getCountOppEdges()==1){//put it in corner next to the edge
       for (int i = 0; i < state.getEdge().getCells().size(); i++) {
-        if (state.getEdge().getCells().get(i).getValue().equals(opponent.getSymbol())) {
+        if (state.getEdge().getCells().get(i).belongsTo(opponent)) {
           int num = nearSpotEmpty(i, state.getAvailableSpaces(), state.getCorner());
           return state.getCorner().getPosition(num);
         }

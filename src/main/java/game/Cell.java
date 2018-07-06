@@ -13,7 +13,7 @@ public class Cell {
     this.value = value;
   }
 
-  boolean belongsTo(Player player) {
+  public boolean belongsTo(Player player) {
     return value.equals(player.getSymbol());
   }
 }
