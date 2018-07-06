@@ -40,7 +40,6 @@ public class CliTest {
   @Test
   public void AnnounceTieIfTieGame() {
     Cli cli = mockCli("UserInput");
-    String output = out.toString();
     cli.announceTie();
     assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
   }
@@ -137,9 +136,13 @@ public class CliTest {
 
     cli.printBoard(board);
 
-    assertThat(out.toString(), containsString("  |   | X"));
-    assertThat(out.toString(), containsString("O |   | O"));
-    assertThat(out.toString(), containsString("X |   | X"));
+    assertThat(out.toString(), containsString("   |   | X"+
+                                                      "\n===+===+===\n"+
+                                                        " O |   | O"+
+                                                      "\n===+===+===\n"+
+                                                        " X |   | X\n")
+    );
+
 
   }
 

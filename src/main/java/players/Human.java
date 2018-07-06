@@ -99,7 +99,7 @@ public class Human extends Player {
   }
 
   private boolean validateSpot(Board board, int spot, Player player1, Player player2, Cli cli){
-    if (!board.getCell(spot).getValue().equals(player1.getSymbol()) && !board.getCell(spot).getValue().equals(player2.getSymbol())) {//check the spot is already taken
+    if (!board.getCell(spot).belongsTo(player1) && !board.getCell(spot).belongsTo(player2)) {//check the spot is already taken
       return true;
     } else {
       cli.printMessage("Enter a number that is not already used");

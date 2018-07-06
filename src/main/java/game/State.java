@@ -28,15 +28,15 @@ public class State{
     corner = new Corner(board);
     edge = new Edge(board);
 
-    countMyCorners = corner.getCells().stream().filter(x -> x.getValue().equals(current.getSymbol())).count();//count how many symbols computer has placed in the corners
-    countOppCorners = corner.getCells().stream().filter(x -> x.getValue().equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the corners
-    countOppEdges = edge.getCells().stream().filter(x -> x.getValue().equals(opponent.getSymbol())).count();//count how many symbols your opponent has placed in the edges
+    countMyCorners = corner.getCells().stream().filter(x -> x.belongsTo(current)).count();//count how many symbols computer has placed in the corners
+    countOppCorners = corner.getCells().stream().filter(x -> x.belongsTo(opponent)).count();//count how many symbols your opponent has placed in the corners
+    countOppEdges = edge.getCells().stream().filter(x -> x.belongsTo(opponent)).count();//count how many symbols your opponent has placed in the edges
 
-    oppCenter = board.getCell(4).getValue().equals(opponent.getSymbol());//true if opponent is in the center
-    myCenter = board.getCell(4).getValue().equals(current.getSymbol());//true if computer is in the center
+    oppCenter = board.getCell(4).belongsTo(opponent);//true if opponent is in the center
+    myCenter = board.getCell(4).belongsTo(current);//true if computer is in the center
 
     for (int i = 0; i < board.getCapacity(); i++) {
-      if (!board.getCell(i).getValue().equals(current.getSymbol()) && !board.getCell(i).getValue().equals(opponent.getSymbol())) {
+      if (!board.getCell(i).belongsTo(current) && !board.getCell(i).belongsTo(opponent)) {
         availableSpaces.add(i);
       }
     }

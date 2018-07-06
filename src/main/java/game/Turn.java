@@ -8,7 +8,7 @@ public class Turn{
   Mapping mapping;
 
   public Turn(Board board, Player current, Player opponent){
-    this.turn = board.getCells().stream().filter(x -> x.getValue().equals(current.getSymbol()) || x.getValue().equals(opponent.getSymbol())).count();
+    this.turn = board.getCells().stream().filter(x -> x.belongsTo(current) || x.belongsTo(opponent)).count();
     this.boardState = new State(board, current, opponent);
     this.mapping = new Mapping();
   }
