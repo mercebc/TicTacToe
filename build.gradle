@@ -11,8 +11,6 @@ repositories {
     mavenCentral()
 }
 
-sourceSets.main.java.srcDirs = ['src']
-
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
@@ -25,7 +23,7 @@ jacocoTestReport {
     }
 }
 
-mainClassName = 'TicTacToe.Start'
+mainClassName = 'com.Start'
 
 jar {
     baseName = "TicTacToe"
