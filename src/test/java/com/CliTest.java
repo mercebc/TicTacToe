@@ -30,11 +30,15 @@ public class CliTest {
     return new Cli(input, output);
   }
 
-
   @Before
   public void setUp() {
     out = new ByteArrayOutputStream();
     output = new PrintStream(out);
+  }
+
+  @Test
+  public void Test() {
+    System.out.println("Tests");
   }
 
   @Test
