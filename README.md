@@ -20,14 +20,19 @@ The game has three options to play:
 
 ## Run me
 To be able to Run the application you'll need to clone the directory into your laptop.
-git clone https://github.com/mercebc/TicTacToe.git
+
+```git clone https://github.com/mercebc/TicTacToe.git```
 
 Open the directory
-cd TicTacToe/
+
+```cd TicTacToe/```
 
 Clean and jar 
-./gradlew clean
-./gradlew jar
+
+```./gradlew clean```
+
+```./gradlew jar```
 
 And have fun playing 
-java -jar build/libs/TicTacToe-0.1.0.jar
+
+```java -jar build/libs/TicTacToe-0.1.0.jar```
