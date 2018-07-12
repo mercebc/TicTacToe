@@ -21,16 +21,9 @@ public class Computer extends Player{
   //overwrite the method in player
 
 
-  public int getSpot(Board board, Player player1, Player player2, Cli cli) {
+  public int getSpot(Board board, Player opponent, Cli cli) {
 
-    Player opponent;
     Integer foundBestMove = -1;
-
-    if (this == player1) {
-      opponent = player2;
-    } else {
-      opponent = player1;
-    }
 
     Turn turn = new Turn(board, this, opponent);
     State state = turn.getBoardState();

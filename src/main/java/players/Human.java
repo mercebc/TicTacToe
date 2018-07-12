@@ -15,7 +15,7 @@ public class Human extends Player {
   //overwrite the methods in player
 
 
-  public int getSpot(Board board, Player player1, Player player2, Cli cli) {
+  public int getSpot(Board board, Player opponent, Cli cli) {
     int spot;
 
     do{
@@ -23,10 +23,10 @@ public class Human extends Player {
 
     }while (spot == -1);
 
-    if(validateSpot (board, spot, player1, player2, cli)) {
+    if(validateSpot (board, spot, opponent, cli)) {
       return spot;
     }else{
-      return getSpot (board, player1, player2, cli);
+      return getSpot (board, opponent, cli);
     }
   }
 
@@ -98,8 +98,8 @@ public class Human extends Player {
     return Character.toString(s);
   }
 
-  private boolean validateSpot(Board board, int spot, Player player1, Player player2, Cli cli){
-    if (!board.getCell(spot).belongsTo(player1) && !board.getCell(spot).belongsTo(player2)) {//check the spot is already taken
+  private boolean validateSpot(Board board, int spot, Player player2, Cli cli){
+    if (!board.getCell(spot).belongsTo(this) && !board.getCell(spot).belongsTo(player2)) {//check the spot is already taken
       return true;
     } else {
       cli.printMessage("Enter a number that is not already used");

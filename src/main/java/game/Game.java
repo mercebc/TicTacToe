@@ -59,7 +59,7 @@ public class Game {
     whoStartsFirst(cli);
 
     do {
-      int spot = currentPlayer.getSpot(this.board, this.player1, this.player2, cli);//get the spot of the player, Human and Computer have different methods for this
+      int spot = currentPlayer.getSpot(this.board, nextPlayer(), cli);//get the spot of the player, Human and Computer have different methods for this
 
       setSpot(spot);
 

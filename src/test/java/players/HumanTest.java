@@ -88,14 +88,14 @@ public class HumanTest {
 
     Cli cli1 = mockCli("2");
 
-    assertThat(john.getSpot(board, john, tom, cli1), is(spot) );
+    assertThat(john.getSpot(board, tom, cli1), is(spot) );
 
   }
 
   @Test
   public void spotLetter() {
     Cli cli = mockCli("p\np\n2");
-    john.getSpot(board, john, tom, cli);
+    john.getSpot(board, tom, cli);
 
     assertThat(out.toString(), containsString("You can only input integers"));
   }
@@ -103,7 +103,7 @@ public class HumanTest {
   @Test
   public void spotGreaterThanMax() {
     Cli cli = mockCli("10\n1");
-    john.getSpot(board, john, tom, cli);
+    john.getSpot(board, tom, cli);
 
     assertThat(out.toString(), containsString("You can only input an integer between"));
   }
@@ -115,7 +115,7 @@ public class HumanTest {
     board.setCell(7,"J");//position 7 in the board equals to 8 position for the user input
 
     Cli cli = mockCli("8\n1");
-    john.getSpot(board, john, tom, cli);
+    john.getSpot(board, tom, cli);
 
     assertThat(out.toString(), containsString("Enter a number that is not already used"));
   }

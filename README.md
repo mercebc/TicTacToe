@@ -27,12 +27,10 @@ Open the directory
 
 ```cd TicTacToe/```
 
-Clean and jar 
+Clean and build the app (the tests will run aswell)
 
-```./gradlew clean```
+```./gradlew clean build```
 
-```./gradlew jar```
-
-And have fun playing 
+And have fun playing
 
 ```java -jar build/libs/TicTacToe-0.1.0.jar```
