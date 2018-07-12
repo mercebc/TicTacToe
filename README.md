@@ -17,3 +17,20 @@ The game has three options to play:
 - player vs. player
 - player vs. computer
 - computer vs. computer
+
+## Run me
+To be able to Run the application you'll need to clone the directory into your laptop.
+
+```git clone https://github.com/mercebc/TicTacToe.git```
+
+Open the directory
+
+```cd TicTacToe/```
+
+Clean and build the app (the tests will run aswell)
+
+```./gradlew clean build```
+
+And have fun playing
+
+```java -jar build/libs/TicTacToe-0.1.0.jar```
