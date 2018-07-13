@@ -36,6 +36,10 @@ public class CliTest {
     output = new PrintStream(out);
   }
 
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
+
   @Test
   public void Test() {
     System.out.println("Tests");
@@ -58,7 +62,7 @@ public class CliTest {
   }
 
   @Test
-  public void betweenNumbers() {
+  public void numBetweenMinAndMax() {
 
     Cli cli = mockCli("5");
 
@@ -78,15 +82,12 @@ public class CliTest {
   @Test
   public void betweenNumbersOrHelpisHelp() {
 
-    Cli cli = mockCli("h");
+    Cli cli = mockCli("h\n2");
 
     cli.askForIntegerOrHelpBetweenMinAndMax(1, 7);
 
     assertThat(out.toString(), containsString("The following numbers are the position your symbol will be placed."));
   }
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void UserInpuALetter() {
