@@ -1,12 +1,15 @@
 package players;
 
 import com.Cli;
+import com.Validate;
 import game.Board;
 
 import java.util.InputMismatchException;
 
 
 public class Human extends Player {
+
+  private Validate validate = new Validate();
 
   public Human(String name, String symbol) {
     super(name, symbol);//calls parent class constructor
@@ -16,22 +19,21 @@ public class Human extends Player {
 
 
   public int getSpot(Board board, Player opponent, Cli cli) {
-    int spot;
 
-    do{
-      spot = getHumanSpot(cli);
+    int spot = getHumanSpot(cli);
 
-    }while (spot == -1);
-
-    if(validateSpot (board, spot, opponent, cli)) {
+    if(validate.spot(board, spot, this,opponent)) {
       return spot;
     }else{
+      cli.printMessage("Enter a number that is not already used");
       return getSpot (board, opponent, cli);
     }
   }
 
   private int getHumanSpot(Cli cli) {
+
     int spot = -1;
+
     try {
       cli.printMessage(this.getName() + ", please enter a number between 1 and 9 to allocate your symbol. Enter \"h\" for help.\n");
 
@@ -53,7 +55,7 @@ public class Human extends Player {
 
     String name = cli.askForString();
 
-      if (checkOpponentName(opponent, name)) {//if new name is not the same as the other player's name
+      if (validate.notSameName(opponent, name)) {//if new name is not the same as the other player's name
         this.setName(name);//change name
         cli.printMessage("Name changed to " + this.getName());
         return true;
@@ -62,10 +64,6 @@ public class Human extends Player {
         return false;
       }
 
-  }
-
-  private boolean checkOpponentName(Player opponent, String name) {
-    return (!(opponent.getName().equals(name)));
   }
 
   public boolean changeSymbol(Cli cli, Player opponent) {
@@ -77,7 +75,7 @@ public class Human extends Player {
         symbol = trimSymbol(symbol, cli);
       }
 
-      if(checkOpponentSymbol(opponent, symbol)){
+      if(validate.notSameSymbol(opponent, symbol)){
         this.setSymbol(symbol);//change symbol
         cli.printMessage("Symbol changed to " + this.getSymbol());
         return true;
@@ -87,10 +85,6 @@ public class Human extends Player {
       }
   }
 
-  private boolean checkOpponentSymbol(Player opponent, String symbol) {
-    return (!(opponent.getSymbol().equals(symbol)));
-  }
-
 
   private String trimSymbol(String symbol, Cli cli) {
     char s = symbol.charAt(0);//get only the first character
@@ -98,13 +92,5 @@ public class Human extends Player {
     return Character.toString(s);
   }
 
-  private boolean validateSpot(Board board, int spot, Player player2, Cli cli){
-    if (!board.getCell(spot).belongsTo(this) && !board.getCell(spot).belongsTo(player2)) {//check the spot is already taken
-      return true;
-    } else {
-      cli.printMessage("Enter a number that is not already used");
-      return false;
-    }
-  }
 
 }
