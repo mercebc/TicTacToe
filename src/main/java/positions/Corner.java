@@ -1,4 +1,8 @@
-package game;
+package positions;
+
+import game.Board;
+import game.Cell;
+import positions.Borders;
 
 import java.util.ArrayList;
 import java.util.HashMap;

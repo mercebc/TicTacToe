@@ -28,10 +28,10 @@ public abstract class Player {//Abstract class. Cannot be instantiated.
     this.symbol = symbol;
   }
 
-  public abstract int getSpot(Board board, Player opponent, Cli cli);
+  public abstract int getSpot(Board board, Player opponent);
 
-  public boolean changeName(Cli cli, Player player2) { return false;}
+  public boolean changeName(Player player2) { return false;}
 
-  public boolean changeSymbol(Cli cli, Player player2) {return false;}
+  public boolean changeSymbol(Player player2) {return false;}
 
 }

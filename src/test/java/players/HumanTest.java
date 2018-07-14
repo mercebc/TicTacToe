@@ -20,10 +20,12 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
 public class HumanTest {
-  Player john = new Human("John", "J");
-  Player tom = new Human("Tom", "T");
   Board board = new Board();
   int spot = 0;
+
+  private Player john;
+  private Player tom;
+
 
   private ByteArrayOutputStream out;
   private PrintStream output;
@@ -35,24 +37,28 @@ public class HumanTest {
     return new Cli(input, output);
   }
 
-
   @Before
   public void setUp() {
     out = new ByteArrayOutputStream();
     output = new PrintStream(out);
+
+    Cli cli = mockCli("UserInput");
+    tom = new Human("Tom", "T", cli);
   }
 
   @Test
   public void TrimsSymbolIfHasMoreThan1Char() {
     Cli cli = mockCli("PO");
-    john.changeSymbol(cli, tom);
+    john = new Human("John", "J" ,cli);
+    john.changeSymbol(tom);
     assertThat (john.getSymbol(), is("P"));
   }
 
   @Test
   public void CantChangeSymbolItsTheSameOneAsTheOpponent() {
     Cli cli = mockCli("T");
-    john.changeSymbol(cli, tom);
+    john = new Human("John", "J" ,cli);
+    john.changeSymbol(tom);
     assertThat(out.toString(), containsString("The symbol you are trying to change is the same"));
     assertThat (john.getSymbol(), is("J"));
   }
@@ -60,14 +66,16 @@ public class HumanTest {
   @Test
   public void ChangeSymbolItsDifferentThanTheOpponent() {
     Cli cli = mockCli("S");
-    john.changeSymbol(cli, tom);
+    john = new Human("John", "J" ,cli);
+    john.changeSymbol(tom);
     assertThat (john.getSymbol(), is("S"));
   }
 
   @Test
   public void CantChangeNameItsTheSameOneAsTheOpponent() {
     Cli cli = mockCli("Tom");
-    john.changeName(cli, tom);
+    john = new Human("John", "J" ,cli);
+    john.changeName(tom);
     assertThat(out.toString(), containsString("The name you are trying to change is the same"));
     assertThat ((john.getName()), is("John"));
   }
@@ -75,27 +83,28 @@ public class HumanTest {
   @Test
   public void ChangeNameItsDifferentThanTheOpponent() {
     Cli cli = mockCli("Sophie");
-    john.changeName(cli, tom);
+    john = new Human("John", "J" ,cli);
+    john.changeName(tom);
     assertThat ((john.getName()), is("Sophie"));
   }
 
   @Test
   public void getSpotHumanValidated() {
-
     Cli cli = mockCli("2");
-
     spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, 9) - 1;
 
-    Cli cli1 = mockCli("2");
+    cli = mockCli("2");
+    john = new Human("John", "J" ,cli);
 
-    assertThat(john.getSpot(board, tom, cli1), is(spot) );
+    assertThat(john.getSpot(board, tom), is(spot) );
 
   }
 
   @Test
   public void spotLetter() {
     Cli cli = mockCli("p\np\n2");
-    john.getSpot(board, tom, cli);
+    john = new Human("John", "J" ,cli);
+    john.getSpot(board, tom);
 
     assertThat(out.toString(), containsString("You can only input integers"));
   }
@@ -103,7 +112,8 @@ public class HumanTest {
   @Test
   public void spotGreaterThanMax() {
     Cli cli = mockCli("10\n1");
-    john.getSpot(board, tom, cli);
+    john = new Human("John", "J" ,cli);
+    john.getSpot(board, tom);
 
     assertThat(out.toString(), containsString("You can only input an integer between"));
   }
@@ -115,7 +125,8 @@ public class HumanTest {
     board.setCell(7,"J");//position 7 in the board equals to 8 position for the user input
 
     Cli cli = mockCli("8\n1");
-    john.getSpot(board, tom, cli);
+    john = new Human("John", "J" ,cli);
+    john.getSpot(board, tom);
 
     assertThat(out.toString(), containsString("Enter a number that is not already used"));
   }

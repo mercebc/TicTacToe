@@ -15,6 +15,7 @@ public class Cli implements UserInterface {
 
   private PrintStream output;
   private Scanner input;
+  private Validate validate = new Validate();
 
   public Cli(InputStream inputStream, PrintStream output) {
     this.output = output;
@@ -22,51 +23,34 @@ public class Cli implements UserInterface {
   }
 
   public int askForIntegerBetweenMinAndMax(int min, int max){
-    int num;
-
 
     if (input.hasNextInt()) {
-      num = input.nextInt();
+      int num = input.nextInt();
       input.skip(".*");
+      return validate.betweenMinAndMax(min, max, num);
+
     } else {
       input.next();
       input.skip(".*");
       throw new InputMismatchException("You can only input integers");
     }
 
-    if (num >= min && num <= max) {
-      return num;
-    } else {
-      throw new IllegalArgumentException("You can only input an integer between " + min + " and " + max);
-    }
-
   }
 
   public int askForIntegerOrHelpBetweenMinAndMax(int min, int max){
-    int spot = 0;
-    String help;
 
     if (input.hasNextInt()) {
-      spot = input.nextInt();//assigns to spot the inserted value. Only if it's a number
+      int spot = input.nextInt();//assigns to spot the inserted value. Only if it's a number
       input.skip(".*");
-
-      if (spot >= min && spot <= max) {
-        return spot;
-      } else {
-        throw new IllegalArgumentException("You can only input an integer between " + min + " and " + max);
-      }
+      return validate.betweenMinAndMax(min, max, spot);
 
     } else {
-
-      help = input.next();//assigns to help the inserted value. If it isn't a number.
+      String help = input.next();//assigns to help the inserted value. If it isn't a number.
       input.skip(".*");
 
-      if (help.equalsIgnoreCase("h")) {//if the input equals "h" a note is displayed to help the user understand how the game works
-
-        output.println("The following numbers are the position your symbol will be placed.");
-        output.println(" 1 | 2 | 3 " + "\n===+===+===\n" + " 4 | 5 | 6 " + "\n===+===+===\n" + " 7 | 8 | 9 ");
-
-        return spot;
+      if(validate.isHelp(help)){
+        printHelp();
+        return askForIntegerOrHelpBetweenMinAndMax(min, max);
 
       } else {//if it isn't a "h", throw an exception
         throw new InputMismatchException("You can only input integers or \"h\" for help.");
@@ -75,9 +59,7 @@ public class Cli implements UserInterface {
   }
 
   public String askForString(){
-    String word;
-
-    word = input.next();//take only the first word
+    String word = input.next();//take only the first word
     input.skip(".*");//ignore the rest
 
     return word;
@@ -99,6 +81,11 @@ public class Cli implements UserInterface {
         + " | " + board.getCell(4).getValue() + " | " + board.getCell(5).getValue() + "\n===+===+===\n" + " " + board.getCell(6).getValue() + " | " + board.getCell(7).getValue() + " | " + board.getCell(8).getValue() + "\n"); // print all the board cells
   }
 
+  public void printHelp(){
+    output.println("The following numbers are the position your symbol will be placed.");
+    output.println(" 1 | 2 | 3 " + "\n===+===+===\n" + " 4 | 5 | 6 " + "\n===+===+===\n" + " 7 | 8 | 9 ");
+    output.println("Type the number you wish to place your symbol on the board:");
+  }
 
   /** Messages */
   public void printMessage(String message) {

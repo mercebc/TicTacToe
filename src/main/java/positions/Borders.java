@@ -1,4 +1,6 @@
-package game;
+package positions;
+
+import game.Cell;
 
 import java.util.List;
 
