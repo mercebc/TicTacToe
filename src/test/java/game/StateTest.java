@@ -1,5 +1,6 @@
 package game;
 
+import com.Cli;
 import org.junit.Before;
 import org.junit.Test;
 import players.Computer;
@@ -17,8 +18,10 @@ public class StateTest {
   Board board = new Board();
   State state;
 
+  Cli cli = new Cli(System.in, System.out);
+
   Player current = new Computer("Computer", "X");
-  Player opponent = new Human("Jenny", "O");
+  Player opponent = new Human("Jenny", "O", cli);
 
   private List<Integer> corners = new ArrayList<>();
   private List<Integer> availableSpaces = new ArrayList<>();

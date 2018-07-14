@@ -54,9 +54,8 @@ public class CliTest {
 
   @Test
   public void AnnounceIfCheckLine() {
-    Player john = new Human("John", "J");
-
     Cli cli = mockCli("UserInput");
+    Player john = new Human("John", "J", cli);
     cli.announceWinner(john);
     assertThat(out.toString(), containsString("Congratulations! The winner is " + john.getName()));
   }

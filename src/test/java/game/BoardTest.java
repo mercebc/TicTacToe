@@ -1,11 +1,15 @@
 package game;
 
+import com.Cli;
 import org.junit.Test;
 import players.Computer;
 import players.Human;
 import players.HumanTest;
 import players.Player;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +20,9 @@ public class BoardTest {
 
   Board board = new Board();
 
-  Player peter = new Human("Peter", "P");
+  Cli cli = new Cli(System.in, System.out);
+
+  Player peter = new Human("Peter", "P", cli);
   Player computer = new Computer("Computer", "X");
 
   @Test

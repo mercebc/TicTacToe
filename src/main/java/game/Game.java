@@ -19,9 +19,12 @@ public class Game {
   private Player player2;
   private Player currentPlayer;
 
-  public Game(){
+  private Cli cli;
+
+  public Game(Cli cli){
 
     this.board = new Board();
+    this.cli = cli;
 
     this.playerFactory = new PlayerFactory();
     this.gameOptions = new HashMap<Integer, String>();
@@ -54,23 +57,29 @@ public class Game {
   }
 
 
-  public void initGame(Cli cli){
+  public void initGame(){
 
-    whoStartsFirst(cli);
+    whoStartsFirst();
 
     do {
-      int spot = currentPlayer.getSpot(this.board, nextPlayer(), cli);//get the spot of the player, Human and Computer have different methods for this
+      int spot = currentPlayer.getSpot(this.board, nextPlayer());//get the spot of the player, Human and Computer have different methods for this
 
       setSpot(spot);
 
-      this.currentPlayer = nextPlayer(); //change players
+      cli.printMessage(currentPlayer.getName() + " moves:\n");//notify the user who moves
 
       cli.printBoard(board);
 
-    } while (!this.board.threeInLine(player1, player2) && !this.board.tie(player1, player2)); // repeat if not game-over
+      this.currentPlayer = nextPlayer(); //change players
 
-    finalGameAnnouncements(cli);
+    } while (gameIsNotOver());
 
+    finalGameAnnouncements();
+
+  }
+
+  private boolean gameIsNotOver() {
+    return !this.board.threeInLine(player1, player2) && !this.board.tie(player1, player2);
   }
 
   /** Initializes the game with player against computer. This is the default game if players haven't been changed */
@@ -79,12 +88,12 @@ public class Game {
 
     String option = gameOptions.get(key);
 
-    player1 = playerFactory.player1(option);
-    player2 = playerFactory.player2(option);
+    player1 = playerFactory.player1(option, cli);
+    player2 = playerFactory.player2(option, cli);
 
   }
 
-  public void whoStartsFirst(Cli cli) {
+  public void whoStartsFirst() {
     int num = 0;
     try{
       if(!(player1 instanceof Computer)){
@@ -100,11 +109,11 @@ public class Game {
       }
     } catch (IllegalArgumentException ex) {
       cli.printMessage(ex.getMessage());
-      whoStartsFirst(cli);//recursive call when there is an exception
+      whoStartsFirst();//recursive call when there is an exception
 
     } catch (InputMismatchException ex) {
       cli.printMessage(ex.getMessage());
-      whoStartsFirst(cli);
+      whoStartsFirst();
     }
   }
 
@@ -126,7 +135,7 @@ public class Game {
   }
 
   /** Final Game Announcements */
-  public void finalGameAnnouncements(Cli cli){
+  public void finalGameAnnouncements(){
     if(this.board.tie(player1, player2)){
       cli.announceTie();
     }
@@ -141,7 +150,7 @@ public class Game {
   }
 
   /** Player want to play again */
-  public boolean playAgain(Cli cli) {
+  public boolean playAgain() {
 
     cli.printMessage("Enter \"1\" to Quit or \"2\" to Play again");//Player choose who starts the game
 
@@ -159,16 +168,16 @@ public class Game {
       }
     } catch (IllegalArgumentException ex) {
       cli.printMessage(ex.getMessage());
-      playAgain(cli);//recursive call when there is an exception
+      playAgain();//recursive call when there is an exception
 
     } catch (InputMismatchException ex) {
       cli.printMessage(ex.getMessage());
-      playAgain(cli);
+      playAgain();
     }
     return playAgain;
   }
 
-  public void quit(Cli cli) {
+  public void quit() {
     cli.printMessage("Sorry to hear you are leaving us, see you soon!");
   }
 }

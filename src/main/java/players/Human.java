@@ -11,26 +11,29 @@ public class Human extends Player {
 
   private Validate validate = new Validate();
 
-  public Human(String name, String symbol) {
+  Cli cli;
+
+  public Human(String name, String symbol, Cli cli) {
     super(name, symbol);//calls parent class constructor
+    this.cli = cli;
   }
 
   //overwrite the methods in player
 
 
-  public int getSpot(Board board, Player opponent, Cli cli) {
+  public int getSpot(Board board, Player opponent) {
 
-    int spot = getHumanSpot(cli);
+    int spot = getHumanSpot();
 
     if(validate.spot(board, spot, this,opponent)) {
       return spot;
     }else{
       cli.printMessage("Enter a number that is not already used");
-      return getSpot (board, opponent, cli);
+      return getSpot (board, opponent);
     }
   }
 
-  private int getHumanSpot(Cli cli) {
+  private int getHumanSpot() {
 
     int spot = -1;
 
@@ -41,16 +44,16 @@ public class Human extends Player {
     }
       catch (InputMismatchException ex) {
         cli.printMessage(ex.getMessage());
-        spot = getHumanSpot(cli);
+        spot = getHumanSpot();
       }
       catch (IllegalArgumentException ex) {
         cli.printMessage(ex.getMessage());
-        spot = getHumanSpot(cli);
+        spot = getHumanSpot();
       }
     return spot;
   }
 
-  public boolean changeName(Cli cli, Player opponent) {
+  public boolean changeName(Player opponent) {
     System.out.println("Enter new name for " + this.getName());
 
     String name = cli.askForString();
@@ -66,13 +69,13 @@ public class Human extends Player {
 
   }
 
-  public boolean changeSymbol(Cli cli, Player opponent) {
+  public boolean changeSymbol(Player opponent) {
     cli.printMessage("Enter new symbol for " + this.getName());
 
     String symbol = cli.askForString();
 
       if(symbol.length() > 1) {//if input is more than one character, trim and inform user
-        symbol = trimSymbol(symbol, cli);
+        symbol = trimSymbol(symbol);
       }
 
       if(validate.notSameSymbol(opponent, symbol)){
@@ -86,7 +89,7 @@ public class Human extends Player {
   }
 
 
-  private String trimSymbol(String symbol, Cli cli) {
+  private String trimSymbol(String symbol) {
     char s = symbol.charAt(0);//get only the first character
     cli.printMessage("Note: We have trimmed your Symbol as it can only contain one character");
     return Character.toString(s);

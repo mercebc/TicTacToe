@@ -1,7 +1,10 @@
-package game;
+package positions;
 
+import game.Board;
+import game.Cell;
 import org.junit.Before;
 import org.junit.Test;
+import positions.Corner;
 
 import java.util.ArrayList;
 import java.util.HashMap;

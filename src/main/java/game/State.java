@@ -1,6 +1,10 @@
 package game;
 
 import players.Player;
+import positions.Center;
+import positions.Corner;
+import positions.Diagonal;
+import positions.Edge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +14,8 @@ public class State{
   private List<Integer> corners = new ArrayList<>();
   private Corner corner;
   private Edge edge;
+  private Center center;
+  private Diagonal diagonal;
   private List<Integer> availableSpaces = new ArrayList<>();
 
   private long countMyCorners;
@@ -27,6 +33,8 @@ public class State{
 
     corner = new Corner(board);
     edge = new Edge(board);
+    center = new Center();
+    diagonal = new Diagonal();
 
     countMyCorners = corner.getCells().stream().filter(x -> x.belongsTo(current)).count();//count how many symbols computer has placed in the corners
     countOppCorners = corner.getCells().stream().filter(x -> x.belongsTo(opponent)).count();//count how many symbols your opponent has placed in the corners
@@ -49,6 +57,14 @@ public class State{
 
   public Edge getEdge() {
     return edge;
+  }
+
+  public Center getCenter() {
+    return center;
+  }
+
+  public Diagonal getDiagonal() {
+    return diagonal;
   }
 
   public List<Integer> getAvailableSpaces() {

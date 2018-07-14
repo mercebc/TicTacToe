@@ -1,10 +1,14 @@
-package game;
+package positions;
+
+import game.Board;
+import game.Cell;
+import positions.Borders;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Edge implements Borders{
+public class Edge implements Borders {
 
   private HashMap<Integer, Integer> position;
   private List<Cell> cells;

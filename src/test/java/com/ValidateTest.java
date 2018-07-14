@@ -24,8 +24,10 @@ import static org.hamcrest.Matchers.is;
 
     @Before
     public void setUp() {
-      opponent = new Human("Tom", "X");
-      current = new Human("Elisabeth", "E");
+      Cli cli = new Cli(System.in, System.out);
+
+      opponent = new Human("Tom", "X", cli);
+      current = new Human("Elisabeth", "E", cli);
 
       board.setCell(0, "E");
       board.setCell(1, "X");

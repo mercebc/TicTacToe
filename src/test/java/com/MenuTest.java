@@ -3,13 +3,11 @@ package com;
 import game.Game;
 import org.junit.Before;
 import org.junit.Test;
-import players.Computer;
 import players.Player;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.InputMismatchException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -27,11 +25,6 @@ public class MenuTest {
     return new Cli(input, output);
   }
 
-  Game game = new Game();
-
-  Player player2 = game.getPlayer2();
-  Player currentPlayer = game.getCurrentPlayer();
-
   @Before
   public void setUp() {
     out = new ByteArrayOutputStream();
@@ -39,47 +32,48 @@ public class MenuTest {
   }
 
   @Test
-  public void showMenuEnterHigherThenOk() {
-    Cli cli = mockCli("\n9\n2\n1\n5");
+  public void showMenuEnterNumHigherThanMaxThenReEnter5() {
+    Cli cli = mockCli("\n9\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
 
-    menu.showMenu();
-
+    assertThat(menu.showStartMenuAndGetOption(), is(5));
     assertThat(out.toString(), containsString("You can only input an integer between"));
-    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
     }
 
   @Test
-  public void showMenuEnterCharThenOk() {
-    Cli cli = mockCli("\np\n2\n1\n5");
+  public void showMenuEnterCharacterThenReEnter3() {
+    Cli cli = mockCli("\np\n3");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
 
-    menu.showMenu();
-
+    assertThat(menu.showStartMenuAndGetOption(), is(3));
     assertThat(out.toString(), containsString("You can only input integers"));
-    assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));}
+
+  }
 
   @Test
-  public void showMenuComputerComputerAndEnterValidValueAndTie() {
-    Cli cli = mockCli("2\n3\n1\n1\n1");
-    Menu menu = new Menu(game, cli);
+  public void showMenuAndWatchComputerBattle() {
+    Cli cli = mockCli("1\n1");
+    Game game = new Game(cli);
     game.createPlayers(3);
+    Menu menu = new Menu(game, cli);
 
-    menu.showMenu();
-
+    assertThat(menu.showStartMenuAndGetOption(), is(1));
+    menu.showOptionsMenu(1);
     assertThat(out.toString(), containsString("to watch a computer battle"));
     assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
-
   }
 
   @Test
   public void PlayAgain() {
     Cli cli = mockCli("1\n2\n1\n1");
-    Menu menu = new Menu(game, cli);
+    Game game = new Game(cli);
     game.createPlayers(3);
+    Menu menu = new Menu(game, cli);
 
-    menu.showMenu();
-
+    assertThat(menu.showStartMenuAndGetOption(), is(1));
+    menu.showOptionsMenu(1);
     assertThat(out.toString(), containsString("to watch a computer battle"));
     assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
     assertThat(out.toString(), containsString("to Play again"));
@@ -87,11 +81,12 @@ public class MenuTest {
   }
 
   @Test
-  public void chooseComputerOpponentHigherThenOkThenExit() {
-    Cli cli = mockCli("2\n5\n1\n5");
+  public void chooseComputerAsOpponent_EnterNumHigherThanMaxThenOkThenExit() {
+    Cli cli = mockCli("2\n6\n1\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
 
-    menu.showMenu();
+    menu.flowGame();
 
     assertThat(out.toString(), containsString("You can only input an integer between"));
     assertThat(out.toString(), containsString("You are playing against " + game.getPlayer2().getName()));
@@ -99,11 +94,12 @@ public class MenuTest {
   }
 
   @Test
-  public void choosePlayerOpponentCharThenOkThenExit() {
+  public void choosePlayerAsOpponent_EnterCharacterThenOkThenExit() {
     Cli cli = mockCli("2\nkp\n1\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
 
-    menu.showMenu();
+    menu.flowGame();
 
     assertThat(out.toString(), containsString("You can only input integers"));
     assertThat(out.toString(), containsString("You are playing against " + game.getPlayer2().getName()));
@@ -111,12 +107,13 @@ public class MenuTest {
   }
 
   @Test
-  public void changeNameHumanHumanHigherThenSameThenOk() {
+  public void changeNamePlayer2_ModeHumanHuman_EnterNumHigherThanMax_ThenTheSameValue_ThenOk() {
     Cli cli = mockCli("3\n3\n2\nPlayer1\n2\nAngela\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
     game.createPlayers(1);
 
-    menu.showMenu();
+    menu.flowGame();
 
     assertThat(out.toString(), containsString("to change Player2's name"));
     assertThat(out.toString(), containsString("You can only input an integer between"));
@@ -126,12 +123,13 @@ public class MenuTest {
   }
 
   @Test
-  public void changeNameHumanHumanCharThenSameThenOk() {
+  public void changeNamePlayer2_ModeHumanHuman_EnterCharacter_ThenTheSameValue_ThenOk() {
     Cli cli = mockCli("3\np\n1\nPlayer2\n1\nAmelia\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
     game.createPlayers(1);
 
-    menu.showMenu();
+    menu.flowGame();
 
     assertThat(out.toString(), containsString("to change Player1's name"));
     assertThat(out.toString(), containsString("You can only input integers"));
@@ -141,12 +139,13 @@ public class MenuTest {
   }
 
   @Test
-  public void changeSymbolHumanHumanHigherThenSameThenTrim() {
+  public void changeSymbolPlayer2_ModeHumanHuman_EnterNumHigherThanMax_ThenSameSymbolPlayer1_ThenTrimSymbolOk() {
     Cli cli = mockCli("4\n6\n2\nX\n2\nApple\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
     game.createPlayers(1);
 
-    menu.showMenu();
+    menu.flowGame();
 
     assertThat(out.toString(), containsString("to change " + game.getPlayer2().getName() +"'s symbol"));
     assertThat(out.toString(), containsString("You can only input an integer between"));
@@ -157,12 +156,13 @@ public class MenuTest {
   }
 
   @Test
-  public void changeSymbolHumanHumanCharThenSameThenOk() {
+  public void changeSymbolPlayer2_ModeHumanHuman_EnterCharacter_ThenSameSymbolPlayer1_ThenOk() {
     Cli cli = mockCli("4\nl\n1\nD\n1\nM\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
     game.createPlayers(1);
 
-    menu.showMenu();
+    menu.flowGame();
 
     assertThat(out.toString(), containsString("to change " + game.getPlayer1().getName() +"'s symbol"));
     assertThat(out.toString(), containsString("You can only input integers"));
@@ -172,22 +172,23 @@ public class MenuTest {
   }
 
   @Test
-  public void changeSymbolHumanComputer() {
+  public void changeSymbolHuman_modeHumanComputer() {
     Cli cli = mockCli("4\nX\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
 
-    menu.showMenu();
-
+    menu.flowGame();
     assertThat(out.toString(), containsString("Symbol changed to " + game.getPlayer1().getSymbol()));
     assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
   }
 
   @Test
-  public void changeSymbolHumanComputerSameThenOk() {
+  public void changeSymbolHuman_modeHumanComputer_EnterSameAsComputer_ThenOk() {
     Cli cli = mockCli("4\nL\nM\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
 
-    menu.showMenu();
+    menu.flowGame();
 
     assertThat(out.toString(), containsString("The symbol you are trying to change is the same one as your opponent's symbol"));
     assertThat(out.toString(), containsString("Symbol changed to " + game.getPlayer1().getSymbol()));
@@ -196,22 +197,24 @@ public class MenuTest {
 
 
   @Test
-  public void changeNameHumanComputer() {
+  public void changeName_modeHumanComputer() {
     Cli cli = mockCli("3\nPeter\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
 
-    menu.showMenu();
+    menu.flowGame();
 
     assertThat(out.toString(), containsString("Name changed to " + game.getPlayer1().getName()));
     assertThat(out.toString(), containsString("Sorry to hear you are leaving us, see you soon!"));
   }
 
   @Test
-  public void changeNameHumanComputerSameThenOk() {
+  public void changeName_modeHumanComputer_EnterSameAsComputer_ThenOk() {
     Cli cli = mockCli("3\nComputer\nMary\n5");
+    Game game = new Game(cli);
     Menu menu = new Menu(game, cli);
 
-    menu.showMenu();
+    menu.flowGame();
 
     assertThat(out.toString(), containsString("The name you are trying to change is the same one as your opponent's name"));
     assertThat(out.toString(), containsString("Name changed to " + game.getPlayer1().getName()));

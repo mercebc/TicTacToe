@@ -1,5 +1,6 @@
 package game;
 
+import com.Cli;
 import org.junit.Test;
 import players.Human;
 
@@ -22,7 +23,8 @@ public class LineTest {
       this.setValue("O");
     }
   };
-  Player john = new Human("John", "J");
+  Cli cli = new Cli(System.in, System.out);
+  Player john = new Human("John", "J", cli);
 
   @Test
   public void anEmptyLineHasntWon(){

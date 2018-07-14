@@ -1,9 +1,7 @@
 package players;
 
-import com.Cli;
 import game.Board;
-import game.Borders;
-import game.Mapping;
+import positions.Borders;
 import game.State;
 import game.Turn;
 
@@ -21,16 +19,12 @@ public class Computer extends Player{
   //overwrite the method in player
 
 
-  public int getSpot(Board board, Player opponent, Cli cli) {
+  public int getSpot(Board board, Player opponent) {
 
     Integer foundBestMove = -1;
 
     Turn turn = new Turn(board, this, opponent);
     State state = turn.getBoardState();
-    Mapping map = turn.getMapping();
-
-
-    cli.printMessage(this.getName() + " moves:\n");//notify the user that is the Computer turn
 
     foundBestMove = getBestMove(foundBestMove, state.getAvailableSpaces(), board,  opponent,  this);
 
@@ -43,19 +37,19 @@ public class Computer extends Player{
       switch (toIntExact(turn.getTurn())){
 
         case 0:
-          return openingMove.compute(opponent, state, map);
+          return openingMove.compute(opponent, state);
 
         case 1:
-          return respondTo1Piece.compute(opponent, state, map);
+          return respondTo1Piece.compute(opponent, state);
 
         case 2:
-          return respondTo2Pieces.compute(opponent, state, map);
+          return respondTo2Pieces.compute(opponent, state);
 
         case 3:
-          return RespondTo3Pieces.compute(opponent, state, map);
+          return RespondTo3Pieces.compute(opponent, state);
 
         case 4:
-          return RespondTo4Pieces.compute(opponent, state, map);
+          return RespondTo4Pieces.compute(opponent, state);
 
         default:
           return getRandomNum(state.getAvailableSpaces());
@@ -64,11 +58,11 @@ public class Computer extends Player{
     }
   }
 
-  private ComputerMove openingMove = (Player opponent, State state, Mapping map) -> {//computer moves first
+  private ComputerMove openingMove = (Player opponent, State state) -> {//computer moves first
     return getRandomNum(state.getCorners());//get random corner
   };
 
-  private ComputerMove RespondTo4Pieces = (Player opponent, State state, Mapping map) -> {
+  private ComputerMove RespondTo4Pieces = (Player opponent, State state) -> {
     if(state.getCountMyCorners() == 1 && state.getMyCenter()){//opposite corner with no opponent symbol between
       for (int i = 0; i < state.getCorner().getCells().size(); i++) {
         if (state.getCorner().getCells().get(i).belongsTo(this)) {
@@ -88,7 +82,7 @@ public class Computer extends Player{
     return getRandomNum(state.getAvailableSpaces());
   };
 
-  private ComputerMove RespondTo3Pieces = (Player opponent, State state, Mapping map) -> {
+  private ComputerMove RespondTo3Pieces = (Player opponent, State state) -> {
     if(state.getCountOppCorners()==2){ //put in any other free edge
       for (int i = 0; i < state.getEdge().getCells().size(); i++) {
         if (state.getAvailableSpaces().contains(state.getEdge().getPosition(i))) {
@@ -103,14 +97,14 @@ public class Computer extends Player{
       }
 
     }else if(!state.getMyCenter() && !state.getOppCenter()){//put it in center if it's free
-      return map.getMappingCenter();
+      return state.getCenter().getPosition("center");
     }
     return getRandomNum(state.getAvailableSpaces());
   };
 
-  private ComputerMove respondTo2Pieces = (Player opponent, State state, Mapping map) -> {
+  private ComputerMove respondTo2Pieces = (Player opponent, State state) -> {
     if(state.getCountOppEdges()==1){
-      return map.getMappingCenter();
+      return state.getCenter().getPosition("center");
     }
     else if(state.getCountOppCorners()==1){ //put in any other free corner
       for (int i = 0; i < state.getCorner().getCells().size(); i++) {
@@ -122,14 +116,14 @@ public class Computer extends Player{
     else if (state.getOppCenter()){//put in diagonal corner
       for (int i = 0; i < state.getCorner().getCells().size(); i++) {
         if (state.getCorner().getCells().get(i).belongsTo(this)) {
-          return map.getMappingDiagonal(i);
+          return state.getDiagonal().getPosition(i);
         }
       }
     }
     return getRandomNum(state.getAvailableSpaces());
   };
 
-  private ComputerMove respondTo1Piece = (Player opponent, State state, Mapping map) -> {
+  private ComputerMove respondTo1Piece = (Player opponent, State state) -> {
     if(state.getCountOppEdges()==1){//put it in corner next to the edge
       for (int i = 0; i < state.getEdge().getCells().size(); i++) {
         if (state.getEdge().getCells().get(i).belongsTo(opponent)) {
@@ -138,7 +132,7 @@ public class Computer extends Player{
         }
       }
      }else if(state.getCountOppCorners()==1){
-      return map.getMappingCenter();
+      return state.getCenter().getPosition("center");
 
     }else if (state.getOppCenter()){
       return getRandomNum(state.getCorners());

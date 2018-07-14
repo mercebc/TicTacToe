@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.hasItem;
 public class ComputerTest {
   Board board;
   Player current = new Computer("Computer", "O");
-  Player opponent = new Human("Simon", "X");
+  Player opponent;
   Cli cli;
 
   private ByteArrayOutputStream out;
@@ -39,6 +39,8 @@ public class ComputerTest {
 
     cli = new Cli(input, output);
 
+    opponent = new Human("Simon", "X", cli);
+
     corners = new ArrayList<>();
     corners.add(0);
     corners.add(2);
@@ -52,7 +54,7 @@ public class ComputerTest {
 
     board = new Board();
 
-    assertThat (corners, hasItem(current.getSpot(board, opponent, cli)));
+    assertThat (corners, hasItem(current.getSpot(board, opponent)));
   }
 
   @Test
@@ -61,7 +63,7 @@ public class ComputerTest {
     board = new Board();
     board.setCell(1,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(0));
+    assertThat (current.getSpot(board, opponent), is(0));
 
   }
 
@@ -71,7 +73,7 @@ public class ComputerTest {
     board = new Board();
     board.setCell(0,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(4));
+    assertThat (current.getSpot(board, opponent), is(4));
 
   }
 
@@ -81,7 +83,7 @@ public class ComputerTest {
     board = new Board();
     board.setCell(4,"X");
 
-    assertThat (corners, hasItem(current.getSpot(board, opponent, cli)));
+    assertThat (corners, hasItem(current.getSpot(board, opponent)));
   }
 
   @Test
@@ -91,7 +93,7 @@ public class ComputerTest {
     board.setCell(7,"X");
     board.setCell(0,"O");
 
-    assertThat (current.getSpot(board, opponent, cli), is(4));
+    assertThat (current.getSpot(board, opponent), is(4));
 
   }
 
@@ -102,7 +104,7 @@ public class ComputerTest {
     board.setCell(8,"X");
     board.setCell(0,"O");
 
-    assertThat (current.getSpot(board, opponent, cli), is(2));
+    assertThat (current.getSpot(board, opponent), is(2));
 
   }
 
@@ -113,7 +115,7 @@ public class ComputerTest {
     board.setCell(2,"X");
     board.setCell(0,"O");
 
-    assertThat (current.getSpot(board, opponent, cli), is(6));
+    assertThat (current.getSpot(board, opponent), is(6));
 
   }
 
@@ -124,7 +126,7 @@ public class ComputerTest {
     board.setCell(4,"X");
     board.setCell(8,"O");
 
-    assertThat (current.getSpot(board, opponent, cli), is(0));
+    assertThat (current.getSpot(board, opponent), is(0));
 
   }
 
@@ -136,7 +138,7 @@ public class ComputerTest {
     board.setCell(1,"O");
     board.setCell(2,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(3));
+    assertThat (current.getSpot(board, opponent), is(3));
 
   }
 
@@ -148,7 +150,7 @@ public class ComputerTest {
     board.setCell(4,"O");
     board.setCell(7,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(6));
+    assertThat (current.getSpot(board, opponent), is(6));
 
   }
 
@@ -160,7 +162,7 @@ public class ComputerTest {
     board.setCell(2,"O");
     board.setCell(3,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(4));
+    assertThat (current.getSpot(board, opponent), is(4));
 
   }
 
@@ -180,7 +182,7 @@ public class ComputerTest {
       }
     }
 
-    assertThat (availableSpaces, hasItem(current.getSpot(board, opponent, cli))); //random available spaces
+    assertThat (availableSpaces, hasItem(current.getSpot(board, opponent))); //random available spaces
     }
 
   @Test
@@ -192,7 +194,7 @@ public class ComputerTest {
     board.setCell(1,"X");
     board.setCell(8,"X");
 
-    assertThat (current.getSpot(board,opponent, cli), is(6));
+    assertThat (current.getSpot(board,opponent), is(6));
 
   }
 
@@ -205,7 +207,7 @@ public class ComputerTest {
     board.setCell(1,"X");
     board.setCell(8,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(6));
+    assertThat (current.getSpot(board, opponent), is(6));
 
   }
 
@@ -227,7 +229,7 @@ public class ComputerTest {
       }
     }
 
-    assertThat (availableSpaces, hasItem(current.getSpot(board, opponent, cli))); //random available spaces
+    assertThat (availableSpaces, hasItem(current.getSpot(board, opponent))); //random available spaces
   }
 
 
@@ -240,7 +242,7 @@ public class ComputerTest {
     board.setCell(1,"O");
     board.setCell(5,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(2));
+    assertThat (current.getSpot(board, opponent), is(2));
 
   }
 
@@ -253,7 +255,7 @@ public class ComputerTest {
     board.setCell(1,"O");
     board.setCell(3,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(7));
+    assertThat (current.getSpot(board, opponent), is(7));
   }
 
   @Test
@@ -262,7 +264,7 @@ public class ComputerTest {
     board = new Board();
     board.setCell(1,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(0));
+    assertThat (current.getSpot(board, opponent), is(0));
 
   }
 
@@ -272,7 +274,7 @@ public class ComputerTest {
     board = new Board();
     board.setCell(3,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(0));
+    assertThat (current.getSpot(board, opponent), is(0));
 
   }
 
@@ -282,7 +284,7 @@ public class ComputerTest {
     board = new Board();
     board.setCell(5,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(2));
+    assertThat (current.getSpot(board, opponent), is(2));
 
   }
 
@@ -292,7 +294,7 @@ public class ComputerTest {
     board = new Board();
     board.setCell(7,"X");
 
-    assertThat (current.getSpot(board, opponent, cli), is(6));
+    assertThat (current.getSpot(board, opponent), is(6));
 
   }
 

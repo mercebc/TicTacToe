@@ -23,6 +23,8 @@ public class GameTest {
   private ByteArrayOutputStream out;
   private PrintStream output;
 
+  Cli cli = new Cli(System.in, output);
+  Game game;
 
   private Cli mockCli(String mockInput) {
     ByteArrayInputStream input = new ByteArrayInputStream(mockInput.getBytes());
@@ -34,16 +36,17 @@ public class GameTest {
   public void setUp() {
     out = new ByteArrayOutputStream();
     output = new PrintStream(out);
-  }
 
-  Cli cli = new Cli(System.in, output);
-  Game game = new Game();
+    cli = mockCli("UserInput");
+    game = new Game(cli);
+  }
 
 
   @Test
   public void Player1StartsFirst() {
-    Cli cli = mockCli("1");
-    game.whoStartsFirst(cli);
+    cli = mockCli("1");
+    game = new Game(cli);
+    game.whoStartsFirst();
 
     assertThat(game.getPlayer1(), is (game.getCurrentPlayer()));
   }
@@ -51,15 +54,17 @@ public class GameTest {
   @Test
   public void Player2StartsFirst() {
     Cli cli = mockCli("2");
-    game.whoStartsFirst(cli);
+    Game game = new Game(cli);
+    game.whoStartsFirst();
 
     assertThat(game.getPlayer2(), is (game.getCurrentPlayer()));
   }
 
   @Test
   public void NextPlayerIfPlayer1sTurn() {
-    Cli cli = mockCli("1");
-    game.whoStartsFirst(cli);
+    cli = mockCli("1");
+    game = new Game(cli);
+    game.whoStartsFirst();
 
     assertThat(game.nextPlayer(), is (game.getPlayer2()));
 
@@ -67,8 +72,9 @@ public class GameTest {
 
   @Test
   public void NextPlayerIfPlayer2sTurn() {
-    Cli cli = mockCli("1");
-    game.whoStartsFirst(cli);
+    cli = mockCli("1");
+    game = new Game(cli);
+    game.whoStartsFirst();
 
     game.setCurrentPlayer(game.nextPlayer());
 
@@ -89,14 +95,16 @@ public class GameTest {
 
   @Test
   public void PlayerChoosesToQuit() {
-    Cli cli = mockCli("1");
-    assertThat(game.playAgain(cli), is (false));
+    cli = mockCli("1");
+    game = new Game(cli);
+    assertThat(game.playAgain(), is (false));
   }
 
   @Test
   public void PlayerChoosesToPlayAgain() {
-    Cli cli = mockCli("2");
-    assertThat(game.playAgain(cli), is (true));
+    cli = mockCli("2");
+    game = new Game(cli);
+    assertThat(game.playAgain(), is (true));
   }
 
   @Test
@@ -128,8 +136,9 @@ public class GameTest {
 
   @Test
   public void InputUserLetterWhenAskPlayerStartFirstThenPlayer1() {
-    Cli cli = mockCli("a\n1");
-    game.whoStartsFirst(cli);
+    cli = mockCli("a\n1");
+    game = new Game(cli);
+    game.whoStartsFirst();
 
     assertThat(out.toString(), containsString("You can only input integers"));
     assertThat(game.getPlayer1(), is (game.getCurrentPlayer()));
@@ -138,8 +147,9 @@ public class GameTest {
 
   @Test
   public void InputUserNumHigherThanMaxWhenAskPlayerStartFirstThenPlayer2() {
-    Cli cli = mockCli("5\n2");
-    game.whoStartsFirst(cli);
+    cli = mockCli("5\n2");
+    game = new Game(cli);
+    game.whoStartsFirst();
 
     assertThat(out.toString(), containsString("You can only input an integer between"));
     assertThat(game.getPlayer2(), is (game.getCurrentPlayer()));
@@ -148,22 +158,27 @@ public class GameTest {
 
   @Test
   public void InputUserCharWhenAskQuitOrPlayThenQuit() {
-    Cli cli = mockCli("!\n1");
-    game.playAgain(cli);
+    cli = mockCli("!\n1");
+    game = new Game(cli);
+    game.playAgain();
 
     assertThat(out.toString(), containsString("You can only input integers"));
   }
 
   @Test
   public void InputUserNumHigherThanMaxWhenAskQuitOrPlayThenStartAgain() {
-    Cli cli = mockCli("3\n2");
-    game.playAgain(cli);
+    cli = mockCli("3\n2");
+    game = new Game(cli);
+    game.playAgain();
 
     assertThat(out.toString(), containsString("You can only input an integer between"));
   }
 
   @Test
   public void FinalAnnouncemntsIsTie() {
+    cli = mockCli("UserInput");
+    game = new Game(cli);
+
     game.getBoard().setCell(0, game.getPlayer1().getSymbol());
     game.getBoard().setCell(1, game.getPlayer2().getSymbol());
     game.getBoard().setCell(2, game.getPlayer2().getSymbol());
@@ -176,15 +191,17 @@ public class GameTest {
     game.getBoard().setCell(7, game.getPlayer2().getSymbol());
     game.getBoard().setCell(8, game.getPlayer2().getSymbol());
 
-    Cli cli = mockCli("UserInput");
-
-    game.finalGameAnnouncements(cli);
+    game.finalGameAnnouncements();
 
     assertThat(out.toString(), containsString("Ohh there's no winner, it's a tie!"));
   }
 
   @Test
-  public void FinalAnnouncemntsPlayer1Wins() {
+  public void FinalAnnouncementsPlayer1Wins() {
+
+    cli = mockCli("UserInput");
+    game = new Game(cli);
+
     game.getBoard().setCell(0, game.getPlayer1().getSymbol());
     game.getBoard().setCell(1, game.getPlayer2().getSymbol());
     game.getBoard().setCell(2, " ");
@@ -197,15 +214,17 @@ public class GameTest {
     game.getBoard().setCell(7, " ");
     game.getBoard().setCell(8, game.getPlayer2().getSymbol());
 
-    Cli cli = mockCli("UserInput");
-
-    game.finalGameAnnouncements(cli);
+    game.finalGameAnnouncements();
 
     assertThat(out.toString(), containsString(game.getPlayer1().getName()));
   }
 
   @Test
-  public void FinalAnnouncemntsPlayer2Wins() {
+  public void FinalAnnouncementsPlayer2Wins() {
+
+    cli = mockCli("UserInput");
+    game = new Game(cli);
+
     game.getBoard().setCell(0, game.getPlayer1().getSymbol());
     game.getBoard().setCell(1, game.getPlayer2().getSymbol());
     game.getBoard().setCell(2, game.getPlayer2().getSymbol());
@@ -218,9 +237,7 @@ public class GameTest {
     game.getBoard().setCell(7, game.getPlayer2().getSymbol());
     game.getBoard().setCell(8, game.getPlayer2().getSymbol());
 
-    Cli cli = mockCli("UserInput");
-
-    game.finalGameAnnouncements(cli);
+    game.finalGameAnnouncements();
 
     assertThat(out.toString(), containsString(game.getPlayer2().getName()));
   }
