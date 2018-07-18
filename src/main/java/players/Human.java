@@ -2,6 +2,9 @@ package players;
 
 import com.Cli;
 import com.Validate;
+import exceptions.SameNameException;
+import exceptions.SameSpotException;
+import exceptions.SameSymbolException;
 import game.Board;
 
 import java.util.InputMismatchException;
@@ -23,34 +26,21 @@ public class Human extends Player {
 
   public int getSpot(Board board, Player opponent) {
 
-    int spot = getHumanSpot();
-
-    if(validate.spot(board, spot, this,opponent)) {
-      return spot;
-    }else{
-      cli.printMessage("Enter a number that is not already used");
-      return getSpot (board, opponent);
-    }
-  }
-
-  private int getHumanSpot() {
-
-    int spot = -1;
-
+    int spot;
     try {
       cli.printMessage(this.getName() + ", please enter a number between 1 and 9 to allocate your symbol. Enter \"h\" for help.\n");
 
       spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, 9) - 1;
+
+      validate.spot(board, spot, this,opponent);
+      return spot;
     }
-      catch (InputMismatchException ex) {
-        cli.printMessage(ex.getMessage());
-        spot = getHumanSpot();
-      }
-      catch (IllegalArgumentException ex) {
-        cli.printMessage(ex.getMessage());
-        spot = getHumanSpot();
-      }
-    return spot;
+
+    catch (InputMismatchException|IllegalArgumentException|SameSpotException  ex) {
+      cli.printMessage(ex.getMessage());
+      return getSpot(board, opponent);
+    }
+
   }
 
   public boolean changeName(Player opponent) {
@@ -58,12 +48,14 @@ public class Human extends Player {
 
     String name = cli.askForString();
 
-      if (validate.notSameName(opponent, name)) {//if new name is not the same as the other player's name
+      try{
+        validate.notSameName(opponent, name);//if new name is not the same as the other player's name
         this.setName(name);//change name
         cli.printMessage("Name changed to " + this.getName());
         return true;
-      } else {
-        cli.printMessage("The name you are trying to change is the same one as your opponent's name: " + opponent.getName());
+      }
+      catch (SameNameException ex) {
+        cli.printMessage(ex.getMessage());
         return false;
       }
 
@@ -78,12 +70,14 @@ public class Human extends Player {
         symbol = trimSymbol(symbol);
       }
 
-      if(validate.notSameSymbol(opponent, symbol)){
+      try{
+        validate.notSameSymbol(opponent, symbol);
         this.setSymbol(symbol);//change symbol
         cli.printMessage("Symbol changed to " + this.getSymbol());
         return true;
-      }else{
-        cli.printMessage("The symbol you are trying to change is the same one as your opponent's symbol: " + opponent.getName());
+      }
+      catch (SameSymbolException ex) {
+        cli.printMessage(ex.getMessage());
         return false;
       }
   }

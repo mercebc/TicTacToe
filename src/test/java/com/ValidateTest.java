@@ -1,5 +1,8 @@
 package com;
 
+import exceptions.SameNameException;
+import exceptions.SameSpotException;
+import exceptions.SameSymbolException;
 import game.Board;
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,50 +42,62 @@ import static org.hamcrest.Matchers.is;
 
 
     @Test
-    public void inputNameIsNotTheSameAsTheOpponentName(){
+    public void inputNameIsNotTheSameAsTheOpponentName() throws SameNameException {
       String name = "Peter";
 
       assertThat(validate.notSameName(opponent, name), is(true));
     }
 
     @Test
-    public void inputNameIsTheSameAsTheOpponentName(){
+    public void inputNameIsTheSameAsTheOpponentName() throws SameNameException {
       String name = "Tom";
+      thrown.expect(SameNameException.class);
+      thrown.expectMessage(containsString("The name you are trying to change is the same one as your opponent's name: " + opponent.getName()));
 
-      assertThat(validate.notSameName(opponent, name), is(false));
+
+      validate.notSameName(opponent, name);
     }
 
     @Test
-    public void inputSymbolIsNotTheSameAsTheOpponentSymbol(){
+    public void inputSymbolIsNotTheSameAsTheOpponentSymbol() throws SameSymbolException {
       String symbol = "P";
 
       assertThat(validate.notSameSymbol(opponent, symbol), is(true));
     }
 
     @Test
-    public void inputSymbolIsTheSameAsTheOpponentSymbol(){
+    public void inputSymbolIsTheSameAsTheOpponentSymbol() throws SameSymbolException {
       String symbol = "X";
+      thrown.expect(SameSymbolException.class);
+      thrown.expectMessage(containsString("The symbol you are trying to change is the same one as your opponent's symbol: " + opponent.getSymbol()));
+
 
       assertThat(validate.notSameSymbol(opponent, symbol), is(false));
     }
 
     @Test
-    public void spotInBoardDoesntIsEmpty(){
+    public void spotInBoardIsEmpty() throws SameSpotException {
       int spot = 3;
 
       assertThat(validate.spot(board,spot, current, opponent), is(true));
     }
 
     @Test
-    public void spotInBoardIsNotEmptyBecauseBelongsToCurrentPlayer(){
+    public void spotInBoardIsNotEmptyBecauseBelongsToCurrentPlayer() throws SameSpotException {
       int spot = 0;
+      thrown.expect(SameSpotException.class);
+      thrown.expectMessage(containsString("Enter a number that is not already used"));
+
 
       assertThat(validate.spot(board,spot, current, opponent), is(false));
     }
 
     @Test
-    public void spotInBoardIsNotEmptyBecauseBelongsToOpponent(){
+    public void spotInBoardIsNotEmptyBecauseBelongsToOpponent() throws SameSpotException {
       int spot = 1;
+      thrown.expect(SameSpotException.class);
+      thrown.expectMessage(containsString("Enter a number that is not already used"));
+
 
       assertThat(validate.spot(board,spot, current, opponent), is(false));
     }
