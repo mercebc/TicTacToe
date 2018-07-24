@@ -8,10 +8,13 @@ public class StartTest {
 
 
     Cli cli = new Cli(System.in, System.out);
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
+    Game game = new Game();
+    GameUI gameUI = new GameUI(game, cli);
+
+    Menu menu = new Menu(gameUI, game, cli);
 
     menu.flowGame();
+
   }
 
 
