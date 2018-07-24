@@ -24,7 +24,7 @@ public class CornerTest {
   @Before
   public void setUp() throws Exception {
 
-    board = new Board();
+    board = new Board(3);
 
     board.setCell(2,"X");
     board.setCell(8,"O");

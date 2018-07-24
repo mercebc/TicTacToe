@@ -24,7 +24,7 @@ public class EdgeTest {
   @Before
   public void setUp() throws Exception {
 
-    board = new Board();
+    board = new Board(3);
 
     board.setCell(1,"X");
     board.setCell(3,"O");

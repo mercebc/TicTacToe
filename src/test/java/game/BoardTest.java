@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.is;
 
 public class BoardTest {
 
-  Board board = new Board();
+  Board board = new Board(3);
 
   Cli cli = new Cli(System.in, System.out);
 
@@ -153,7 +153,7 @@ public class BoardTest {
   public void CapacityIfSize3() {
     int size = 3;
 
-    assertThat(board.getCapacity(), is(Math.pow(size, 2)));
+    assertThat(board.getCapacity(), is(size*size));
   }
 
   @Test
@@ -176,7 +176,7 @@ public class BoardTest {
   @Test
   public void emptyBoard() {
 
-    double isEmpty = 0;
+    int isEmpty = 0;
     board.clearBoard();
 
     for (int i = 0; i < board.getCapacity(); i++) {
@@ -187,5 +187,6 @@ public class BoardTest {
 
     assertThat(isEmpty, is(board.getCapacity()));
   }
+
 
 }

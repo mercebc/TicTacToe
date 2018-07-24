@@ -8,7 +8,7 @@ public interface UserInterface {
 
   int askForIntegerBetweenMinAndMax(int min, int max);
 
-  int askForIntegerOrHelpBetweenMinAndMax(int min, int max);
+  int askForIntegerOrHelpBetweenMinAndMax(int min, int max, Board board);
 
   String askForString();
 

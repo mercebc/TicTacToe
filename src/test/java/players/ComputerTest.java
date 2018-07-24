@@ -47,12 +47,12 @@ public class ComputerTest {
     corners.add(6);
     corners.add(8);
 
+    board = new Board(3);
+
   }
 
   @Test
   public void RandomCorner() {
-
-    board = new Board();
 
     assertThat (corners, hasItem(current.getSpot(board, opponent)));
   }
@@ -60,7 +60,6 @@ public class ComputerTest {
   @Test
   public void FirstTurn_CurrentPlaceInCornerNextToTheOppEdge() {
 
-    board = new Board();
     board.setCell(1,"X");
 
     assertThat (current.getSpot(board, opponent), is(0));
@@ -70,7 +69,6 @@ public class ComputerTest {
   @Test
   public void FirstTurn_CurrentPlaceInMiddleIfOppCorner() {
 
-    board = new Board();
     board.setCell(0,"X");
 
     assertThat (current.getSpot(board, opponent), is(4));
@@ -80,7 +78,6 @@ public class ComputerTest {
   @Test
   public void FirstTurn_CurrentPlaceInRandomCornerIfOppMiddle() {
 
-    board = new Board();
     board.setCell(4,"X");
 
     assertThat (corners, hasItem(current.getSpot(board, opponent)));
@@ -89,7 +86,6 @@ public class ComputerTest {
   @Test
   public void SecondTurn_CurrentPlaceInMiddleIfOppEdge() {
 
-    board = new Board();
     board.setCell(7,"X");
     board.setCell(0,"O");
 
@@ -100,7 +96,6 @@ public class ComputerTest {
   @Test
   public void SecondTurn_CurrentPlaceInFreeCornerIfOppCornerMeCorner() {
 
-    board = new Board();
     board.setCell(8,"X");
     board.setCell(0,"O");
 
@@ -111,7 +106,6 @@ public class ComputerTest {
   @Test
   public void SecondTurn_CurrentPlaceInFreeCornerIfOppCornerMeOtherCorner() {
 
-    board = new Board();
     board.setCell(2,"X");
     board.setCell(0,"O");
 
@@ -122,7 +116,6 @@ public class ComputerTest {
   @Test
   public void SecondTurn_CurrentPlaceInOppositeCornerIfOppMiddleMeCorner() {
 
-    board = new Board();
     board.setCell(4,"X");
     board.setCell(8,"O");
 
@@ -133,7 +126,6 @@ public class ComputerTest {
   @Test
   public void ThirdTurn_CurrentPlaceInFreeEdgeIfOppTwoCorners() {
 
-    board = new Board();
     board.setCell(0,"X");
     board.setCell(1,"O");
     board.setCell(2,"X");
@@ -145,7 +137,6 @@ public class ComputerTest {
   @Test
   public void ThirdTurn_CurrentPlaceInFreeCornerNextOppEdge() {
 
-    board = new Board();
     board.setCell(0,"X");
     board.setCell(4,"O");
     board.setCell(7,"X");
@@ -157,7 +148,6 @@ public class ComputerTest {
   @Test
   public void ThirdTurn_CurrentPlaceInCenterIfFree() {//change name
 
-    board = new Board();
     board.setCell(8,"X");
     board.setCell(2,"O");
     board.setCell(3,"X");
@@ -169,7 +159,6 @@ public class ComputerTest {
   @Test
   public void  ThirdTurn_PlaceRandomAvailableSpaces() {
 
-    board = new Board();
       board.setCell(1,"X");
       board.setCell(4,"X");
       board.setCell(6,"O");
@@ -188,7 +177,6 @@ public class ComputerTest {
   @Test
   public void FourthTurn_CurrentPlaceOppositeCornerNoSymbolBetween() {//change name
 
-    board = new Board();
     board.setCell(0,"O");
     board.setCell(4,"O");
     board.setCell(1,"X");
@@ -201,7 +189,6 @@ public class ComputerTest {
   @Test
   public void FourthTurn_CurrentPlaceCornerIfTwoMyCorners() {
 
-    board = new Board();
     board.setCell(0,"O");
     board.setCell(2,"O");
     board.setCell(1,"X");
@@ -215,7 +202,6 @@ public class ComputerTest {
   @Test
   public void FourthTurn_CurrentPlaceRandomElse() {
 
-    board = new Board();
     board.setCell(0,"O");
     board.setCell(3,"O");
     board.setCell(1,"X");
@@ -236,7 +222,6 @@ public class ComputerTest {
   @Test
   public void makeThreeInLine() {
 
-    board = new Board();
     board.setCell(0,"O");
     board.setCell(7,"X");
     board.setCell(1,"O");
@@ -249,7 +234,6 @@ public class ComputerTest {
   @Test
   public void AvoidThreeInLine() {
 
-    board = new Board();
     board.setCell(4,"O");
     board.setCell(5,"X");
     board.setCell(1,"O");
@@ -261,7 +245,6 @@ public class ComputerTest {
   @Test
   public void NearestSpotEmptyPositionOne() {
 
-    board = new Board();
     board.setCell(1,"X");
 
     assertThat (current.getSpot(board, opponent), is(0));
@@ -271,7 +254,6 @@ public class ComputerTest {
   @Test
   public void NearestSpotEmptyPositionThree() {
 
-    board = new Board();
     board.setCell(3,"X");
 
     assertThat (current.getSpot(board, opponent), is(0));
@@ -281,7 +263,6 @@ public class ComputerTest {
   @Test
   public void NearestSpotEmptyPositionFive() {
 
-    board = new Board();
     board.setCell(5,"X");
 
     assertThat (current.getSpot(board, opponent), is(2));
@@ -291,7 +272,6 @@ public class ComputerTest {
   @Test
   public void NearestSpotEmptyPositionSeven() {
 
-    board = new Board();
     board.setCell(7,"X");
 
     assertThat (current.getSpot(board, opponent), is(6));

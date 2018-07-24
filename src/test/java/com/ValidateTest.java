@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
   public class ValidateTest {
 
     private Validate validate = new Validate();
-    private Board board = new Board();
+    private Board board = new Board(3);
     Player opponent;
     Player current;
 

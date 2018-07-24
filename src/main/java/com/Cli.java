@@ -37,7 +37,7 @@ public class Cli implements UserInterface {
 
   }
 
-  public int askForIntegerOrHelpBetweenMinAndMax(int min, int max){
+  public int askForIntegerOrHelpBetweenMinAndMax(int min, int max, Board board){
 
     if (input.hasNextInt()) {
       int spot = input.nextInt();//assigns to spot the inserted value. Only if it's a number
@@ -49,8 +49,8 @@ public class Cli implements UserInterface {
       input.skip(".*");
 
       if(validate.isHelp(help)){
-        printHelp();
-        return askForIntegerOrHelpBetweenMinAndMax(min, max);
+        printHelp(board);
+        return askForIntegerOrHelpBetweenMinAndMax(min, max, board);
 
       } else {//if it isn't a "h", throw an exception
         throw new InputMismatchException("You can only input integers or \"h\" for help.");
@@ -77,13 +77,78 @@ public class Cli implements UserInterface {
 
   /** Print the game board */
   public void printBoard(Board board) {
-    output.println(" " + board.getCell(0).getValue() + " | " + board.getCell(1).getValue() + " | " + board.getCell(2).getValue() + "\n===+===+===\n" + " " + board.getCell(3).getValue()
-        + " | " + board.getCell(4).getValue() + " | " + board.getCell(5).getValue() + "\n===+===+===\n" + " " + board.getCell(6).getValue() + " | " + board.getCell(7).getValue() + " | " + board.getCell(8).getValue() + "\n"); // print all the board cells
+    output.print("\n");
+    int col;
+    int row;
+    int size = board.getSize();
+    int cell = 0;
+
+    for (row = 1; row <= size; row ++ ) {
+
+      for (col = 1; col <= size; col ++) {
+          output.print(" "+board.getCell(cell).getValue()+" ");
+          //output.print(" "+cell+" ");
+
+        if (col < size ){
+          output.print("|");
+        }
+
+        cell ++;
+
+      }
+      output.print("\n");
+
+      for (col = 1; col <= size; col ++) {
+
+        if (col <= size & row < size ){
+          output.print("===");
+        }
+
+        if (col < size & row < size){
+          output.print("+");
+        }
+      }
+
+      output.print("\n");
+    }
   }
 
-  public void printHelp(){
-    output.println("The following numbers are the position your symbol will be placed.");
-    output.println(" 1 | 2 | 3 " + "\n===+===+===\n" + " 4 | 5 | 6 " + "\n===+===+===\n" + " 7 | 8 | 9 ");
+
+  public void printHelp(Board board){
+    output.println("The following numbers are the position your symbol will be placed:\n");
+    int col;
+    int row;
+    int size = board.getSize();
+    int cell = 1;
+
+    for (row = 1; row <= size; row ++ ) {
+
+      for (col = 1; col <= size; col ++) {
+        output.print(" "+cell+" ");
+
+        if (col < size ){
+          output.print("|");
+        }
+
+        cell ++;
+
+      }
+      output.print("\n");
+
+      for (col = 1; col <= size; col ++) {
+
+        if (col <= size & row < size ){
+          output.print("===");
+        }
+
+        if (col < size & row < size){
+          output.print("+");
+        }
+      }
+
+      output.print("\n");
+    }
+
     output.println("Type the number you wish to place your symbol on the board:");
   }
 

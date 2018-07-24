@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.is;
 
 public class StateTest {
 
-  Board board = new Board();
+  Board board = new Board(3);
   State state;
 
   Cli cli = new Cli(System.in, System.out);

@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
 public class HumanTest {
-  Board board = new Board();
+  Board board = new Board(3);
   int spot = 0;
 
   private Player john;
@@ -91,7 +91,7 @@ public class HumanTest {
   @Test
   public void getSpotHumanValidated() {
     Cli cli = mockCli("2");
-    spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, 9) - 1;
+    spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, 9, board) - 1;
 
     cli = mockCli("2");
     john = new Human("John", "J" ,cli);
