@@ -9,10 +9,10 @@ public class Line {
 
   private ArrayList<Cell> line = new ArrayList<>();
 
-  public Line(Cell a, Cell b, Cell c) {
-    this.line.add(a);
-    this.line.add(b);
-    this.line.add(c);
+  public Line(ArrayList<Cell> cells) {
+    for (Cell cell: cells) {
+      this.line.add(cell);
+    }
   }
 
   public boolean allLine(Player player){

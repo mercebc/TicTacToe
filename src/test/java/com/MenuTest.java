@@ -18,6 +18,7 @@ public class MenuTest {
 
   private ByteArrayOutputStream out;
   private PrintStream output;
+  Game game;
 
   private Cli mockCli(String mockInput) {
     ByteArrayInputStream input = new ByteArrayInputStream(mockInput.getBytes());
@@ -29,13 +30,14 @@ public class MenuTest {
   public void setUp() {
     out = new ByteArrayOutputStream();
     output = new PrintStream(out);
+    game = new Game();
   }
 
   @Test
   public void showMenuEnterNumHigherThanMaxThenReEnter5() {
     Cli cli = mockCli("\n9\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
 
     assertThat(menu.showStartMenuAndGetOption(), is(5));
     assertThat(out.toString(), containsString("You can only input an integer between"));
@@ -44,8 +46,8 @@ public class MenuTest {
   @Test
   public void showMenuEnterCharacterThenReEnter3() {
     Cli cli = mockCli("\np\n3");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
 
     assertThat(menu.showStartMenuAndGetOption(), is(3));
     assertThat(out.toString(), containsString("You can only input integers"));
@@ -55,9 +57,9 @@ public class MenuTest {
   @Test
   public void showMenuAndWatchComputerBattle() {
     Cli cli = mockCli("1\n1");
-    Game game = new Game(cli);
-    game.createPlayers(3);
-    Menu menu = new Menu(game, cli);
+    GameUI gameUI = new GameUI(game, cli);
+    gameUI.createPlayers(3);
+    Menu menu = new Menu(gameUI, game, cli);
 
     assertThat(menu.showStartMenuAndGetOption(), is(1));
     menu.showOptionsMenu(1);
@@ -68,9 +70,9 @@ public class MenuTest {
   @Test
   public void PlayAgain() {
     Cli cli = mockCli("1\n2\n1\n1");
-    Game game = new Game(cli);
-    game.createPlayers(3);
-    Menu menu = new Menu(game, cli);
+    GameUI gameUI = new GameUI(game, cli);
+    gameUI.createPlayers(3);
+    Menu menu = new Menu(gameUI, game, cli);
 
     assertThat(menu.showStartMenuAndGetOption(), is(1));
     menu.showOptionsMenu(1);
@@ -83,8 +85,8 @@ public class MenuTest {
   @Test
   public void chooseComputerAsOpponent_EnterNumHigherThanMaxThenOkThenExit() {
     Cli cli = mockCli("2\n6\n1\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
 
     menu.flowGame();
 
@@ -96,8 +98,8 @@ public class MenuTest {
   @Test
   public void choosePlayerAsOpponent_EnterCharacterThenOkThenExit() {
     Cli cli = mockCli("2\nkp\n1\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
 
     menu.flowGame();
 
@@ -109,9 +111,9 @@ public class MenuTest {
   @Test
   public void changeNamePlayer2_ModeHumanHuman_EnterNumHigherThanMax_ThenTheSameValue_ThenOk() {
     Cli cli = mockCli("3\n3\n2\nPlayer1\n2\nAngela\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
-    game.createPlayers(1);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
+    gameUI.createPlayers(1);
 
     menu.flowGame();
 
@@ -125,9 +127,9 @@ public class MenuTest {
   @Test
   public void changeNamePlayer2_ModeHumanHuman_EnterCharacter_ThenTheSameValue_ThenOk() {
     Cli cli = mockCli("3\np\n1\nPlayer2\n1\nAmelia\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
-    game.createPlayers(1);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
+    gameUI.createPlayers(1);
 
     menu.flowGame();
 
@@ -141,9 +143,9 @@ public class MenuTest {
   @Test
   public void changeSymbolPlayer2_ModeHumanHuman_EnterNumHigherThanMax_ThenSameSymbolPlayer1_ThenTrimSymbolOk() {
     Cli cli = mockCli("4\n6\n2\nX\n2\nApple\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
-    game.createPlayers(1);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
+    gameUI.createPlayers(1);
 
     menu.flowGame();
 
@@ -158,9 +160,9 @@ public class MenuTest {
   @Test
   public void changeSymbolPlayer2_ModeHumanHuman_EnterCharacter_ThenSameSymbolPlayer1_ThenOk() {
     Cli cli = mockCli("4\nl\n1\nD\n1\nM\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
-    game.createPlayers(1);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
+    gameUI.createPlayers(1);
 
     menu.flowGame();
 
@@ -174,8 +176,8 @@ public class MenuTest {
   @Test
   public void changeSymbolHuman_modeHumanComputer() {
     Cli cli = mockCli("4\nX\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
 
     menu.flowGame();
     assertThat(out.toString(), containsString("Symbol changed to " + game.getPlayer1().getSymbol()));
@@ -185,8 +187,8 @@ public class MenuTest {
   @Test
   public void changeSymbolHuman_modeHumanComputer_EnterSameAsComputer_ThenOk() {
     Cli cli = mockCli("4\nL\nM\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
 
     menu.flowGame();
 
@@ -199,8 +201,8 @@ public class MenuTest {
   @Test
   public void changeName_modeHumanComputer() {
     Cli cli = mockCli("3\nPeter\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
 
     menu.flowGame();
 
@@ -211,8 +213,8 @@ public class MenuTest {
   @Test
   public void changeName_modeHumanComputer_EnterSameAsComputer_ThenOk() {
     Cli cli = mockCli("3\nComputer\nMary\n5");
-    Game game = new Game(cli);
-    Menu menu = new Menu(game, cli);
+    GameUI gameUI = new GameUI(game, cli);
+    Menu menu = new Menu(gameUI, game, cli);
 
     menu.flowGame();
 

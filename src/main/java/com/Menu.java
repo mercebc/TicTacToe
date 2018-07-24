@@ -9,22 +9,22 @@ import java.util.InputMismatchException;
 
 public class Menu {
 
+  GameUI gameUI;
   Game game;
   Cli cli;
 
-  public Menu(Game game, Cli cli) {
+  public Menu(GameUI gameUI,Game game, Cli cli) {
 
     this.game = game;
+    this.gameUI = gameUI;
     this.cli = cli;
 
   }
 
-  private Player player2() {
-    return this.game.getPlayer2();
-  }
+  private Player player2() { return game.getPlayer2(); }
 
   private Player player1() {
-    return this.game.getPlayer1();
+    return game.getPlayer1();
   }
 
   public void flowGame(){
@@ -75,12 +75,12 @@ public class Menu {
 
         case 1:
 
-          this.game.initGame();
+          gameUI.initGame();
 
-          if(this.game.playAgain()){
+          if(gameUI.playAgain()){
             flowGame();
           }else{
-            game.quit();
+            gameUI.quit();
           }
 
           break;
@@ -95,7 +95,7 @@ public class Menu {
         case 3:
 
           if (ComputerAgainstComputer()) {
-            game.quit();
+            gameUI.quit();
           }else{
             changePlayersName(choiceEntry);
             flowGame();
@@ -112,7 +112,7 @@ public class Menu {
 
        case 5:
 
-          game.quit();
+          gameUI.quit();
 
           break;
 
@@ -201,7 +201,7 @@ public class Menu {
 
       int type = cli.askForIntegerBetweenMinAndMax(1,3);
 
-      this.game.createPlayers(type);
+      gameUI.createPlayers(type);
 
       if (type == 1 || type == 2) {
         cli.printMessage("You are playing against " + player2().getName());//notifies the player

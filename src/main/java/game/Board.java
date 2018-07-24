@@ -10,9 +10,9 @@ public class Board {
   public static final int size = 3;
   public static final int capacity = size*size;
 
-  private List<Cell> cells = new ArrayList<>();
+  private ArrayList<Cell> cells = new ArrayList<>();
 
-  private List<Line> allLines = new ArrayList<>();
+  private ArrayList<Line> allLines = new ArrayList<>();
 
   public Board() {
 
@@ -20,16 +20,9 @@ public class Board {
       this.cells.add(new Cell());
     }
 
-    this.allLines.add(new Line(getCell(0),getCell(1),getCell(2)));
-    this.allLines.add(new Line(getCell(3),getCell(4),getCell(5)));
-    this.allLines.add(new Line(getCell(6),getCell(7),getCell(8)));
-
-    this.allLines.add(new Line(getCell(0),getCell(3),getCell(6)));
-    this.allLines.add(new Line(getCell(1),getCell(4),getCell(7)));
-    this.allLines.add(new Line(getCell(2),getCell(5),getCell(8)));
-
-    this.allLines.add(new Line(getCell(0),getCell(4),getCell(8)));
-    this.allLines.add(new Line(getCell(2),getCell(4),getCell(6)));
+    setRows();
+    setColumns();
+    setDiagonals();
 
   }
 
@@ -45,6 +38,48 @@ public class Board {
 
   public List<Cell> getCells() {
     return cells;
+  }
+
+  private void setRows(){
+
+    for(int i=0; i < capacity; i = i + size){
+      ArrayList<Cell> row = new ArrayList<>(size);
+      for(int j=i; j < i + size; j++){
+        row.add(getCell(j));
+      }
+
+      allLines.add(new Line(row));
+    }
+
+  }
+
+  private void setColumns(){
+
+    for(int i=0; i < size; i++){
+      ArrayList<Cell> column = new ArrayList<>(size);
+      for(int j=i; j< capacity;j = j + size){
+        column.add(getCell(j));
+      }
+      allLines.add(new Line(column));
+    }
+
+  }
+
+  private void setDiagonals(){
+
+    ArrayList<Cell> firstDiagonal = new ArrayList<>(size);
+    ArrayList<Cell> secondDiagonal = new ArrayList<>(size);
+
+    for(int i=0; i < capacity; i = i + size + 1){
+      firstDiagonal.add(getCell(i));
+    }
+    allLines.add(new Line(firstDiagonal));
+
+    for(int i=size - 1; i < capacity - 1; i = i + size - 1){
+      secondDiagonal.add(getCell(i));
+    }
+    allLines.add(new Line(secondDiagonal));
+
   }
 
   public boolean checkLinePlayer(Player player) {

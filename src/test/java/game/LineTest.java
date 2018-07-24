@@ -5,12 +5,16 @@ import org.junit.Test;
 import players.Human;
 
 import players.Player;
+
+import java.util.ArrayList;
+
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LineTest {
 
   private final Cell empty = new Cell();
+
   //Double braces
   private final Cell j = new Cell() {//anonymous subclass. Dont have a constructor
     {//initialization of the instance of the subclass. Almost the same as the constructor
@@ -23,33 +27,60 @@ public class LineTest {
       this.setValue("O");
     }
   };
+
   Cli cli = new Cli(System.in, System.out);
   Player john = new Human("John", "J", cli);
 
   @Test
   public void anEmptyLineHasntWon(){
-    Line line = new Line(empty, empty, empty);
+
+    ArrayList<Cell> myCells = new ArrayList<Cell>() {{
+      add(empty);
+      add(empty);
+      add(empty);
+    }};
+
+    Line line = new Line(myCells);
 
     assertThat(line.allLine(john), is(false));
   }
 
   @Test
   public void playerWinsALine() {
-    Line line = new Line(j, j, j);
+
+    ArrayList<Cell> myCells = new ArrayList<Cell>() {{
+      add(j);
+      add(j);
+      add(j);
+    }};
+
+    Line line = new Line(myCells);
 
     assertThat(line.allLine(john), is(true));
   }
 
   @Test
   public void playerLoseALine() {
-    Line line = new Line(o, o, o);
+    ArrayList<Cell> myCells = new ArrayList<Cell>() {{
+      add(o);
+      add(o);
+      add(o);
+    }};
+
+    Line line = new Line(myCells);
 
     assertThat(line.allLine(john), is(false));
   }
 
   @Test
   public void playerDontHaveALineYet() {
-    Line line = new Line(o, j, empty);
+    ArrayList<Cell> myCells = new ArrayList<Cell>() {{
+      add(o);
+      add(j);
+      add(empty);
+    }};
+
+    Line line = new Line(myCells);
 
     assertThat(line.allLine(john), is(false));
   }
@@ -57,7 +88,13 @@ public class LineTest {
   @Test
   public void ClaimingTheLastCellWinsTheLine() {
     Cell cell = new Cell();
-    Line line = new Line(cell, j,j);
+    ArrayList<Cell> myCells = new ArrayList<Cell>() {{
+      add(cell);
+      add(j);
+      add(j);
+    }};
+
+    Line line = new Line(myCells);
 
     assertThat(line.allLine(john), is(false));
 
