@@ -7,14 +7,17 @@ import java.util.List;
 
 public class Board {
 
-  public static final int size = 3;
-  public static final int capacity = size*size;
+  public int size;
+  public int capacity;
 
   private ArrayList<Cell> cells = new ArrayList<>();
 
   private ArrayList<Line> allLines = new ArrayList<>();
 
-  public Board() {
+  public Board(int size) {
+
+    this.size = size;
+    this.capacity = this.size*this.size;
 
     for (int i = 0; i < this.capacity; i++) {
       this.cells.add(new Cell());
@@ -34,7 +37,9 @@ public class Board {
     this.cells.get(position).setValue(symbol);
   }
 
-  public double getCapacity() { return capacity; }
+  public int getCapacity() { return this.capacity; }
+
+  public int getSize(){return this.size;}
 
   public List<Cell> getCells() {
     return cells;

@@ -21,7 +21,7 @@ public class Game {
 
   public Game(){
 
-    this.board = new Board();
+    this.board = new Board(3);
 
     this.playerFactory = new PlayerFactory();
 

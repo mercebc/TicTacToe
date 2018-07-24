@@ -30,7 +30,7 @@ public class Human extends Player {
     try {
       cli.printMessage(this.getName() + ", please enter a number between 1 and 9 to allocate your symbol. Enter \"h\" for help.\n");
 
-      spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, 9) - 1;
+      spot = cli.askForIntegerOrHelpBetweenMinAndMax(1, board.getCapacity(), board) - 1;
 
       validate.spot(board, spot, this,opponent);
       return spot;

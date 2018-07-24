@@ -22,6 +22,7 @@ public class CliTest {
 
   private ByteArrayOutputStream out;
   private PrintStream output;
+  private Board board;
 
 
   private Cli mockCli(String mockInput) {
@@ -34,6 +35,7 @@ public class CliTest {
   public void setUp() {
     out = new ByteArrayOutputStream();
     output = new PrintStream(out);
+    board = new Board(3);
   }
 
   @Rule
@@ -74,7 +76,7 @@ public class CliTest {
 
     Cli cli = mockCli("6");
 
-    assertThat(cli.askForIntegerOrHelpBetweenMinAndMax(1, 7), is(6));
+    assertThat(cli.askForIntegerOrHelpBetweenMinAndMax(1, 7, board), is(6));
 
   }
 
@@ -83,9 +85,9 @@ public class CliTest {
 
     Cli cli = mockCli("h\n2");
 
-    cli.askForIntegerOrHelpBetweenMinAndMax(1, 7);
+    cli.askForIntegerOrHelpBetweenMinAndMax(1, 7, board);
 
-    assertThat(out.toString(), containsString("The following numbers are the position your symbol will be placed."));
+    assertThat(out.toString(), containsString("The following numbers are the position your symbol will be placed"));
   }
 
   @Test
@@ -114,7 +116,7 @@ public class CliTest {
     thrown.expect(InputMismatchException.class);
     thrown.expectMessage(containsString("You can only input integers or"));
 
-    cli.askForIntegerOrHelpBetweenMinAndMax(1, 4);
+    cli.askForIntegerOrHelpBetweenMinAndMax(1, 4, board);
 
   }
 
@@ -124,12 +126,11 @@ public class CliTest {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage(containsString("You can only input an integer between"));
 
-    cli.askForIntegerOrHelpBetweenMinAndMax(2, 4);
+    cli.askForIntegerOrHelpBetweenMinAndMax(2, 4, board);
   }
 
   @Test
   public void printBoard() {
-    Board board = new Board();
     Cli cli = mockCli("UserInput");
     board.setCell(2,"X");
     board.setCell(6,"X");
@@ -140,11 +141,11 @@ public class CliTest {
 
     cli.printBoard(board);
 
-    assertThat(out.toString(), containsString("   |   | X"+
+    assertThat(out.toString(), containsString("   |   | X "+
                                                       "\n===+===+===\n"+
-                                                        " O |   | O"+
+                                                        " O |   | O "+
                                                       "\n===+===+===\n"+
-                                                        " X |   | X\n")
+                                                        " X |   | X \n")
     );
 
 
@@ -157,4 +158,5 @@ public class CliTest {
 
     assertThat(out.toString(), containsString("Printed"));
   }
+
 }
